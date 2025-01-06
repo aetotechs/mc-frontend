@@ -1,8 +1,7 @@
 import React, { useEffect } from 'react'
-import CardLoadingSpinner from '../components/global/CardLoadingSpinner'
-import api_urls from '../utils/resources/api_urls'
-import dummy_data from '../utils/resources/dummy_data'
+import Header from '../components/global/Header';
 import { useAuth } from '../utils/context/AuthContext'
+import Hero from '../components/global/Hero';
 
 const Home = () => {
   const { dispatchAuth } = useAuth();
