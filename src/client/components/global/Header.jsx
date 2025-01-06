@@ -1,11 +1,23 @@
-import React from 'react'
+import React from "react";
 
 const Header = () => {
   return (
-    <div>
-      Header
-    </div>
-  )
-}
+    <div className="flex justify-between px-[4vw] py-4">
+      <div>
+        <img src="/logos/mycrib.png" width={100} />
+      </div>
 
-export default Header
+      <div>
+        <ul className="flex gap-3 items-center">
+          <li>Explore</li>
+
+          <li>Manage Rentals</li>
+
+          <li>Explore</li>
+        </ul>
+      </div>
+    </div>
+  );
+};
+
+export default Header;

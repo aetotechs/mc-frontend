@@ -9,6 +9,11 @@ export default {
       animation: {
         'spin-slow': 'spin 0.8s linear infinite',
       },
+
+      backgroundImage: {
+        'hero': "url('/images/hero-image.png')",
+      
+       },
     },
   },
   plugins: [],
