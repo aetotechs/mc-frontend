@@ -1,4 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Sen:wght@300;400;600&display=swap');
+@import 'primereact/resources/themes/lara-light-blue/theme.css';
+@import 'primereact/resources/primereact.min.css';
+@import 'primeicons/primeicons.css';
 
 @tailwind base;
 @tailwind components;
