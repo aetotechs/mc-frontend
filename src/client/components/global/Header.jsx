@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React, { useState } from "react";
 
 import { CircleUserRound } from "lucide-react";
 
@@ -10,8 +10,8 @@ const Header = () => {
   };
   return (
     <div className="flex justify-between px-[8vw] py-2.5">
-      <div>
-        <img src="/logos/mycrib.png" width={100} />
+      <div className=" h-9 w-24 object-contain">
+        <img src="/logos/mycrib.png" />
       </div>
 
       <div>
@@ -20,7 +20,10 @@ const Header = () => {
 
           <li>Manage Rentals</li>
 
-          <li className="relative group border rounded-[40px] flex items-center gap-1 px-3 py-1 border-[#CDCED7] cursor-pointer"    onClick={toggleTooltip}>
+          <li
+            className="relative group border rounded-[40px] flex items-center gap-1 px-3 py-1 border-[#CDCED7] cursor-pointer"
+            onClick={toggleTooltip}
+          >
             <span>
               <CircleUserRound className="h-5 w-5" />
             </span>
