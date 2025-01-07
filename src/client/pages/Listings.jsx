@@ -1,11 +1,7 @@
-import React from 'react'
+import React from "react";
 
 const Listings = () => {
-  return (
-    <div>
-      
-    </div>
-  )
-}
+  return <div></div>;
+};
 
-export default Listings
+export default Listings;

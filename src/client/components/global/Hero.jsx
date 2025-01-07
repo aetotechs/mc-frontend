@@ -38,7 +38,10 @@ const Hero = () => {
           <span className="font-medium text-sm">Price</span>
           <span className="flex items-center gap-1">
             <span>
-              <i className="pi pi-tag transform rotate-90" style={{ fontSize: "12px" }}></i>
+              <i
+                className="pi pi-tag transform rotate-90"
+                style={{ fontSize: "12px" }}
+              ></i>
             </span>
             <span className="font-medium text-[15px] text-[#8B8D98]">
               Choose price range
@@ -46,12 +49,12 @@ const Hero = () => {
           </span>
         </div>
         <div className="flex flex-col pl-2">
-    <div className="flex rounded-[48px] bg-[#2F91D7] p-3 px-5 text-white items-center gap-2">
-    <span>
+          <div className="flex rounded-[48px] bg-[#2F91D7] p-3 px-5 text-white items-center gap-2">
+            <span>
               <i className="pi pi-search" style={{ fontSize: "14px" }}></i>
             </span>
-        <span>Search</span>
-    </div>
+            <span>Search</span>
+          </div>
         </div>
       </div>
     </div>

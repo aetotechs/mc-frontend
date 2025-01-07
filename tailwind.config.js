@@ -1,21 +1,16 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: [
-    "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}",
-  ],
+  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
       animation: {
-        'spin-slow': 'spin 0.8s linear infinite',
+        "spin-slow": "spin 0.8s linear infinite",
       },
 
       backgroundImage: {
-        'hero': "url('/images/hero-image.png')",
-      
-       },
+        hero: "url('/images/hero-image.png')",
+      },
     },
   },
   plugins: [],
-}
-
+};
