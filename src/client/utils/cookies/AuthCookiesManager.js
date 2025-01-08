@@ -1,24 +1,24 @@
 import jwtDecode from "jwt-decode";
 
 const setUserToken = (accessToken) => {
-  localStorage.setItem('mc_user_tkn', accessToken);
+  localStorage.setItem("mc_user_tkn", accessToken);
 };
 
 const setAuthUser = (userData) => {
-  localStorage.setItem('mc_user', JSON.stringify(userData));
+  localStorage.setItem("mc_user", JSON.stringify(userData));
 };
 
 const getUserToken = () => {
-  return localStorage.getItem('mc_user_tkn') ?? null;
+  return localStorage.getItem("mc_user_tkn") ?? null;
 };
 
 const getAuthUser = () => {
-  const user = typeof window !== 'undefined' && localStorage.getItem('mc_user');
+  const user = typeof window !== "undefined" && localStorage.getItem("mc_user");
   if (user) {
     try {
       return JSON.parse(user);
     } catch (error) {
-      console.error('Error parsing user data:', error);
+      console.error("Error parsing user data:", error);
       return null;
     }
   }
@@ -26,16 +26,16 @@ const getAuthUser = () => {
 };
 
 const deleteUserToken = () => {
-  localStorage.removeItem('mc_user_tkn');
+  localStorage.removeItem("mc_user_tkn");
 };
 
 const deleteAuthUser = () => {
-  localStorage.removeItem('mc_user');
+  localStorage.removeItem("mc_user");
 };
 
 const logout = () => {
-  localStorage.removeItem('mc_user_tkn');
-  localStorage.removeItem('mc_user');
+  localStorage.removeItem("mc_user_tkn");
+  localStorage.removeItem("mc_user");
 };
 
 const isAuthTokenExpired = (expirationTime) => {
@@ -49,8 +49,8 @@ const decodeToken = (token) => {
 };
 
 const isAuthenticated = () => {
-  if (typeof window !== 'undefined') {
-    const token = localStorage.getItem('mc_user_tkn') ?? null;
+  if (typeof window !== "undefined") {
+    const token = localStorage.getItem("mc_user_tkn") ?? null;
     if (token) {
       const decodedToken = decodeToken(token);
       if (decodedToken.exp !== undefined) {
@@ -70,5 +70,5 @@ export {
   setAuthUser,
   getAuthUser,
   deleteAuthUser,
-  logout
+  logout,
 };
