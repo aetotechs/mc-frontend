@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import Header from "../components/global/Header";
 import { useAuth } from "../utils/context/AuthContext";
+import { SignUp } from "../components/AuthModels/SignUp";
 
 const Home = () => {
   const { dispatchAuth } = useAuth();
@@ -18,6 +19,7 @@ const Home = () => {
         <h3 className="font-extrabold text-[50px] leading-[60px] text-white">
           Discover the Easiest Way to Rent
         </h3>
+        <SignUp/>
 
         <div className="bg-white flex items-center justify-between rounded-[50px] py-3 px-4 divide-x gap-3">
           <div className="flex flex-col px-4">
