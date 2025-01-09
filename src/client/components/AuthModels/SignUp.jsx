@@ -1,5 +1,4 @@
 import { useState } from "react";
-
 import {
   Dialog,
   DialogContent,
@@ -24,8 +23,14 @@ export function SignUp() {
     setCurrentStep((prev) => Math.max(prev - 1, 1));
   };
 
+  // Only have one Auth model and then One component for login 'LoginForm.jsx' in the /components/auth_models and the others too for signup and verify 'Signup.jsx and Verify.jsx' 
+  // Have a state variable handling operation const [operation, setOperation] = useState({ login: true, signup: false, verify: false }). with login, register, signup and conditionally render form fields for all these based on the state operation
+  // I have attached example in examples folder. 
+  
+  // You can utilise the already set up Auth mddel because i already set up its global triggers via context API
+  // Take time to put this together and let's have a simple codebase.
   return (
-    <Dialog>
+    <Dialog> // Check in components/examples for a better implementation here. And ask where you need help 
       <DialogTrigger asChild>
         <span className="cursor-pointer">SignUp</span>
       </DialogTrigger>
@@ -51,10 +56,12 @@ export function SignUp() {
                 <span className="underline">Login here</span>
               </p>
               <div className="flex justify-between gap-5 my-3">
-                <Progress value={100}/>
+                <Progress value={100}/>  // Simply conditionally render flexed lines here shading them a color based on current step. We don't need any complex layer of libraries to do this
                 <Progress/>
               </div>
               <UserDetailsForm handleClick={handleNextStep} />
+
+              // 
 
             </>
           )}
@@ -74,7 +81,7 @@ export function SignUp() {
           {/* 
           {currentStep === 4 && (
             <>
-              <SuccessScreen />
+              <SuccessScreen />  // NOTE: We don't need a separate success screen, simply conditionally render all the screen content and activate this when the success message is set
             </>
           )} */}
         </div>

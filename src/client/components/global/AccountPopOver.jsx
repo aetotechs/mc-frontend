@@ -24,10 +24,10 @@ export function AccountPopover() {
       <div className="absolute -top-1 left-3/4 transform -translate-x-1/2 w-0 h-0 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-b-[6px] border-b-white"></div>
 
       <div className="flex flex-col gap-1.5 font-normal p-2 text-sm ">
-                  <SignUp />
-                  <span>Login</span>
-                  <span>Help / Support</span>
-                </div>
+        <SignUp />
+        <span>Login</span>
+        <span>Help / Support</span>
+      </div>
       </PopoverContent>
     </Popover>
   );
