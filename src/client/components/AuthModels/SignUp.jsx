@@ -9,7 +9,7 @@ import { Progress } from "../../../components/ui/progress";
 import { ArrowLeft } from "lucide-react";
 
 import { UserDetailsForm } from "../../AuthForms/UserDetails";
-import { AdditionalUserDetails } from "../../AuthForms/AdditionalUserDetails";
+// import { AdditionalUserDetails } from "../../AuthForms/AdditionalUserDetails";
 // import VerifyEmail from "./VerifyEmail";
 // import SuccessScreen from "./SuccessScreen";
 
@@ -61,9 +61,7 @@ export function SignUp() {
 
           {currentStep === 2 && (
             <>
-              <h5 className="text-left font-semibold text-[22px] my-2">
-                Setup your profile
-              </h5>
+             
               {/* <AdditionalUserDetails handleClick={handleNextStep} /> */}
             </>
           )}
