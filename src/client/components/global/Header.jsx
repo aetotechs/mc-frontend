@@ -6,11 +6,7 @@ import React, { useState } from "react";
 import { AccountPopover } from "./AccountPopOver";
 
 const Header = () => {
-  const [isTooltipVisible, setIsTooltipVisible] = useState(false);
 
-  const toggleTooltip = () => {
-    setIsTooltipVisible(!isTooltipVisible);
-  };
   return (
     <div className="flex justify-between px-[8vw] py-2.5">
       <div className=" h-9 w-24 object-contain">

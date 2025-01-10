@@ -29,7 +29,7 @@ export function AdditionalUserDetailsForm({ handleClick }) {
     defaultValues: {
       phoneNumber: "",
       username: "",
-      country: "",
+      
       city: "",
       country: "",
       postalCode: "",
