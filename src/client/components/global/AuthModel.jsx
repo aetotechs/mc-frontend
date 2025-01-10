@@ -6,10 +6,19 @@ import { Password } from "primereact/password";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../utils/context/AuthContext";
 import api_urls from "../../utils/resources/api_urls";
+
+import { ProgressBar } from "primereact/progressbar";
+
 import CardLoadingSpinner from "./CardLoadingSpinner";
+
+import { Divider } from "primereact/divider";
+
+import { UserDetailsForm } from "../../AuthForms/UserDetails";
+import { AdditionalUserDetailsForm } from "../../AuthForms/AdditionalUserDetails";
 
 export default function AuthModel() {
   const { showAuth, dispatchAuth } = useAuth();
+  const [AdditionalDetailsForm, showAdditionalDetailsForm] = useState(false);
   const [operation, setOperation] = useState({
     checkAccountStatus: true,
     isLogin: false,
@@ -19,7 +28,16 @@ export default function AuthModel() {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  console.log({ showAuth });
+
+  const handleNextStep = () => {
+    console.log("handleNextStep");
+    showAdditionalDetailsForm(!AdditionalDetailsForm);
+  };
+
+  const handlePreviousStep=()=>{
+    showAdditionalDetailsForm(!AdditionalDetailsForm);
+
+  }
 
   const handleSubmit = async () => {
     setIsLoading(true);
@@ -158,8 +176,7 @@ export default function AuthModel() {
         }}
         content={({ hide }) => (
           <div
-            className="grid grid-cols-1 px-12 py-5 gap-4 bg-white rounded-md md:max-w-[25vw]"
-            // style={{ borderRadius: '12px', backgroundImage: 'radial-gradient(circle at left top, var(--red-200), var(--red-400))' }}
+            className="grid grid-cols-1 px-10 py-5 gap-1  bg-white rounded-md  lg:w-[35vw]"
           >
             <div className="absolute right-3 top-3">
               <div
@@ -168,35 +185,41 @@ export default function AuthModel() {
                 onClick={() => dispatchAuth(false)}
               />
             </div>
-            <Link
-              to={"/"}
-              onClick={() => dispatchAuth(false)}
-              className="w-8 h-8 flex items-center justify-center mx-auto my-auto"
-            >
-              <img src="/logos/logo.png" alt="" className="w-full h-full" />
-            </Link>
-
-            <p className="text-2xl font-[700] text-center">Register/Sign in</p>
-            <p className="text-xs text-center">
-              <i className="pi pi-lock text-green-700 text-xs" /> Your data is
-              secure
+            <span className="text-left font-bold text-[24px]">
+              Welcome to MyCrib
+            </span>
+            <p className="flex text-base  ">
+              <span className="font-normal text-[#62636C] ">Already have an account?</span>
+              <span className="font-medium">Signin</span>
             </p>
+            {!AdditionalDetailsForm ? (
+              <>
+                <div className="flex justify-between gap-5 bg-slate-200">
+                  {/* <ProgressBar value={100}></ProgressBar>
+            <ProgressBar value={0}></ProgressBar> */}
+                </div>
+                <UserDetailsForm handleClick={handleNextStep} />
 
-            <i
-              className="pi pi-refresh cursor-pointer text-center"
-              title="resfresh"
-              onClick={handleRefresh}
-            />
-            <p align="center" className="text-gray-200 m-0 text-sm">
-              ------------------details------------------
-            </p>
+                <div className="flex items-center gap-5">
+                  <span className="border h-1 border-b-0 border-l-0 border-r-0 grow"></span>
+                  <span className="text-lg my-1 font-normal text-[#80828D]">or</span>
+                  <span className="border h-1 border-b-0 border-l-0 border-r-0 grow"></span>
+                </div>
 
-            <p
-              className={`bg-red-100 text-sm text-red-700 p-3 truncate ${!error && "hidden"}`}
-            >
-              {error.toString()}
-            </p>
+                <div className="flex border border-[#CDCED7] rounded-[8px] justify-around py-2 ">
+                  <div className="w-5 h-5 object-cover">
+                    <img src="/logos/google.png" alt="Google" />
+                  </div>
+                  <span className="font-medium">Continue with Google</span>
+                </div>
+              </>
+            ) : (
+              <>
+                <AdditionalUserDetailsForm handleClick={handlePreviousStep} />
+              </>
+            )}
 
+            {/*             
             <InputText
               value={user.email}
               onChange={handleInputChange}
@@ -205,16 +228,16 @@ export default function AuthModel() {
               required
               name="email"
               className="bg-white-alpha-20 rounded-none border hover:border-black p-3 text-primary-50"
-            />
-            <InputText
+            /> */}
+            {/* <InputText
               value={user.fullName}
               onChange={handleInputChange}
               placeholder="full names"
               required
               name="fullName"
               className={`${!operation.isRegister && "hidden"} bg-white-alpha-20 rounded-none border hover:border-black p-3 text-primary-50`}
-            />
-            <Password
+            /> */}
+            {/* <Password
               value={user.password}
               onChange={(e) =>
                 setUser((prev) => ({ ...prev, password: e.target.value }))
@@ -223,8 +246,8 @@ export default function AuthModel() {
               toggleMask
               inputClassName={`bg-white-alpha-20 rounded-none w-[75vw] md:w-[20vw] border hover:border-black p-3 text-primary-50`}
               className={`w-full ${!operation.isRegister && !operation.isLogin && "hidden"} `}
-            />
-
+            /> */}
+            {/* 
             <Button
               disabled={isLoading || !user.email}
               icon={isLoading && <CardLoadingSpinner color={"white"} />}
@@ -239,9 +262,9 @@ export default function AuthModel() {
               }
               onClick={handleSubmit}
               className="bg-red-500 py-3 w-full text-white text-center"
-            />
+            /> */}
 
-            <p
+            {/* <p
               className={`bg-green-100 text-sm text-green-700 p-3 truncate ${!success && "hidden"}`}
             >
               {JSON.stringify(success)}
@@ -249,9 +272,9 @@ export default function AuthModel() {
 
             <p className="text-center cursor-pointer text-sm font-[600] underline text-gray-300">
               Forgom password?
-            </p>
+            </p> */}
 
-            <p align="center" className="text-gray-200 m-0 text-sm">
+            {/* <p align="center" className="text-gray-200 m-0 text-sm">
               ----------- Or Continue with -------------
             </p>
 
@@ -260,13 +283,13 @@ export default function AuthModel() {
                 <img src="/icons/google.png" className="google-logo" alt="" />
               </div>
               <p className="text-[10px] text-red-400">Not yet available</p>
-            </div>
+            </div> */}
 
-            <p className="text-center text-gray-300 text-sm">
+            {/* <p className="text-center text-gray-300 text-sm">
               By continuing, you confirm that you‘re an adult and
               <br /> you’ve read and accepted our Nalmart
               <br /> Agreement and Privacy Policy.
-            </p>
+            </p> */}
           </div>
         )}
       ></Dialog>

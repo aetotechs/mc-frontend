@@ -2,7 +2,7 @@ import React, { createContext, useContext, useState } from "react";
 const AuthContext = createContext(undefined);
 
 export const AuthProvider = ({ children }) => {
-  const [showAuth, setShowAuth] = useState(true);
+  const [showAuth, setShowAuth] = useState(false);
 
   const dispatchAuth = (state) => setShowAuth(state);
 

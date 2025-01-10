@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 
-import { CircleUserRound } from "lucide-react";
 
-import { SignUp } from "../AuthModels/SignUp";
+
+
 import { AccountPopover } from "./AccountPopOver";
 
 const Header = () => {

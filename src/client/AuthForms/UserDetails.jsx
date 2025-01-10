@@ -3,8 +3,12 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { EyeIcon, EyeOffIcon } from "lucide-react";
-import { Button } from "../../components/ui/button";
-import { Input } from "../../components/ui/input";
+
+import { InputText } from 'primereact/inputtext';
+
+import { Button } from 'primereact/button';
+        
+        
 
 const FormSchema = z.object({
   firstName: z.string().min(2, { message: "First Name is required." }),
@@ -46,11 +50,11 @@ export function UserDetailsForm({ handleClick }) {
     >
       <div className="col-span-1">
         <label className="block mb-1 font-medium text-sm">First Name</label>
-        <Input
+        <InputText 
           type="text"
-          placeholder="Enter your first name"
+          placeholder="Mark"
           {...register("firstName")}
-          className="border-[#DCE1EC] w-full"
+          className="border-[#CDCED7] rounded-[8px] w-full border px-1 py-1.5 placeholder:text-sm focus-within:border-[#6CAFE6] shadow-none"
         />
         {errors.firstName && (
           <p className="text-red-500 text-sm">{errors.firstName.message}</p>
@@ -59,11 +63,11 @@ export function UserDetailsForm({ handleClick }) {
 
       <div className="col-span-1">
         <label className="block mb-1 font-medium text-sm">Last Name</label>
-        <Input
+        <InputText 
           type="text"
-          placeholder="Enter your last name"
+          placeholder="Mutwale"
           {...register("lastName")}
-          className="border-[#DCE1EC] w-full"
+          className="border-[#CDCED7] shadow-none rounded-[8px] w-full border px-1 py-1.5 placeholder:text-sm focus-within:border-[#6CAFE6]"
         />
         {errors.lastName && (
           <p className="text-red-500 text-sm">{errors.lastName.message}</p>
@@ -72,11 +76,11 @@ export function UserDetailsForm({ handleClick }) {
 
       <div className="col-span-2">
         <label className="block mb-1 font-medium text-sm">Email</label>
-        <Input
+        <InputText 
           type="email"
-          placeholder="Enter your email"
+          placeholder="doe@example.com"
           {...register("email")}
-          className="border-[#DCE1EC] w-full"
+          className="border-[#CDCED7] shadow-none rounded-[8px] w-full border px-1 py-1.5 placeholder:text-sm focus-within:border-[#6CAFE6]"
         />
         {errors.email && (
           <p className="text-red-500 text-sm">{errors.email.message}</p>
@@ -86,12 +90,12 @@ export function UserDetailsForm({ handleClick }) {
       <div className="col-span-2">
         <label className="block mb-1 font-medium text-sm">Password</label>
         <div className="relative">
-          <Input
+          <InputText 
             type={passwordVisible ? "text" : "password"}
-            placeholder="Enter your password"
+            placeholder="******"
             {...register("password")}
-            className="border-[#DCE1EC] w-full"
-          />
+            className="border-[#CDCED7] shadow-none rounded-[8px] w-full border px-1 py-1.5 placeholder:text-sm focus-within:border-[#6CAFE6]"
+            />
           <span
             className="absolute inset-y-0 right-4 flex items-center cursor-pointer"
             onClick={togglePassword}
@@ -106,19 +110,19 @@ export function UserDetailsForm({ handleClick }) {
         {errors.password && (
           <p className="text-red-500 text-sm">{errors.password.message}</p>
         )}
-        <p className="text-sm text-gray-500">
-          Must be at least 8 characters long, include a mix of letters, numbers,
-          and symbols.
+        <p className="text-sm text-gray-500 mt-2 text-[15px] col-span-2">
+        At least 8 characters, with an uppercase letter, a lowercase letter, and a number or symbol.
         </p>
       </div>
-
+      <p className=" text-sm text-gray-500 col-span-2">
+          By clicking “Next,” I accept MyCrib's 
+          <span className="font-bold text-black"> terms of use</span>.
+        </p>
       <div className="col-span-2">
-        <Button type="submit" className="w-full bg-[#C8CFDE] my-4">
+        <Button type="submit" className="w-full bg-[#2F91D7] flex justify-center text-white rounded-[8px] py-1.5 font-semibold text-base">
           Next
         </Button>
-        <p className="text-center text-sm text-gray-500">
-          By clicking “Next,” I accept MyCrib's terms of use.
-        </p>
+       
       </div>
     </form>
   );
