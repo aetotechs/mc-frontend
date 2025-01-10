@@ -4,7 +4,6 @@ import { CircleUserRound } from "lucide-react";
 import { useAuth } from "../../utils/context/AuthContext";
 
 export function AccountPopover() {
-  const op = useRef(null);
   const { showAuth, dispatchAuth } = useAuth();
   const [isTooltipVisible, setIsTooltipVisible] = useState(false);
 
