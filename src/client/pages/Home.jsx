@@ -1,19 +1,15 @@
 import React, { useEffect } from "react";
 import Header from "../components/global/Header";
-
+import Footer from "../components/global/Footer";
 
 const Home = () => {
-
-
   return (
     <div>
       <Header />
       <div className="bg-hero bg-cover relative  bg-center h-[70vh] flex justify-center items-center flex-col gap-5">
-
         <h3 className="font-extrabold text-[50px] leading-[60px] text-white">
           Discover the Easiest Way to Rent
         </h3>
-   
 
         <div className="bg-white flex items-center justify-between rounded-[50px] py-3 px-4 divide-x gap-3">
           <div className="flex flex-col px-4">
@@ -65,6 +61,8 @@ const Home = () => {
           </div>
         </div>
       </div>
+
+      <Footer />
     </div>
   );
 };
