@@ -1,24 +1,17 @@
 import React, { useState } from "react";
-import { Button } from "primereact/button";
 import { Dialog } from "primereact/dialog";
-import { InputText } from "primereact/inputtext";
-import { Password } from "primereact/password";
-import { Link } from "react-router-dom";
 import { useAuth } from "../../utils/context/AuthContext";
 import api_urls from "../../utils/resources/api_urls";
-
-import CardLoadingSpinner from "./CardLoadingSpinner";
-
-import { SignUp } from "../AuthModels/SignUp";
-import { Login } from "../authmodels/LogIn";
+import { SignUp } from "./auth_forms/SignUp";
+import { Login } from "./auth_forms/LogIn";
 
 export default function AuthModel() {
   const { showAuth, dispatchAuth } = useAuth();
 
   const [operation, setOperation] = useState({
-    checkAccountStatus: true,
-    isLogin: true,
-    isRegister: false,
+    checkAccountStatus: false,
+    isLogin: false,
+    isRegister: true,
   });
   const [user, setUser] = useState({ fullName: "", email: "", password: "" });
   const [error, setError] = useState("");
@@ -161,17 +154,16 @@ export default function AuthModel() {
           dispatchAuth(false);
         }}
         content={({ hide }) => (
-          <div className="grid grid-cols-1 px-10 py-5 gap-1  bg-white rounded-md  lg:w-[35vw]">
+          <div className="grid grid-cols-1 px-8 py-10 gap-1 bg-white rounded-md lg:w-[32vw]">
             <div className="absolute right-3 top-3">
               <div
-                className="cursor-pointer pi pi-times"
+                className="cursor-pointer pi pi-times text-xl"
                 title="Close"
                 onClick={() => dispatchAuth(false)}
               />
             </div>
 
             {operation.isRegister && <SignUp />}
-
             {operation.isLogin && <Login />}
           </div>
         )}

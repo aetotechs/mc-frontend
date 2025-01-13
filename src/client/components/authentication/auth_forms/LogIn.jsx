@@ -1,9 +1,5 @@
 import { useState } from "react";
 
-import { LogInForm } from "../../authforms/LogIn";
-import { ForgotPasswordForm } from "../../authforms/ForgotPasswordForm";
-import { ResetPasswordForm } from "../../authforms/ResetPasswordForm";
-
 export function Login() {
   const [currentStep, setCurrentStep] = useState(1);
 
@@ -25,7 +21,7 @@ export function Login() {
             <span className="font-normal text-[#62636C] ">No account?</span>
             <span className="font-medium">Signup</span>
           </p>
-          <LogInForm />
+          {/* <LogInForm /> */}
 
           <span
             className="text-[#1D84C9] text-sm text-center cursor-pointer"
@@ -59,7 +55,7 @@ export function Login() {
               We’ll email you a link to reset your password.
             </span>
           </p>
-          <ForgotPasswordForm handleClick={handleNextStep} />
+          {/* <ForgotPasswordForm handleClick={handleNextStep} /> */}
 
           <span
             className="text-sm text-[#1D84C9] text-center cursor-pointer"
@@ -80,7 +76,7 @@ export function Login() {
               Create a strong password for your account{" "}
             </span>
           </p>
-          <ResetPasswordForm />
+          {/* <ResetPasswordForm /> */}
 
           <span
             className="text-sm text-[#1D84C9] text-center cursor-pointer"
