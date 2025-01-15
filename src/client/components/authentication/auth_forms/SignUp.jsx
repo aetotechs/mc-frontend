@@ -6,6 +6,7 @@ import { InputText } from "primereact/inputtext";
 import { EyeIcon, EyeOffIcon } from "lucide-react";
 import { Button } from "primereact/button";
 import CardLoadingSpinner from "../../global/CardLoadingSpinner";
+import { useAuth } from "../../../utils/context/AuthContext";
 
 const FormSchema = z.object({
   firstName: z.string().min(2, { message: "First Name is required." }),
@@ -26,11 +27,11 @@ const FormSchema = z.object({
 });
 
 export function SignUp() {
+  const  { dispatchAuth } = useAuth();
   const [currentStep, setCurrentStep] = useState(1);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-
   const [passwordVisible, setPasswordVisible] = useState(false);
   
     const {
@@ -83,7 +84,7 @@ export function SignUp() {
         <p className="font-normal text-[#62636C] ">
           Already have an account?
         </p>
-        <p className="font-medium ml-3 cursor-pointer">Signin</p>
+        <button type="button" onClick={() => dispatchAuth(true, true, false) } className="font-medium ml-3 cursor-pointer">Signin</button>
       </p>
 
       <div className="grid grid-cols-2 gap-6 my-8">
