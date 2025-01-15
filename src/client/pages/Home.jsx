@@ -1,23 +1,19 @@
 import React, { useEffect } from "react";
 import Header from "../components/global/Header";
-import { useAuth } from "../utils/context/AuthContext";
+
 
 const Home = () => {
-  const { dispatchAuth } = useAuth();
 
-  useEffect(() => {
-    // dispatchAuth(true);  //Call this function to open login/register form.
-  });
 
   return (
     <div>
       <Header />
       <div className="bg-hero bg-cover relative  bg-center h-[70vh] flex justify-center items-center flex-col gap-5">
-        <div className="absolute inset-0 bg-black opacity-30"></div>
 
         <h3 className="font-extrabold text-[50px] leading-[60px] text-white">
           Discover the Easiest Way to Rent
         </h3>
+   
 
         <div className="bg-white flex items-center justify-between rounded-[50px] py-3 px-4 divide-x gap-3">
           <div className="flex flex-col px-4">
