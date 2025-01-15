@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import {  useState } from "react";
 
 import { CircleUserRound } from "lucide-react";
 import { useAuth } from "../../utils/context/AuthContext";
