@@ -4,7 +4,6 @@ import { Check, TriangleAlert } from "lucide-react";
 
 function VerificationSuccess() {
   const [visible, setVisible] = useState(false);
-
   const [success, setIsSuccess] = useState(true);
 
   return (
