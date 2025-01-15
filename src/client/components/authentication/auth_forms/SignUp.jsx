@@ -84,7 +84,7 @@ export function SignUp() {
         <p className="font-normal text-[#62636C] ">
           Already have an account?
         </p>
-        <button type="button" onClick={() => dispatchAuth(true, true, false) } className="font-medium ml-3 cursor-pointer">Signin</button>
+        <p onClick={() => dispatchAuth(true, true, false) } className="font-medium ml-3 cursor-pointer">Signin</p>
       </p>
 
       <div className="grid grid-cols-2 gap-6 my-8">
