@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
@@ -7,8 +8,8 @@ const Footer = () => {
         <span className="font-semibold text-[15px] ">Find Homes Faster</span>
 
         <ul className="flex flex-col gap-3">
-          <li className="flex items-center bg-black rounded-[5px] gap-2 px-2 py-1 text-white">
-            <div className="h- w-4 object-cover">
+          <li className="flex items-center bg-black rounded-md gap-2 px-2 py-1 text-white">
+            <div className="h-4 w-4 object-cover">
               <img src="/logos/apple-logo.png" alt="Apple Logo" />
             </div>
             <span className="text-xs">
@@ -18,7 +19,7 @@ const Footer = () => {
             </span>
           </li>
 
-          <li className="flex items-center bg-black gap-2 px-2 py-1 rounded-[5px] text-white">
+          <li className="flex items-center bg-black gap-2 px-2 py-1 rounded-md text-white">
             <div className="h- w-4 object-cover">
               <img src="/logos/playstore.png" alt="Apple Logo" />
             </div>
@@ -32,21 +33,21 @@ const Footer = () => {
       </div>
       <div className="flex flex-col gap-1">
         <span className="font-semibold text-base">Company</span>
-        <ul className="flex flex-col gap-1">
-          <li className="cursor-pointer">Why MyCrib?</li>
-          <li className="cursor-pointer">Careers</li>
-          <li className="cursor-pointer">Blog</li>
-          <li className="cursor-pointer">Terms</li>
-          <li className="cursor-pointer">Privacy Policy</li>
-        </ul>
+        <div className="flex flex-col gap-1">
+          <Link to='/' className="cursor-pointer">Why MyCrib?</Link>
+          <Link to='/' className="cursor-pointer">Careers</Link>
+          <Link to='/' className="cursor-pointer">Blog</Link>
+          <Link to='/' className="cursor-pointer">Terms</Link>
+          <Link to='/' className="cursor-pointer">Privacy Policy</Link>
+        </div>
       </div>
 
       <div className="flex flex-col gap-1">
         <span className="font-semibold text-base">Find Us</span>
-        <ul className="flex flex-col gap-1">
-          <li className="cursor-pointer">Contact Us</li>
-          <li className="cursor-pointer">Help Center</li>
-        </ul>
+        <div className="flex flex-col gap-1">
+          <Link to='/' className="cursor-pointer">Contact Us</Link>
+          <Link to='/' className="cursor-pointer">Help Center</Link>
+        </div>
       </div>
 
       <div className="flex flex-col gap-2">
