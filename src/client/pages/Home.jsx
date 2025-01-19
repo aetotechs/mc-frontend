@@ -1,12 +1,18 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../components/global/Header";
 import Footer from "../components/global/Footer";
 
 const Home = () => {
+  const [categories, setCategories] = useState([
+    { name: "RENTALS", label: "Rentals" },
+    { name: "HOSTELS", label: "Hostels" },
+    { name: "LODGES", label: "Lodges" },
+    { name: "APARTMENTS", label: "Apartments" },
+  ])
   return (
     <div>
       <Header />
-      <div className="bg-hero bg-cover relative  bg-center h-[70vh] flex justify-center items-center flex-col gap-5">
+      <section className="bg-hero bg-cover relative  bg-center h-[70vh] flex justify-center items-center flex-col gap-5">
         <h3 className="font-extrabold text-[50px] leading-[60px] text-white">
           Discover the Easiest Way to Rent
         </h3>
@@ -60,7 +66,19 @@ const Home = () => {
             </div>
           </div>
         </div>
-      </div>
+      </section>
+
+      {/* Categories section */}
+      <section className="bg-white flex gap-4 justify-center my-16">
+        {categories.map((category, index) => (
+          <p className="font-bold hover:text-white text-sm hover:bg-black border cursor-pointer border-black px-6 py-3 rounded-full">{category.label}</p>
+        ))}
+      </section>
+
+      {/* Listings section */}
+      <section className="">
+        {/*  */}
+      </section>
 
       <Footer />
     </div>
