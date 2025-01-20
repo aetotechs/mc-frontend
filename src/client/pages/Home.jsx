@@ -3,14 +3,21 @@ import Header from "../components/global/Header";
 import Footer from "../components/global/Footer";
 import ListingCard from "../components/global/ListingCard";
 import { listings } from "../utils/resources/dummy_data";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
+  const navigate = useNavigate();
   const [categories, setCategories] = useState([
     { name: "RENTALS", label: "Rentals" },
     { name: "HOSTELS", label: "Hostels" },
     { name: "LODGES", label: "Lodges" },
     { name: "APARTMENTS", label: "Apartments" },
-  ])
+  ]);
+
+  const handleClick = () => {
+    
+    navigate("/viewProperty");
+  };
   return (
     <div className="relative h-screen overflow-auto">
       <section className="sticky top-0 z-10">
@@ -62,7 +69,10 @@ const Home = () => {
             </span>
           </div>
           <div className="flex flex-col pl-2">
-            <div className="flex rounded-[48px] bg-[#2F91D7] p-3 px-5 text-white items-center gap-2">
+            <div
+              className="flex rounded-[48px] bg-[#2F91D7] p-3 px-5 text-white items-center gap-2"
+              onClick={handleClick}
+            >
               <span>
                 <i className="pi pi-search" style={{ fontSize: "14px" }}></i>
               </span>
@@ -74,7 +84,9 @@ const Home = () => {
 
       <section className="bg-white flex gap-4 justify-center my-16">
         {categories.map((category, index) => (
-          <p className="font-bold hover:text-white text-sm hover:bg-black border cursor-pointer border-gray-300 px-6 py-3 rounded-full">{category.label}</p>
+          <p className="font-bold hover:text-white text-sm hover:bg-black border cursor-pointer border-gray-300 px-6 py-3 rounded-full">
+            {category.label}
+          </p>
         ))}
       </section>
 
@@ -85,7 +97,12 @@ const Home = () => {
       </section>
 
       <section className="flex items-center justify-center my-16">
-        <button className="px-8 py-4 text-blue-400 text-lg  border-2 border-blue-400 font-extrabold rounded-full" title="Load more items form the server">Load More</button>
+        <button
+          className="px-8 py-4 text-blue-400 text-lg  border-2 border-blue-400 font-extrabold rounded-full"
+          title="Load more items form the server"
+        >
+          Load More
+        </button>
       </section>
 
       <Footer />
