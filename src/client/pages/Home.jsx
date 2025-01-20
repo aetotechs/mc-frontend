@@ -12,8 +12,10 @@ const Home = () => {
     { name: "APARTMENTS", label: "Apartments" },
   ])
   return (
-    <div>
-      <Header />
+    <div className="relative h-screen overflow-auto">
+      <section className="sticky top-0 z-10">
+        <Header />
+      </section>
       <section className="bg-hero bg-cover relative bg-center h-[70vh] flex justify-center items-center flex-col gap-5">
         <h3 className="font-extrabold text-[50px] leading-[60px] text-white">
           Discover the Easiest Way to Rent
@@ -72,13 +74,13 @@ const Home = () => {
 
       <section className="bg-white flex gap-4 justify-center my-16">
         {categories.map((category, index) => (
-          <p className="font-bold hover:text-white text-sm hover:bg-black border cursor-pointer border-black px-6 py-3 rounded-full">{category.label}</p>
+          <p className="font-bold hover:text-white text-sm hover:bg-black border cursor-pointer border-gray-300 px-6 py-3 rounded-full">{category.label}</p>
         ))}
       </section>
 
-      <section className="flex flex-wrap last:justify-left gap-8 px-8 justify-center">
+      <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-6 sm:gap-8 px-4 sm:px-8 lg:px-24">
         {listings.map((item, index) => (
-          <ListingCard key={index} item={item}/>
+          <ListingCard key={index} item={item} />
         ))}
       </section>
 

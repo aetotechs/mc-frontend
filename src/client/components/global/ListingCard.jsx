@@ -18,16 +18,16 @@ const ListingCard = ({ item }) => {
   };
 
   return (
-    <div className="w-[350px] border rounded-xl">
-      <section className="relative h-56 w-full bg-gray-200 rounded-t-xl">
+    <div className="w-full border rounded-xl">
+      <section className="relative w-full h-52 bg-gray-200 rounded-t-xl">
         <img
           src={item.photos[currentImageIndex]?.url || "/images/hero-image.png"}
-          alt=""
-          className="object-cover w-full h-full rounded-t-xl"
+          alt="Property"
+          className="w-full h-full object-cover rounded-t-xl"
         />
-        <div className="absolute flex items-center gap-2 left-4 text-sm top-4 ">
+        <div className="absolute flex items-center gap-2 left-4 text-xs top-4 ">
           { item.furnished && <p className="rounded-full bg-orange-300 px-3 py-1">Furnished</p>}
-          { item.videoTour && <p className="text-white top-4 rounded-full bg-blue-500 px-3 py-1">3D & Video Tour</p>}
+          { item.videoTour && <p className="whitespace-nowrap text-white top-4 rounded-full bg-blue-500 px-3 py-1">3D & Video Tour</p>}
         </div>
         <button className="absolute right-4 top-4 rounded-full bg-white p-1" title="Add to favourites list">
           <FavouriteIcon size={18}/>
@@ -38,7 +38,7 @@ const ListingCard = ({ item }) => {
             className="absolute right-4 top-[50%] translate-y-[-50%] bg-white rounded-full p-1"
             title="View next photo"
           >
-            <ArrowRight01Icon />
+            <ArrowRight01Icon size={18} />
           </button>
         )}
         {currentImageIndex > 0 && (
@@ -47,24 +47,24 @@ const ListingCard = ({ item }) => {
             className="absolute left-4 top-[50%] translate-y-[-50%] bg-white rounded-full p-1"
             title="View previous photo"
           >
-            <ArrowLeft01Icon />
+            <ArrowLeft01Icon size={18} />
           </button>
         )}
       </section>
       <section className="p-2 px-4">
         <section>
-          <p className="font-bold text-2xl">
+          <p className="font-bold text-xl whitespace-nowrap">
             UGX {price.min_price.toLocaleString() || "--"} - {price.max_price.toLocaleString() || "--"}{" "}
-            <span className="font-thin text-xl">month</span>
+            <span className="font-thin text-sm">month</span>
           </p>
         </section>
-        <section className="flex gap-4 items-center">
-          <p className="flex gap-2">
-            <BedIcon />
+        <section className="flex whitespace-nowrap gap-4 items-center">
+          <p className="flex gap-2 items-center">
+            <BedIcon size={14} />
             <span>{2 || "--"} Bed(s)</span>
           </p>
-          <p className="flex gap-2">
-            <Bathtub01Icon />
+          <p className="flex gap-2 items-center">
+            <Bathtub01Icon size={14} />
             <span>{3 || "--"} Bath(s)</span>
           </p>
         </section>
