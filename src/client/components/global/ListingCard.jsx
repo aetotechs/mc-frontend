@@ -21,9 +21,9 @@ const ListingCard = ({ item }) => {
     <div className="w-[350px] border rounded-xl">
       <section className="relative h-56 w-full bg-gray-200 rounded-t-xl">
         <img
-          src={item.photos[currentImageIndex]?.url || "public/images/hero-image.png"}
+          src={item.photos[currentImageIndex]?.url || "/images/hero-image.png"}
           alt=""
-          className="object-cover w-full h-full rounded-t-xl opacity-90"
+          className="object-cover w-full h-full rounded-t-xl"
         />
         <div className="absolute flex items-center gap-2 left-4 text-sm top-4 ">
           { item.furnished && <p className="rounded-full bg-orange-300 px-3 py-1">Furnished</p>}
@@ -51,7 +51,7 @@ const ListingCard = ({ item }) => {
           </button>
         )}
       </section>
-      <section className="p-2">
+      <section className="p-2 px-4">
         <section>
           <p className="font-bold text-2xl">
             UGX {price.min_price.toLocaleString() || "--"} - {price.max_price.toLocaleString() || "--"}{" "}
