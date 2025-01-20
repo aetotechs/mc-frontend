@@ -70,7 +70,7 @@ const Home = () => {
           </div>
           <div className="flex flex-col pl-2">
             <div
-              className="flex rounded-[48px] bg-[#2F91D7] p-3 px-5 text-white items-center gap-2"
+              className="flex rounded-[48px] bg-[#2F91D7] p-3 px-5 text-white items-center gap-2 cursor-pointer"
               onClick={handleClick}
             >
               <span>
