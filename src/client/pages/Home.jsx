@@ -1,12 +1,20 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../components/global/Header";
 import Footer from "../components/global/Footer";
+import ListingCard from "../components/global/ListingCard";
+import { listings } from "../utils/resources/dummy_data";
 
 const Home = () => {
+  const [categories, setCategories] = useState([
+    { name: "RENTALS", label: "Rentals" },
+    { name: "HOSTELS", label: "Hostels" },
+    { name: "LODGES", label: "Lodges" },
+    { name: "APARTMENTS", label: "Apartments" },
+  ])
   return (
     <div>
       <Header />
-      <div className="bg-hero bg-cover relative  bg-center h-[70vh] flex justify-center items-center flex-col gap-5">
+      <section className="bg-hero bg-cover relative  bg-center h-[70vh] flex justify-center items-center flex-col gap-5">
         <h3 className="font-extrabold text-[50px] leading-[60px] text-white">
           Discover the Easiest Way to Rent
         </h3>
@@ -60,7 +68,23 @@ const Home = () => {
             </div>
           </div>
         </div>
-      </div>
+      </section>
+
+      <section className="bg-white flex gap-4 justify-center my-16">
+        {categories.map((category, index) => (
+          <p className="font-bold hover:text-white text-sm hover:bg-black border cursor-pointer border-black px-6 py-3 rounded-full">{category.label}</p>
+        ))}
+      </section>
+
+      <section className="flex flex-wrap last:justify-left gap-8 px-8 justify-center">
+        {listings.map((item, index) => (
+          <ListingCard key={index} item={item}/>
+        ))}
+      </section>
+
+      <section className="flex items-center justify-center my-16">
+        <button className="px-8 py-4 text-blue-400 text-lg  border-2 border-blue-400 font-extrabold rounded-full" title="Load more items form the server">Load More</button>
+      </section>
 
       <Footer />
     </div>

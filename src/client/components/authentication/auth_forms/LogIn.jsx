@@ -93,9 +93,9 @@ export function Login() {
       {currentStep === 1 && (
         <>
           <h2 className="text-left font-bold text-[24px]">Welcome to MyCrib</h2>
-          <p className="text-base">
+          <p className="flex gap-2 text-base">
             <span className="text-[#62636C]">No account? </span>
-            <p onClick={() => dispatchAuth(true, false, true) } className="font-medium">Signup</p>
+            <p onClick={() => dispatchAuth(true, false, true) } className="font-medium cursor-pointer">Signup</p>
           </p>
           <div>
             <label className="block mb-1 font-medium text-md">Email</label>
