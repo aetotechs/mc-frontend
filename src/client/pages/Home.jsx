@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Header from "../components/global/Header";
 import Footer from "../components/global/Footer";
+import ListingCard from "../components/global/ListingCard";
+import { listing, listings } from "../utils/resources/dummy_data";
 
 const Home = () => {
   const [categories, setCategories] = useState([
@@ -76,8 +78,10 @@ const Home = () => {
       </section>
 
       {/* Listings section */}
-      <section className="">
-        {/*  */}
+      <section className="flex gap-6 justify-center">
+        {listings.map((item, index) => (
+          <ListingCard key={index} item={item}/>
+        ))}
       </section>
 
       <Footer />
