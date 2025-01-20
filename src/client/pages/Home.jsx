@@ -14,7 +14,7 @@ const Home = () => {
   return (
     <div>
       <Header />
-      <section className="bg-hero bg-cover relative  bg-center h-[70vh] flex justify-center items-center flex-col gap-5">
+      <section className="bg-hero bg-cover relative bg-center h-[70vh] flex justify-center items-center flex-col gap-5">
         <h3 className="font-extrabold text-[50px] leading-[60px] text-white">
           Discover the Easiest Way to Rent
         </h3>

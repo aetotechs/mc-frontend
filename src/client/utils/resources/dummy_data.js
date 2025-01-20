@@ -10,10 +10,10 @@ export const listings = [
     furnished: true,
     videoTour: false,
     photos: [
-      { url: "public/images/ap1.jpeg"},
-      { url: "public/images/ap2.jpeg"},
-      { url: "public/images/ap3.jpeg"},
-      { url: "public/images/ap4.jpeg"},
+      { url: "/images/ap1.jpeg"},
+      { url: "/images/ap2.jpeg"},
+      { url: "/images/ap3.jpeg"},
+      { url: "/images/ap4.jpeg"},
     ],
     units: [
       { },
@@ -31,10 +31,10 @@ export const listings = [
     furnished: true,
     videoTour: true,
     photos: [
-      { url: "public/images/ap2.jpeg"},
-      { url: "public/images/ap1.jpeg"},
-      { url: "public/images/ap4.jpeg"},
-      { url: "public/images/ap3.jpeg"},
+      { url: "/images/ap2.jpeg"},
+      { url: "/images/ap1.jpeg"},
+      { url: "/images/ap4.jpeg"},
+      { url: "/images/ap3.jpeg"},
     ],
     units: [
       { },
@@ -52,10 +52,10 @@ export const listings = [
     furnished: false,
     videoTour: false,
     photos: [
-      { url: "public/images/ap4.jpeg"},
-      { url: "public/images/ap1.jpeg"},
-      { url: "public/images/ap3.jpeg"},
-      { url: "public/images/ap2.jpeg"},
+      { url: "/images/ap4.jpeg"},
+      { url: "/images/ap1.jpeg"},
+      { url: "/images/ap3.jpeg"},
+      { url: "/images/ap2.jpeg"},
     ],
     units: [
       { },
@@ -73,10 +73,10 @@ export const listings = [
     furnished: false,
     videoTour: true,
     photos: [
-      { url: "public/images/ap4.jpeg"},
-      { url: "public/images/ap2.jpeg"},
-      { url: "public/images/ap3.jpeg"},
-      { url: "public/images/ap1.jpeg"},
+      { url: "/images/ap4.jpeg"},
+      { url: "/images/ap2.jpeg"},
+      { url: "/images/ap3.jpeg"},
+      { url: "/images/ap1.jpeg"},
     ],
     units: [
       { },
@@ -94,10 +94,10 @@ export const listings = [
     furnished: false,
     videoTour: false,
     photos: [
-      { url: "public/images/ap2.jpeg"},
-      { url: "public/images/ap1.jpeg"},
-      { url: "public/images/ap4.jpeg"},
-      { url: "public/images/ap3.jpeg"},
+      { url: "/images/ap2.jpeg"},
+      { url: "/images/ap1.jpeg"},
+      { url: "/images/ap4.jpeg"},
+      { url: "/images/ap3.jpeg"},
     ],
     units: [
       { },
@@ -115,10 +115,10 @@ export const listings = [
     furnished: false,
     videoTour: false,
     photos: [
-      { url: "public/images/ap3.jpeg"},
-      { url: "public/images/ap1.jpeg"},
-      { url: "public/images/ap2.jpeg"},
-      { url: "public/images/ap4.jpeg"},
+      { url: "/images/ap3.jpeg"},
+      { url: "/images/ap1.jpeg"},
+      { url: "/images/ap2.jpeg"},
+      { url: "/images/ap4.jpeg"},
     ],
     units: [
       { },
@@ -136,10 +136,10 @@ export const listings = [
     furnished: false,
     videoTour: true,
     photos: [
-      { url: "public/images/ap2.jpeg"},
-      { url: "public/images/ap3.jpeg"},
-      { url: "public/images/ap1.jpeg"},
-      { url: "public/images/ap4.jpeg"},
+      { url: "/images/ap2.jpeg"},
+      { url: "/images/ap3.jpeg"},
+      { url: "/images/ap1.jpeg"},
+      { url: "/images/ap4.jpeg"},
     ],
     units: [
       { },
@@ -157,10 +157,10 @@ export const listings = [
     furnished: true,
     videoTour: true,
     photos: [
-      { url: "public/images/ap1.jpeg"},
-      { url: "public/images/ap2.jpeg"},
-      { url: "public/images/ap3.jpeg"},
-      { url: "public/images/ap4.jpeg"},
+      { url: "/images/ap1.jpeg"},
+      { url: "/images/ap2.jpeg"},
+      { url: "/images/ap3.jpeg"},
+      { url: "/images/ap4.jpeg"},
     ],
     units: [
       { },
@@ -178,10 +178,10 @@ export const listings = [
     furnished: false,
     videoTour: false,
     photos: [
-      { url: "public/images/ap1.jpeg"},
-      { url: "public/images/ap2.jpeg"},
-      { url: "public/images/ap3.jpeg"},
-      { url: "public/images/ap4.jpeg"},
+      { url: "/images/ap1.jpeg"},
+      { url: "/images/ap2.jpeg"},
+      { url: "/images/ap3.jpeg"},
+      { url: "/images/ap4.jpeg"},
     ],
     units: [
       { },
@@ -199,10 +199,10 @@ export const listings = [
     furnished: false,
     videoTour: false,
     photos: [
-      { url: "public/images/ap1.jpeg"},
-      { url: "public/images/ap2.jpeg"},
-      { url: "public/images/ap3.jpeg"},
-      { url: "public/images/ap4.jpeg"},
+      { url: "/images/ap1.jpeg"},
+      { url: "/images/ap2.jpeg"},
+      { url: "/images/ap3.jpeg"},
+      { url: "/images/ap4.jpeg"},
     ],
     units: [
       { },
