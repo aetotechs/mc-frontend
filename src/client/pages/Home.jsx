@@ -78,7 +78,7 @@ const Home = () => {
       </section>
 
       {/* Listings section */}
-      <section className="flex gap-6 justify-center">
+      <section className="flex flex-wrap last:justify-left gap-8 px-8 justify-center">
         {listings.map((item, index) => (
           <ListingCard key={index} item={item}/>
         ))}

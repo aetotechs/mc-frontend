@@ -1,4 +1,4 @@
-import { ArrowLeft01Icon, ArrowRight01Icon, Bathtub01Icon, BedIcon } from "hugeicons-react";
+import { ArrowLeft01Icon, ArrowRight01Icon, Bathtub01Icon, BedIcon, FavouriteIcon } from "hugeicons-react";
 import React, { useState } from "react";
 
 const ListingCard = ({ item }) => {
@@ -8,9 +8,11 @@ const ListingCard = ({ item }) => {
     <div className="w-[350px] border rounded-xl">
       <section className="relative h-56 w-full bg-gray-200 rounded-t-xl">
         <img src={item.image || "public/images/hero-image.png"} alt="" className="object-cover w-[100%] h-[100%] rounded-t-xl" />
-        <button className="absolute right-2 top-[50%] bg-white rounded-full p-1"><ArrowRight01Icon/></button>
-        <button className="absolute left-2 top-[50%] bg-white rounded-full p-1"><ArrowLeft01Icon/></button>
-        
+        <p className="absolute left-4 top-4 rounded-full bg-orange-300 px-3 py-1">Furnished</p>
+        <button className="absolute right-4 top-4 rounded-full bg-white p-1"><FavouriteIcon size={18}/></button>
+        <button className="absolute right-4 top-[50%] bg-white rounded-full p-1"><ArrowRight01Icon/></button>
+        <button className="absolute left-4 top-[50%] bg-white rounded-full p-1"><ArrowLeft01Icon/></button>
+
       </section>
       <section className="p-2">
         <section>
