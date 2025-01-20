@@ -16,7 +16,7 @@ export default function AuthModel() {
         visible={showAuth}
         onHide={handleClose}
         content={({ hide }) => (
-          <div className="grid grid-cols-1 px-8 py-10 gap-1 bg-white rounded-md w-full lg:w-[32vw]">
+          <div className="grid grid-cols-1 px-8 py-10 gap-1 bg-white rounded-md w-full lg:w-[32vw] h-vh overflow-auto">
             <div className="absolute right-3 top-3">
               <div
                 className="cursor-pointer pi pi-times text-xl"
