@@ -3,14 +3,21 @@ import Header from "../components/global/Header";
 import Footer from "../components/global/Footer";
 import ListingCard from "../components/global/ListingCard";
 import { listings } from "../utils/resources/dummy_data";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
+  const navigate = useNavigate();
   const [categories, setCategories] = useState([
     { name: "RENTALS", label: "Rentals" },
     { name: "HOSTELS", label: "Hostels" },
     { name: "LODGES", label: "Lodges" },
     { name: "APARTMENTS", label: "Apartments" },
-  ])
+  ]);
+
+  const handleClick = () => {
+    
+    navigate("/viewProperty");
+  };
   return (
     <div className="relative h-screen overflow-auto">
       <section className="sticky top-0 z-10">
@@ -62,7 +69,10 @@ const Home = () => {
             </span>
           </div>
           <div className="flex flex-col pl-2">
-            <div className="flex rounded-[48px] bg-[#2F91D7] p-3 px-5 text-white items-center gap-2">
+            <div
+              className="flex rounded-[48px] bg-[#2F91D7] p-3 px-5 text-white items-center gap-2 cursor-pointer"
+              onClick={handleClick}
+            >
               <span>
                 <i className="pi pi-search" style={{ fontSize: "14px" }}></i>
               </span>
@@ -74,7 +84,9 @@ const Home = () => {
 
       <section className="bg-white grid md:flex gap-4 justify-center my-16">
         {categories.map((category, index) => (
-          <p className="font-bold hover:text-white text-sm hover:bg-black border cursor-pointer border-gray-300 px-6 py-3 rounded-full">{category.label}</p>
+          <p className="font-bold hover:text-white text-sm hover:bg-black border cursor-pointer border-gray-300 px-6 py-3 rounded-full">
+            {category.label}
+          </p>
         ))}
       </section>
 

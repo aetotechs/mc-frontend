@@ -3,6 +3,7 @@ import Header from '../components/global/Header'
 import { listings } from '../utils/resources/dummy_data'
 import ListingCard from '../components/global/ListingCard'
 import Footer from '../components/global/Footer'
+import ListingsFilterPanel from '../components/listings/ListingsFilterPanel'
 
 const Listings = () => {
   return (
@@ -11,8 +12,8 @@ const Listings = () => {
         <Header />
       </section>
 
-      <section className='border-b'>
-        {/* Filter panel */}
+      <section className='border-b pb-3'>
+        <ListingsFilterPanel />
       </section>
 
       <section className='px-[8vw] py-4'>
