@@ -18,7 +18,7 @@ const Header = ({ bottomBorder }) => {
         <ul className="flex gap-5 items-center">
           <NavLink to={'/listings'}>Explore</NavLink>
 
-          <li>Manage Rentals</li>
+          <a href='https://partner.mycrib.ug/'>Manage Rentals</a>
 
           <li>
             <AccountPopover />

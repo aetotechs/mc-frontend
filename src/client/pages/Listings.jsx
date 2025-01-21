@@ -20,9 +20,9 @@ const Listings = () => {
           <p className='font-[600]'>Available properties to rent in Kampala</p>
           <div className='flex gap-8'>
             <p>20 <span className='opacity-70'>of</span> 100 results</p>
-            <section>Sort: 
-              <select name="" id="" className='bg-white text-blue-600 cursor-pointer'>
-                <option label='Recommended' disabled value=""></option>
+            <section className=''>Sort: 
+              <select name="" id="" className='bg-white text-blue-600 cursor-pointer min-w-text'>
+                <option label='Recommended' value=""></option>
                 <option label='A to Z' value="Recommended"></option>
                 <option label='By price' value="Recommended"></option>
                 <option label='By current location' value="Recommended"></option>
@@ -40,8 +40,8 @@ const Listings = () => {
 
       <section className="flex items-center justify-center my-24">
         <div className='flex gap-16 items-center'>
-          <p>Page 1 <span>of</span> 5</p>
-          <button className="px-8 py-2 bg-blue-400 text-white text-lg border-2 border-blue-400 font-extrabold rounded-lg" title="Get next items page form the server">Next Page</button>
+          <p>Page 1 <span className='opacity-60'>of</span> 5</p>
+          <button className="px-8 py-2 bg-blue-400 text-white text-lg border-2 border-blue-400 font-extrabold rounded-lg" title="Get next items page from the server">Next Page</button>
         </div>
       </section>
 

@@ -85,7 +85,7 @@ const Home = () => {
       </section>
 
       <section className="flex items-center justify-center my-16">
-        <button className="px-8 py-4 text-blue-400 text-lg  border-2 border-blue-400 font-extrabold rounded-full" title="Load more items form the server">Load More</button>
+        <button className="px-8 py-4 text-blue-400 text-lg  border-2 border-blue-400 font-extrabold rounded-full" title="Load more items from the server">Load More</button>
       </section>
 
       <Footer />
