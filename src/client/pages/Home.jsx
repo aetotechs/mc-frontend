@@ -14,14 +14,14 @@ const Home = () => {
   return (
     <div className="relative h-screen overflow-auto">
       <section className="sticky top-0 z-10">
-        <Header />
+        <Header bottomBorder/>
       </section>
       <section className="bg-hero bg-cover relative bg-center h-[70vh] flex justify-center items-center flex-col gap-5">
         <h3 className="font-extrabold text-[50px] leading-[60px] text-white">
           Discover the Easiest Way to Rent
         </h3>
 
-        <div className="bg-white flex items-center justify-between rounded-[50px] py-3 px-4 divide-x gap-3">
+        <div className="bg-white hidden md:flex items-center justify-between rounded-[50px] py-3 px-4 divide-x gap-3">
           <div className="flex flex-col px-4">
             <span className="font-medium text-sm">Location</span>
             <span className="flex items-center gap-1">
@@ -72,13 +72,13 @@ const Home = () => {
         </div>
       </section>
 
-      <section className="bg-white flex gap-4 justify-center my-16">
+      <section className="bg-white grid md:flex gap-4 justify-center my-16">
         {categories.map((category, index) => (
           <p className="font-bold hover:text-white text-sm hover:bg-black border cursor-pointer border-gray-300 px-6 py-3 rounded-full">{category.label}</p>
         ))}
       </section>
 
-      <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-6 sm:gap-8 px-4 sm:px-8 lg:px-24">
+      <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-6 px-[8vw]">
         {listings.map((item, index) => (
           <ListingCard key={index} item={item} />
         ))}
