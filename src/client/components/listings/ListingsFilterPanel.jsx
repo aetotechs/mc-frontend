@@ -23,63 +23,65 @@ const ListingsFilterPanel = () => {
 
   return (
     <div className="flex justify-between items-center px-[8vw]">
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-3">
         <div>
-          <span>Location</span>
-
-          <div className="flex items-center border w-36 rounded-md p-1 ">
+          <label>Location</label>
+          <div className="flex items-center border rounded-md px-2">
             <InputText
-              className="border-none focus:ring-0 max-w-28"
+              className="max-w-32 p-1"
               value={value}
+              placeholder="Location"
+              showClear
               onChange={(e) => setValue(e.target.value)}
             />
-            <Cancel01Icon className="h-3 w-3" />
+            <Cancel01Icon className="h-3 w-3 font-bold opacity-60" />
           </div>
         </div>
 
         <div>
-          <span>Property Type</span>
-
-          <div className="flex items-center border h-[34px]  rounded-md px-1 ">
+          <label>Property Type</label>
+          <div className="flex items-center border rounded-md px-1">
             <Dropdown
               value={selectedCity}
               onChange={(e) => setSelectedCity(e.value)}
               options={categories.map((category) => category.name)}
               optionLabel="name"
               placeholder="Rental"
-              className="h-[30px] flex justify-center  items-center border-none ring-0  text-sm focus:ring-0"
+              showClear
+              className="text-xs h-8 flex items-center"
+              panelClassName="text-xs"
             />
           </div>
         </div>
         <div>
-          <span>Price</span>
-
-          <div className="flex items-center border  h-[34px]  rounded-md p-1 ">
+          <label className="font-[600]">Price</label>
+          <div className="flex items-center border rounded-md px-1">
             <Dropdown
               value={selectedCity}
               onChange={(e) => setSelectedCity(e.value)}
               options={prices.map((price) => price.value)}
               optionLabel="name"
               placeholder="500,000Ugx-100,00..."
-              className="h-[30px] flex justify-center  items-center border-none ring-0  text-sm focus:ring-0"
+              panelClassName="text-xs"
+              className="text-xs h-8 flex items-center max-w-32 truncate"
             />
           </div>
         </div>
         <div>
-          <div className="flex items-center border rounded-md p-1 mt-6">
-            <FilterVerticalIcon className="h-4 w-4" />
-            <span>Filters</span>
+          <label className="text-white">.</label>
+          <div>
+            <Button 
+              label="Filters"
+              icon={<FilterVerticalIcon className="h-4 w-4" />}
+              outlined
+              className="text-gray-700 w-24 border h-8 px-2 float-bottom"
+              />
           </div>
         </div>
       </div>
-      <div className="flex items-center gap-3">
-        <Button className="border-[#2F91D7] bg-white text-[#2F91D7] flex items-center gap-1 border p-1 rounded-[10px]">
-          <MapsIcon className="h-4 w-4" />
-          <span>Show map</span>
-        </Button>
-        <Button className="bg-[#2F91D7] text-white rounded-[10px] text-sm p-2">
-          Save search
-        </Button>
+      <div className="flex items-center gap-6">
+        <Button label="Show map" icon={<MapsIcon className="h-4 w-4" />} className="border-[#2F91D7] bg-white text-[#2F91D7] border py-1 px-2 gap-2 rounded-md"/>        
+        <Button label="Save search" className="bg-[#2F91D7] text-white rounded-md text-sm py-2 px-3"/>
       </div>
     </div>
   );

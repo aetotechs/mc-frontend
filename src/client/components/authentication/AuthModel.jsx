@@ -15,11 +15,12 @@ export default function AuthModel() {
       <Dialog
         visible={showAuth}
         onHide={handleClose}
+        
         content={({ hide }) => (
-          <div className="grid grid-cols-1 px-8 py-10 gap-1 bg-white rounded-md w-full lg:w-[32vw] h-vh overflow-auto">
+          <div className="grid grid-cols-1 px-8 py-4 gap-1 bg-white rounded-md w-full md:w-[32vw] overflow-auto">
             <div className="absolute right-3 top-3">
               <div
-                className="cursor-pointer pi pi-times text-xl"
+                className="cursor-pointer pi pi-times text-sm"
                 title="Close"
                 onClick={handleClose}
               />

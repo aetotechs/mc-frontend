@@ -90,7 +90,7 @@ const Home = () => {
         ))}
       </section>
 
-      <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-6 px-[8vw]">
+      <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 px-6 md:px-[8vw]">
         {listings.map((item, index) => (
           <ListingCard key={index} item={item} />
         ))}
