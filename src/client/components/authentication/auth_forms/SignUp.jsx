@@ -79,29 +79,29 @@ export function SignUp() {
 
   return (
     <form onSubmit={handleSubmit(_handleSubmit)}>
-      <span className="text-left font-[600] text-2xl">Welcome to MyCrib </span>
-      <p className="flex text-base  ">
-        <p className="font-normal text-[#62636C] ">
+      <span className="text-left font-[600] text-xl">Welcome to MyCrib </span>
+      <p className="flex">
+        <p className="font-normal text-xs text-[#62636C] ">
           Already have an account?
         </p>
-        <p onClick={() => dispatchAuth(true, true, false) } className="font-medium ml-3 cursor-pointer">Signin</p>
+        <p onClick={() => dispatchAuth(true, true, false) } className="font-medium text-xs text-blue-400 ml-2 cursor-pointer">Signin</p>
       </p>
 
-      <div className="grid grid-cols-2 gap-6 my-8">
-        <p className="h-2 bg-[#6CAFE6] rounded-full"></p>
-        <p className={`h-2 rounded-full ${currentStep == 2 ? 'bg-[#6CAFE6]' : 'bg-gray-300'}`}></p>
+      <div className="grid grid-cols-2 gap-6 my-4">
+        <p className="h-1 bg-[#6CAFE6] rounded-full"></p>
+        <p className={`h-1 rounded-full ${currentStep == 2 ? 'bg-[#6CAFE6]' : 'bg-gray-300'}`}></p>
       </div>
 
       { currentStep == 1 && (
-        <div className="grid grid-cols-1 gap-y-5">
+        <div className="grid grid-cols-1 gap-y-3">
           <section className="grid grid-cols-2 gap-6 w-[100%]">
             <div className="col-span-1">
-              <label className="block mb-1 font-medium text-md">First Name</label>
+              <label className="block mb-1 font-medium text-sm">First Name</label>
               <InputText 
                 type="text"
                 placeholder="e.g. Mark"
                 {...register("firstName")}
-                className="border-gray-200 shadow-none rounded-lg w-full border-2 px-3 py-3 text-md focus-within:border-[#6CAFE6] hover:border-[#6CAFE6]"
+                className="border-gray-200 shadow-none rounded-lg w-full border-2 px-3 py-2 text-md focus-within:border-[#6CAFE6] hover:border-[#6CAFE6]"
               />
               {errors.firstName && (
                 <p className="text-red-500 text-sm">{errors.firstName.message}</p>
@@ -109,12 +109,12 @@ export function SignUp() {
             </div>
 
             <div className="col-span-1">
-              <label className="block mb-1 font-medium text-md">Last Name</label>
+              <label className="block mb-1 font-medium text-sm">Last Name</label>
               <InputText 
                 type="text"
                 placeholder="e.g. Mutwale"
                 {...register("lastName")}
-                className="border-gray-200 shadow-none rounded-lg w-full border-2 px-3 py-3 placeholder:text-md focus-within:border-[#6CAFE6] hover:border-[#6CAFE6]"
+                className="border-gray-200 shadow-none rounded-lg w-full border-2 px-3 py-2 placeholder:text-md focus-within:border-[#6CAFE6] hover:border-[#6CAFE6]"
               />
               {errors.lastName && (
                 <p className="text-red-500 text-sm">{errors.lastName.message}</p>
@@ -123,12 +123,12 @@ export function SignUp() {
           </section>
 
           <div className="col-span-2">
-            <label className="block mb-1 font-medium text-md">Email</label>
+            <label className="block mb-1 font-medium text-sm">Email</label>
             <InputText 
               type="email"
               placeholder="doe@example.com"
               {...register("email")}
-              className="border-gray-200 shadow-none rounded-lg w-full border-2 px-3 py-3 placeholder:text-md focus-within:border-[#6CAFE6] hover:border-[#6CAFE6]"
+              className="border-gray-200 shadow-none rounded-lg w-full border-2 px-3 py-2 placeholder:text-md focus-within:border-[#6CAFE6] hover:border-[#6CAFE6]"
             />
             {errors.email && (
               <p className="text-red-500 text-sm">{errors.email.message}</p>
@@ -136,13 +136,13 @@ export function SignUp() {
           </div>
 
           <div className="col-span-2">
-            <label className="block mb-1 font-medium text-md">Password</label>
+            <label className="block mb-1 font-medium text-sm">Password</label>
             <div className="relative">
               <InputText 
                 type={passwordVisible ? "text" : "password"}
                 placeholder="******"
                 {...register("password")}
-                className="border-gray-200 shadow-none rounded-lg w-full border-2 px-3 py-3 placeholder:text-md focus-within:border-[#6CAFE6] hover:border-[#6CAFE6]"
+                className="border-gray-200 shadow-none rounded-lg w-full border-2 px-3 py-2 placeholder:text-md focus-within:border-[#6CAFE6] hover:border-[#6CAFE6]"
                 />
               <span
                 className="absolute inset-y-0 right-4 flex items-center cursor-pointer"
@@ -158,27 +158,27 @@ export function SignUp() {
             {errors.password && (
               <p className="text-red-500 text-sm">{errors.password.message}</p>
             )}
-            <p className="text-sm text-gray-500 mt-2 text-[15px] col-span-2">
+            <p className="text-xs text-gray-500 mt-2 text-[15px] col-span-2">
             At least 8 characters, with an uppercase letter, a lowercase letter, and a number or symbol.
             </p>
           </div>
-          <p className=" text-sm text-gray-500 col-span-2">
+          <p className="text-xs text-gray-500 col-span-2">
             By clicking “Next,” I accept MyCrib's 
             <span className="font-bold text-black cursor-pointer"> terms of use</span>.
           </p>
           <div className="col-span-2">
-            <Button onClick={handleNextStep} label="Next" className="w-full bg-[#2F91D7] flex text-white rounded-lg py-4 font-semibold"/>      
+            <Button onClick={handleNextStep} label="Next" className="w-full bg-[#2F91D7] flex text-white rounded-lg py-2 font-semibold"/>      
           </div>
           
           <div>
-            <div className="flex items-center gap-5 mb-3">
+            <div className="flex items-center gap-3 mb-2">
               <span className="border h-1 border-b-0 border-l-0 border-r-0 grow"></span>
               <span className="text-lg my-1 font-normal text-[#80828D]">
                 or
               </span>
               <span className="border h-1 border-b-0 border-l-0 border-r-0 grow"></span>
             </div>
-            <button className="flex items-center border border-[#CDCED7] rounded-[8px] py-4 w-full">
+            <button className="flex items-center border border-[#CDCED7] rounded-[8px] py-2 w-full">
               <div className="w-6 h-6 object-cover mx-6">
                 <img src="/logos/google.png" alt="Google" />
               </div>
@@ -192,7 +192,7 @@ export function SignUp() {
         <div className="w-full grid grid-cols-2 gap-6 my-3">
           
           <div className="col-span-1">
-            <label className="block mb-1 font-medium text-md">Phone number</label>
+            <label className="block mb-1 font-medium text-sm">Phone number</label>
             <InputText
               type="text"
               placeholder="+2567123456789"
@@ -205,7 +205,7 @@ export function SignUp() {
           </div>
           
           <div className="col-span-1">
-            <label className="block mb-1 font-medium text-md">Username</label>
+            <label className="block mb-1 font-medium text-sm">Username</label>
             <InputText
               type="text"
               placeholder="e.g. Mark"
@@ -218,7 +218,7 @@ export function SignUp() {
           </div>
           
           <div className="col-span-1">
-            <label className="block mb-1 font-medium text-md">Country</label>
+            <label className="block mb-1 font-medium text-sm">Country</label>
             <InputText
               type="country"
               placeholder="e.g., Uganda"
@@ -231,7 +231,7 @@ export function SignUp() {
           </div>
           
           <div className="col-span-1">
-            <label className="block mb-1 font-medium text-md">City</label>
+            <label className="block mb-1 font-medium text-sm">City</label>
             <InputText
               type="text"
               placeholder="e.g., Kampala"
@@ -244,7 +244,7 @@ export function SignUp() {
           </div>
           
           <div className="col-span-1">
-            <label className="block mb-1 font-medium text-md">Street</label>
+            <label className="block mb-1 font-medium text-sm">Street</label>
             <InputText
               type="text"
               placeholder="e.g., Plot 24 Kampala Rd"
@@ -257,7 +257,7 @@ export function SignUp() {
           </div>
     
           <div className="col-span-1">
-            <label className="block mb-1 font-medium text-md">Postal Code</label>
+            <label className="block mb-1 font-medium text-sm">Postal Code</label>
             <InputText
               type="text"
               placeholder="e.g., 256"
@@ -270,7 +270,7 @@ export function SignUp() {
           </div>
     
           <div className="col-span-2">
-            <label className="block mb-1 font-medium text-md">Gender</label>
+            <label className="block mb-1 font-medium text-sm">Gender</label>
             <div className="flex gap-4">
               <label className="text-md flex items-center gap-2">
                 <input
