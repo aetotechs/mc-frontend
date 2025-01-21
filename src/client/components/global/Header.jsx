@@ -4,6 +4,7 @@ import React, { useState } from "react";
 
 
 import { AccountPopover } from "./AccountPopOver";
+import { NavLink } from "react-router-dom";
 
 const Header = () => {
 
@@ -15,7 +16,7 @@ const Header = () => {
 
       <div>
         <ul className="flex gap-5 items-center">
-          <li>Explore</li>
+          <NavLink to={'/listings'}>Explore</NavLink>
 
           <li>Manage Rentals</li>
 
