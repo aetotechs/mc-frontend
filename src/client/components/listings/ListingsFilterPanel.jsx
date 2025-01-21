@@ -54,7 +54,7 @@ const ListingsFilterPanel = () => {
           </div>
         </div>
         <div>
-          <label className="font-[600]">Price</label>
+          <label className="font-[500]">Price</label>
           <div className="flex items-center border rounded-md px-1">
             <Dropdown
               value={selectedCity}
