@@ -12,18 +12,7 @@
   html {
     background-color: rgb(255, 255, 255);
     font-family:
-      "Sen",
-      -apple-system,
-      BlinkMacSystemFont,
-      "Segoe UI",
-      "Roboto",
-      "Oxygen",
-      "Ubuntu",
-      "Cantarell",
-      "Fira Sans",
-      "Droid Sans",
-      "Helvetica Neue",
-      sans-serif;
+      "Sen";
     scroll-behavior: smooth;
     overflow-x: hidden;
   }

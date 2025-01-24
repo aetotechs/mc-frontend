@@ -5,7 +5,7 @@ import { AuthProvider } from "./client/utils/context/AuthContext";
 import AuthModel from "./client/components/authentication/AuthModel";
 const Home = lazy(() => import("./client/pages/Home"));
 const Listings = lazy(() => import("./client/pages/Listings"));
-const AccountSettings=lazy(() => import("./client/pages/Account"));
+const AccountSettings = lazy(() => import("./client/pages/AccountSettings"));
 
 function App() {
   return (

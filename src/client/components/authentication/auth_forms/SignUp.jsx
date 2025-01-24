@@ -6,7 +6,9 @@ import { InputText } from "primereact/inputtext";
 import { EyeIcon, EyeOffIcon } from "lucide-react";
 import { Button } from "primereact/button";
 import CardLoadingSpinner from "../../global/CardLoadingSpinner";
-import { useAuth } from "../../../utils/context/AuthContext";
+import { dialog_operations } from "../../../utils/constansts/DialogOperations";
+import { useAuthDialog } from "../../../utils/hooks/useAuthDialog";
+import { useSearchParams } from "react-router-dom";
 
 const FormSchema = z.object({
   firstName: z.string().min(2, { message: "First Name is required." }),
@@ -27,7 +29,8 @@ const FormSchema = z.object({
 });
 
 export function SignUp() {
-  const  { dispatchAuth } = useAuth();
+  const { openDialog } = useAuthDialog();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [currentStep, setCurrentStep] = useState(1);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
@@ -44,7 +47,7 @@ export function SignUp() {
       defaultValues: {
         firstName: "",
         lastName: "",
-        email: "",
+        email: searchParams.get('u_email') || "",
         password: "",
         username: "",
         phoneNumber: "",
@@ -61,7 +64,9 @@ export function SignUp() {
 
   const _handleSubmit = (data) => {
     console.log("Form Data:", data);
-    setIsLoading(true);
+    searchParams.set('u_email', data.email);
+    openDialog(dialog_operations.verify);
+    // setIsLoading(true);
   };
   
   const handleNextStep = async () => {
@@ -84,7 +89,7 @@ export function SignUp() {
         <p className="font-normal text-xs text-[#62636C] ">
           Already have an account?
         </p>
-        <p onClick={() => dispatchAuth(true, true, false) } className="font-medium text-xs text-blue-400 ml-2 cursor-pointer">Signin</p>
+        <p onClick={() => openDialog(dialog_operations.login) } className="font-medium text-xs text-blue-400 ml-2 cursor-pointer">Signin</p>
       </p>
 
       <div className="grid grid-cols-2 gap-6 my-4">

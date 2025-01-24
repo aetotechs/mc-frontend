@@ -1,10 +1,10 @@
 import {  useState } from "react";
-
 import { CircleUserRound } from "lucide-react";
-import { useAuth } from "../../utils/context/AuthContext";
+import { useAuthDialog } from "../../utils/hooks/useAuthDialog";
+import { dialog_operations } from "../../utils/constansts/DialogOperations";
 
 export function AccountPopover() {
-  const { dispatchAuth } = useAuth();
+  const { openDialog } = useAuthDialog();
   const [isTooltipVisible, setIsTooltipVisible] = useState(false);
 
   const toggleTooltip = () => {
@@ -29,7 +29,7 @@ export function AccountPopover() {
             <span
               className="cursor-pointer "
               onClick={() => {
-                dispatchAuth(true, false, true);
+                openDialog(dialog_operations.signup);
                 toggleTooltip();
               }}
             >
@@ -38,7 +38,7 @@ export function AccountPopover() {
             <span
               className="cursor-pointer "
               onClick={() => {
-                dispatchAuth(true, true, false);
+                openDialog(dialog_operations.login);
                 toggleTooltip();
               }}
             >

@@ -1,22 +1,21 @@
 import { Dialog } from "primereact/dialog";
-import { useAuth } from "../../utils/context/AuthContext";
 import { SignUp } from "./auth_forms/SignUp";
 import { Login } from "./auth_forms/LogIn";
+import { useAuthDialog } from "../../utils/hooks/useAuthDialog";
+import { dialog_operations } from "../../utils/constansts/DialogOperations";
+import { SendPasswordResetEmail } from "./auth_forms/SendResetLink";
+import { VerifyAccount } from "./auth_forms/VerifyAccount";
+import { ResetPassword } from "./auth_forms/ResetPassword";
 
 export default function AuthModel() {
-  const { login, register, showAuth, dispatchAuth } = useAuth();
-
-  const handleClose = () => {
-    dispatchAuth(false, false, false);
-  };
-
+  const { dialogOpen, operation, handleClose } = useAuthDialog();
+  
   return (
     <div className="card flex justify-center">
       <Dialog
-        visible={showAuth}
+        visible={dialogOpen}
         onHide={handleClose}
-        
-        content={({ hide }) => (
+        content={() => (
           <div className="grid grid-cols-1 px-8 py-4 gap-1 bg-white rounded-md w-full md:w-[32vw] overflow-auto">
             <div className="absolute right-3 top-3">
               <div
@@ -26,11 +25,15 @@ export default function AuthModel() {
               />
             </div>
 
-            {register && <SignUp />}
-            {login && <Login />}
+            {operation === dialog_operations.login && <Login />}
+            {operation === dialog_operations.signup && <SignUp />}
+            {operation === dialog_operations.verify && <VerifyAccount />}
+            {operation === dialog_operations.reset_email && <SendPasswordResetEmail />}
+            {operation === dialog_operations.reset_password && <ResetPassword />}
           </div>
         )}
-      ></Dialog>
+      >
+      </Dialog>
     </div>
   );
 }
