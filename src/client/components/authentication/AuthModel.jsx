@@ -6,6 +6,7 @@ import { dialog_operations } from "../../utils/constansts/DialogOperations";
 import { SendPasswordResetEmail } from "./auth_forms/SendResetLink";
 import { VerifyAccount } from "./auth_forms/VerifyAccount";
 import { ResetPassword } from "./auth_forms/ResetPassword";
+import VerificationStatus from "./auth_forms/VerificationStatus";
 
 export default function AuthModel() {
   const { dialogOpen, operation, handleClose } = useAuthDialog();
@@ -30,6 +31,7 @@ export default function AuthModel() {
             {operation === dialog_operations.verify && <VerifyAccount />}
             {operation === dialog_operations.reset_email && <SendPasswordResetEmail />}
             {operation === dialog_operations.reset_password && <ResetPassword />}
+            {operation === dialog_operations.verification_status && <VerificationStatus/>}
           </div>
         )}
       >
