@@ -7,10 +7,9 @@ import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
 import CardLoadingSpinner from "../../global/CardLoadingSpinner";
 import { useAuthDialog } from "../../../utils/hooks/useAuthDialog";
-import { dialog_operations } from "../../../utils/constansts/DialogOperations";
 import { useSearchParams } from "react-router-dom";
 
-const resetPasswordSchema = z.object({
+const changePasswordSchema = z.object({
   password: z
     .string()
     .min(6, { message: "Password must be at least 6 characters long." }),
@@ -19,8 +18,8 @@ const resetPasswordSchema = z.object({
     .min(6, { message: "Password must be at least 6 characters long." }),
 });
 
-export function ResetPassword() {
-  const { openDialog, handleClose } = useAuthDialog();
+export function ChangePassword() {
+  const { openDialog } = useAuthDialog();
   const [searchParams, setSearchParams] = useSearchParams();
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [newPasswordVisible, setNewPasswordVisible] = useState(false);
@@ -34,9 +33,8 @@ export function ResetPassword() {
     formState: { errors },
     trigger,
   } = useForm({
-    resolver: zodResolver(resetPasswordSchema),
+    resolver: zodResolver(changePasswordSchema),
     defaultValues: {
-      email: searchParams.get("u_email") || "",
       password: "",
       newpassword: "",
     },
@@ -49,14 +47,12 @@ export function ResetPassword() {
     setIsLoading(true);
     setTimeout(() => {
       setIsLoading(false);
-      openDialog(dialog_operations.login);
+   
     }, 3000);
     console.log("Form Data:", data);
   };
 
-  const handleBackToLogin = () => {
-    openDialog(dialog_operations.login);
-  };
+
 
   const togglePasswordVisibility = () => setPasswordVisible((prev) => !prev);
 
@@ -64,53 +60,88 @@ export function ResetPassword() {
     setNewPasswordVisible((prev) => !prev);
 
   return (
-    <form onSubmit={handleSubmit(_handleSubmit)} className="w-full py-8">
+    <form onSubmit={handleSubmit(_handleSubmit)} className="w-full">
       <>
-        <h2 className="text-left font-bold text-xl">Set your new password</h2>
-        <p className="text-xs text-[#62636C]">
-          Create a strong password for your account.
-        </p>
+        <h2 className="text-left font-bold text-xl">Change Password</h2>
+
         <div className="grid gap-4 mt-4">
           <div>
             <label className="block mb-1 font-medium text-sm">
-              New Password
+              Current Password
             </label>
             <div className="relative">
               <InputText
                 type={passwordVisible ? "text" : "password"}
                 placeholder="******"
                 {...register("password")}
-                className="border-gray-200 shadow-none rounded-lg w-full border-2 px-3 py-2 placeholder:text-md focus-within:border-[#6CAFE6] hover:border-[#6CAFE6]"
+                className="border-gray-200 shadow-none rounded-lg w-full border-2 px-3 py-1.5 placeholder:text-md focus-within:border-[#6CAFE6] hover:border-[#6CAFE6]"
               />
               <span
                 className="absolute inset-y-0 right-4 flex items-center cursor-pointer"
                 onClick={togglePasswordVisibility}
               >
-                {passwordVisible ? <EyeIcon /> : <EyeOffIcon />}
+                {passwordVisible ? <EyeIcon className="h-4 w-4" /> : <EyeOffIcon className="h-4 w-4" />}
               </span>
             </div>
+          
+
             {errors.password && (
               <p className="text-red-500 text-sm">{errors.password.message}</p>
             )}
           </div>
           <div>
             <label className="block mb-1 font-medium text-sm">
-              Confirm Password
+              New Password
             </label>
             <div className="relative">
               <InputText
                 type={newPasswordVisible ? "text" : "password"}
                 placeholder="******"
                 {...register("newpassword")}
-                className="border-gray-200 shadow-none rounded-lg w-full border-2 px-3 py-2 placeholder:text-md focus-within:border-[#6CAFE6] hover:border-[#6CAFE6]"
+                className="border-gray-200 shadow-none rounded-lg w-full border-2 px-3 py-1.5 placeholder:text-md focus-within:border-[#6CAFE6] hover:border-[#6CAFE6]"
               />
               <span
                 className="absolute inset-y-0 right-4 flex items-center cursor-pointer"
                 onClick={toggleNewPasswordVisibility}
               >
-                {newPasswordVisible ? <EyeIcon /> : <EyeOffIcon />}
+                {newPasswordVisible ? <EyeIcon className="h-4 w-4" /> : <EyeOffIcon className="h-4 w-4" />}
               </span>
             </div>
+
+            <span className="text-xs my-1 text-[#62636C]">
+              At least 8 characters, with an uppercase letter, a lowercase
+              letter, and a number or symbol.
+            </span>
+            {errors.newpassword && (
+              <p className="text-red-500 text-sm">
+                {errors.newpassword.message}
+              </p>
+            )}
+          </div>
+
+          <div>
+            <label className="block mb-1 font-medium text-sm">
+              New Password
+            </label>
+            <div className="relative">
+              <InputText
+                type={newPasswordVisible ? "text" : "password"}
+                placeholder="******"
+                {...register("newpassword")}
+                className="border-gray-200 shadow-none rounded-lg w-full border-2 px-3 py-1.5 placeholder:text-md focus-within:border-[#6CAFE6] hover:border-[#6CAFE6]"
+              />
+              <span
+                className="absolute inset-y-0 right-4 flex items-center cursor-pointer"
+                onClick={toggleNewPasswordVisibility}
+              >
+                {newPasswordVisible ? <EyeIcon className="h-4 w-4" /> : <EyeOffIcon className="h-4 w-4" />}
+              </span>
+            </div>
+            <span className="text-xs my-1 text-[#62636C]">
+              At least 8 characters, with an uppercase letter, a lowercase
+              letter, and a number or symbol.
+            </span>
+
             {errors.newpassword && (
               <p className="text-red-500 text-sm">
                 {errors.newpassword.message}
@@ -120,21 +151,16 @@ export function ResetPassword() {
           <Button
             type="submit"
             disabled={isLoading}
-            className={`w-full bg-[#2F91D7] flex text-white rounded-lg py-2 font-semibold`}
+            className={`w-full bg-[#2F91D7] flex text-white rounded-lg py-2 text-sm font-semibold`}
             label={
               isLoading ? (
                 <CardLoadingSpinner color={"black"} />
               ) : (
-                "Set Password"
+                "Update Password"
               )
             }
           />
-          <p
-            className="text-sm text-center text-[#1D84C9] cursor-pointer"
-            onClick={handleBackToLogin}
-          >
-            Back to Sign In
-          </p>
+        
         </div>
       </>
     </form>

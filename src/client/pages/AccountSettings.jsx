@@ -1,6 +1,7 @@
 import React from "react";
 import Header from "../components/global/Header";
-
+import { useAuthDialog } from "../utils/hooks/useAuthDialog";
+import { dialog_operations } from "../utils/constansts/DialogOperations";
 import Footer from "../components/global/Footer";
 import { Button } from "primereact/button";
 import {
@@ -13,6 +14,8 @@ import {
 } from "hugeicons-react";
 
 const AccountSettings = () => {
+  const { openDialog } = useAuthDialog();
+
   return (
     <div className="relative h-screen overflow-auto">
       <section className="sticky top-0 z-10">
@@ -52,10 +55,10 @@ const AccountSettings = () => {
             </div>
           </div>
           <div>
-            <Button 
-              icon={<Edit02Icon size={14}/>}
+            <Button
+              icon={<Edit02Icon size={14} />}
               label="Edit Profile"
-              className="bg-[#2F91D7] text-xs text-white text-sm px-4 py-2 gap-2"
+              className="bg-[#2F91D7] text-xs text-white px-4 py-2 gap-2"
             />
           </div>
         </div>
@@ -71,10 +74,13 @@ const AccountSettings = () => {
           </div>
 
           <div>
-            <Button 
+            <Button
               label="Update"
+              onClick={() => {
+                openDialog(dialog_operations.change_password);
+              }}
               icon={<Edit02Icon size={14} />}
-              className="bg-[#2F91D7] text-xs text-white text-sm px-4 py-2 gap-1"
+              className="bg-[#2F91D7] text-xs text-white  px-4 py-2 gap-1"
             />
           </div>
         </div>
@@ -89,10 +95,10 @@ const AccountSettings = () => {
             </div>
           </div>
           <div>
-            <Button 
-              icon={<Edit02Icon size={14}/>}
+            <Button
+              icon={<Edit02Icon size={14} />}
               label="Add"
-              className="bg-[#2F91D7] text-xs text-white text-sm px-4 py-2 gap-2"
+              className="bg-[#2F91D7] text-xs text-white  px-4 py-2 gap-2"
             />
           </div>
         </div>
@@ -108,10 +114,13 @@ const AccountSettings = () => {
           </div>
 
           <div>
-            <Button 
-              icon={<Edit02Icon size={14}/>}
+            <Button
+              icon={<Edit02Icon size={14} />}
+              onClick={() => {
+                openDialog(dialog_operations.manage_notifications);
+              }}
               label="Manage"
-              className="bg-[#2F91D7] text-xs text-white text-sm px-4 py-2 gap-2"
+              className="bg-[#2F91D7] text-xs text-white  px-4 py-2 gap-2"
             />
           </div>
         </div>
