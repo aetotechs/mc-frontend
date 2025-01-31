@@ -24,7 +24,6 @@ export function Login() {
   const [searchParams, setSearchParams] = useSearchParams();
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [success, setSuccess] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
   
   const {
     register,
