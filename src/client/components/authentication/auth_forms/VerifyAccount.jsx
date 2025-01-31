@@ -8,15 +8,16 @@ import CardLoadingSpinner from "../../global/CardLoadingSpinner";
 import { useAuthDialog } from "../../../utils/hooks/useAuthDialog";
 import { dialog_operations } from "../../../utils/constansts/DialogOperations";
 import { useSearchParams } from "react-router-dom";
+import { useUsers } from "../../../utils/hooks/useUsers";
 
 const verifyAccoutSchema = z.object({
   otp: z.string().length(5, { message: "Otp must be 5 characters" }),
 });
 
 export function VerifyAccount() {
+  const { loading, error, setError } = useUsers();
   const { openDialog } = useAuthDialog();
   const [searchParams, setSearchParams] = useSearchParams();
-  const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   

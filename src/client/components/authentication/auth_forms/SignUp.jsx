@@ -9,6 +9,7 @@ import CardLoadingSpinner from "../../global/CardLoadingSpinner";
 import { dialog_operations } from "../../../utils/constansts/DialogOperations";
 import { useAuthDialog } from "../../../utils/hooks/useAuthDialog";
 import { useSearchParams } from "react-router-dom";
+import { useUsers } from "../../../utils/hooks/useUsers";
 
 const FormSchema = z.object({
   firstName: z.string().min(2, { message: "First Name is required." }),
@@ -17,31 +18,32 @@ const FormSchema = z.object({
   password: z
     .string()
     .min(6, { message: "Password must be at least 6 characters long." }),
-  phoneNumber: z.string().min(10, { message: "Field is required." }),
+  phone: z.string().min(10, { message: "Field is required." }),
   username: z.string().min(2, { message: "Field is required." }),
   gender: z.string().min({ message: "Field is required." }),
-  address: z.object({
+  shippingAddress: z.object({
     street: z.string().min(1, { message: "Street is required." }),
     city: z.string().min(1, { message: "City is required." }),
     country: z.string().min(1, { message: "Country is required." }),
-    postalCode: z.string().min(1, { message: "Postal Code is required." }),
+    state: z.string().min(1, { message: "State is required." }),
+    zip: z.string().min(1, { message: "Postal Code is required." }),
   }),
 });
 
 export function SignUp() {
   const { openDialog } = useAuthDialog();
+  const { createUser, loading, error, setError } = useUsers();
   const [searchParams, setSearchParams] = useSearchParams();
   const [currentStep, setCurrentStep] = useState(1);
-  const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
   const [passwordVisible, setPasswordVisible] = useState(false);
   
     const {
       register,
       handleSubmit,
       formState: { errors },
-      trigger
+      reset,
+      trigger,
     } = useForm({
       resolver: zodResolver(FormSchema),
       defaultValues: {
@@ -50,23 +52,31 @@ export function SignUp() {
         email: searchParams.get('u_email') || "",
         password: "",
         username: "",
-        phoneNumber: "",
+        phone: "",
         gender: "",
-        address: {
+        shippingAddress: {
           street: "",
           city: "",
           country: "",
-          postalCode: ""
+          state: "",
+          zip: ""
         }
 
       },
   });
 
-  const _handleSubmit = (data) => {
+  const _handleSubmit = async (data) => {
+    if(!trigger()){
+      return;
+    }
+    setError(""); setSuccess("");
     console.log("Form Data:", data);
     searchParams.set('u_email', data.email);
-    openDialog(dialog_operations.verify);
-    // setIsLoading(true);
+    const res = await createUser(data);
+    console.info(res);
+    if(error) return;
+    setSuccess(res);
+    reset();
   };
   
   const handleNextStep = async () => {
@@ -91,6 +101,9 @@ export function SignUp() {
         </p>
         <p onClick={() => openDialog(dialog_operations.login) } className="font-medium text-xs text-blue-400 ml-2 cursor-pointer">Signin</p>
       </p>
+
+      <p className={`${!error && 'hidden'} mt-2 flex justify-between items-center bg-red-100 text-sm px-2 py-2 text-red-600 rounded-xs w-full`}> <p className="w-[80%] truncate">{error}</p> <span onClick={() => setError("")} className="pi pi-times text-black text-xs rounded-full px-2 cursor-pointer"/></p>
+      <p className={`${!success && 'hidden'} mt-2 flex justify-between items-center bg-green-100 text-sm px-2 py-2 text-green-600 rounded-xs w-full`}>{success} <span onClick={() => setSuccess("")} className="pi pi-times text-black text-xs rounded-full px-2 cursor-pointer"/></p>
 
       <div className="grid grid-cols-2 gap-6 my-4">
         <p className="h-1 bg-[#6CAFE6] rounded-full"></p>
@@ -194,18 +207,18 @@ export function SignUp() {
       )}
 
       { currentStep == 2 && (
-        <div className="w-full grid grid-cols-2 gap-6 my-3">
+        <div className="w-full grid grid-cols-2 gap-3 my-3">
           
           <div className="col-span-1">
             <label className="block mb-1 font-medium text-sm">Phone number</label>
             <InputText
               type="text"
               placeholder="+2567123456789"
-              {...register("phoneNumber")}
-              className="border-gray-200 shadow-none rounded-lg w-full border-2 px-3 py-3 text-md focus-within:border-[#6CAFE6] hover:border-[#6CAFE6]"
+              {...register("phone")}
+              className="border-gray-200 shadow-none rounded-lg w-full border-2 px-3 py-2 placeholder:text-md focus-within:border-[#6CAFE6] hover:border-[#6CAFE6]"
             />
-            {errors.phoneNumber && (
-              <p className="text-red-500 text-sm">{errors.phoneNumber.message}</p>
+            {errors.phone && (
+              <p className="text-red-500 text-sm">{errors.phone.message}</p>
             )}
           </div>
           
@@ -215,7 +228,7 @@ export function SignUp() {
               type="text"
               placeholder="e.g. Mark"
               {...register("username")}
-              className="border-gray-200 shadow-none rounded-lg w-full border-2 px-3 py-3 text-md focus-within:border-[#6CAFE6] hover:border-[#6CAFE6]"
+              className="border-gray-200 shadow-none rounded-lg w-full border-2 px-3 py-2 placeholder:text-md focus-within:border-[#6CAFE6] hover:border-[#6CAFE6]"
             />
             {errors.username && (
               <p className="text-red-500 text-sm">{errors.username.message}</p>
@@ -227,11 +240,11 @@ export function SignUp() {
             <InputText
               type="country"
               placeholder="e.g., Uganda"
-              {...register("address.country")}
-              className="border-gray-200 shadow-none rounded-lg w-full border-2 px-3 py-3 text-md focus-within:border-[#6CAFE6] hover:border-[#6CAFE6]"
+              {...register("shippingAddress.country")}
+              className="border-gray-200 shadow-none rounded-lg w-full border-2 px-3 py-2 placeholder:text-md focus-within:border-[#6CAFE6] hover:border-[#6CAFE6]"
             />
-            {errors.address?.country && (
-              <p className="text-red-500 text-sm">{errors.address.country.message}</p>
+            {errors.shippingAddress?.country && (
+              <p className="text-red-500 text-sm">{errors.shippingAddress.country.message}</p>
             )}
           </div>
           
@@ -240,11 +253,11 @@ export function SignUp() {
             <InputText
               type="text"
               placeholder="e.g., Kampala"
-              {...register("address.city")}
-              className="border-gray-200 shadow-none rounded-lg w-full border-2 px-3 py-3 text-md focus-within:border-[#6CAFE6] hover:border-[#6CAFE6]"
+              {...register("shippingAddress.city")}
+              className="border-gray-200 shadow-none rounded-lg w-full border-2 px-3 py-2 placeholder:text-md focus-within:border-[#6CAFE6] hover:border-[#6CAFE6]"
             />
-            {errors.address?.city && (
-              <p className="text-red-500 text-sm">{errors.address.city.message}</p>
+            {errors.shippingAddress?.city && (
+              <p className="text-red-500 text-sm">{errors.shippingAddress.city.message}</p>
             )}
           </div>
           
@@ -253,11 +266,11 @@ export function SignUp() {
             <InputText
               type="text"
               placeholder="e.g., Plot 24 Kampala Rd"
-              {...register("address.street")}
-              className="border-gray-200 shadow-none rounded-lg w-full border-2 px-3 py-3 text-md focus-within:border-[#6CAFE6] hover:border-[#6CAFE6]"
+              {...register("shippingAddress.street")}
+              className="border-gray-200 shadow-none rounded-lg w-full border-2 px-3 py-2 placeholder:text-md focus-within:border-[#6CAFE6] hover:border-[#6CAFE6]"
             />
-            {errors.address?.street && (
-              <p className="text-red-500 text-sm">{errors.address.street.message}</p>
+            {errors.shippingAddress?.street && (
+              <p className="text-red-500 text-sm">{errors.shippingAddress.street.message}</p>
             )}
           </div>
     
@@ -266,16 +279,29 @@ export function SignUp() {
             <InputText
               type="text"
               placeholder="e.g., 256"
-              {...register("address.postalCode")}
-              className="border-gray-200 shadow-none rounded-lg w-full border-2 px-3 py-3 text-md focus-within:border-[#6CAFE6] hover:border-[#6CAFE6]"
+              {...register("shippingAddress.zip")}
+              className="border-gray-200 shadow-none rounded-lg w-full border-2 px-3 py-2 placeholder:text-md focus-within:border-[#6CAFE6] hover:border-[#6CAFE6]"
             />
-            {errors.address?.postalCode && (
-              <p className="text-red-500 text-sm">{errors.address.postalCode.message}</p>
+            {errors.shippingAddress?.zip && (
+              <p className="text-red-500 text-sm">{errors.shippingAddress.zip.message}</p>
+            )}
+          </div>
+
+          <div className="col-span-1">
+            <label className="block mb-1 font-medium text-sm">State/ Region</label>
+            <InputText
+              type="text"
+              placeholder="e.g., Central"
+              {...register("shippingAddress.state")}
+              className="border-gray-200 shadow-none rounded-lg w-full border-2 px-3 py-2 placeholder:text-md focus-within:border-[#6CAFE6] hover:border-[#6CAFE6]"
+            />
+            {errors.shippingAddress?.state && (
+              <p className="text-red-500 text-sm">{errors.shippingAddress.state.message}</p>
             )}
           </div>
     
-          <div className="col-span-2">
-            <label className="block mb-1 font-medium text-sm">Gender</label>
+          <div className="">
+            <label className="block mb-3 font-medium text-sm">Gender</label>
             <div className="flex gap-4">
               <label className="text-md flex items-center gap-2">
                 <input
@@ -295,7 +321,7 @@ export function SignUp() {
                 />
                 Female
               </label>
-              <label className="flex items-center gap-2">
+              {/* <label className="flex items-center gap-2">
                 <input
                   type="radio"
                   value="OTHER"
@@ -303,25 +329,28 @@ export function SignUp() {
                   className="accent-blue-500"
                 />
                 Other
-              </label>
+              </label> */}
             </div>
             {errors.gender && (
               <p className="text-red-500 text-sm">{errors.gender.message}</p>
             )}
           </div>
 
-          <div className="col-span-2 flex justify-between my-10">
+          <p className="text-xs col-span-2 text-gray-500"> # By clicking signup, you agree to <a href="/terms&conditions" className="text-blue-500">mycrib's terms and conditions </a>and <a href="/privacy_policy" className="text-blue-500">privacy policy</a></p>
+
+          <div className="col-span-2 flex justify-between mb-2 gap-8">
             <Button
-            disabled={isLoading}
+              disabled={loading}
               onClick={handlePreviousStep}
               label="Back"
-              className="text-black font-medium rounded-[8px] px-4 py-4 "
+              icon={<i className="pi pi-backward ml-8"/>}
+              className="text-black w-full opacity-70 text-center rounded-lg py-2 border"
             />
             <Button
               type="submit"
-              disabled={isLoading}
-              className={`bg-[#2F91D7] text-white rounded-[8px] py-4 px-16`}
-              label={ isLoading ? <CardLoadingSpinner color={'black'}/> : "Sign up"}
+              disabled={loading}
+              className={`bg-[#2F91D7] w-full text-white rounded-lg py-2`}
+              label={ loading ? <CardLoadingSpinner color={'black'}/> : "Sign up"}
             />
           </div>
           

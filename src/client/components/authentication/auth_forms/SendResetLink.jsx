@@ -8,18 +8,16 @@ import CardLoadingSpinner from "../../global/CardLoadingSpinner";
 import { useAuthDialog } from "../../../utils/hooks/useAuthDialog";
 import { dialog_operations } from "../../../utils/constansts/DialogOperations";
 import { useSearchParams } from "react-router-dom";
+import { useUsers } from "../../../utils/hooks/useUsers";
 
 const forgotPasswordSchema = z.object({
   email: z.string().email({ message: "Invalid email address." }),
 });
 
 export function SendPasswordResetEmail() {
-  const { openDialog } = useAuthDialog();
-  const [searchParams, setSearchParams] = useSearchParams();
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  
+  const { sendPasswordResetToken, loading, success, setSuccess, error, setError } = useUsers();
+  const { openDialog, handleClose } = useAuthDialog();
+  const [searchParams, setSearchParams] = useSearchParams();  
 
   const {
     register,
@@ -33,16 +31,18 @@ export function SendPasswordResetEmail() {
     },
   });
 
-  const _handleSubmit = (data) => {
+  const _handleSubmit = async (data) => {
     if(!trigger()){
       return;
     }
-    setIsLoading(true);
-    setTimeout(() => {
-      setIsLoading(false);
-      openDialog(dialog_operations.reset_password);
-    }, 3000)
-    console.log("Form Data:", data);
+    setError(""); setSuccess("");
+    const res = await sendPasswordResetToken(data.email);
+    if(res === "sent") {
+      setSuccess("Password reset link sent to your email"); 
+      setTimeout(() => {
+        handleClose();
+      }, 3000)
+    }
   };
 
   const handleBackToLogin = () => {
@@ -58,6 +58,10 @@ export function SendPasswordResetEmail() {
           <p className="text-xs text-[#62636C]">
             We’ll email you a link to reset your password.
           </p>
+
+          <p className={`${!error && "hidden"} text-center text-xs text-red-500 bg-red-100 p-2 mt-2`}>{error}</p>
+          <p className={`${!success && "hidden"} text-center text-xs text-green-500 font-bold bg-green-100 p-2 mt-2`}>{success}</p>
+
           <div className="my-6">
             <label className="block mb-1 font-medium text-sm">Email</label>
             <InputText
@@ -72,9 +76,9 @@ export function SendPasswordResetEmail() {
           </div>
           <Button
               type="submit"
-              disabled={isLoading}
+              disabled={loading}
               className={`w-full bg-[#2F91D7] flex text-white rounded-lg py-2 font-semibold`}
-              label={ isLoading ? <CardLoadingSpinner color={'black'}/> : "Send Link"}
+              label={ loading ? <CardLoadingSpinner color={'black'}/> : "Send Link"}
             />
           <p
             className="text-sm text-center mt-3 text-[#1D84C9] cursor-pointer"

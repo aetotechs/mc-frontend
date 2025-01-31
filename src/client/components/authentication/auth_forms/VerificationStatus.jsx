@@ -6,29 +6,41 @@ import { ArrowUpRight01Icon } from "hugeicons-react";
 import { useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { dialog_operations } from "../../../utils/constansts/DialogOperations";
+import { useUsers } from "../../../utils/hooks/useUsers";
 
 function VerificationStatus() {
+  const { verifyUser, resendVerificationToken, loading, success, setSuccess, error, setError } = useUsers();
   const { handleClose, openDialog } = useAuthDialog();
   const [searchParams] = useSearchParams();
   const [isLoading, setIsLoading] = useState(false);
   const [visible, setVisible] = useState(true);
-  const [status, setStatus] = useState(""); // "verified" | "unverified" | "error"
-  const email = searchParams.get("email") || "";
+  const [status, setStatus] = useState(""); // Options "verified" | "unverified" | "error"
+  // const email = searchParams.get("email") || "";
+  const verificationToken = searchParams.get("Verification-Token") || "";
+  const email = decodeToken(verificationToken).email;
 
   useEffect(() => {
     handleVerification();
   }, []);
 
-  const handleVerification = () => {
-    setIsLoading(true);
-    setTimeout(() => {
-      setStatus("verified");
-      setIsLoading(false);
-    }, 3000);
+  const handleVerification = async () => {
+    if(!verificationToken) setStatus("error");
+    const res = await verifyUser(verificationToken);
+    if(res === "Account verified successfully!") setStatus("verified");
+    else setStatus("unverified");
   };
 
+  const handleResendToken = async () => {
+    const res = await resendVerificationToken(email);
+    if(res === "sent") {
+      setSuccess("Link resent"); 
+      setTimeout(() => {
+        handleClose();
+      }, 2000)
+    }
+  }
   const renderContent = () => {
-    if (isLoading) {
+    if (loading) {
       return (
         <div>
           <p className="text-blue-600 text-center">Processing, please wait...</p>
@@ -70,11 +82,14 @@ function VerificationStatus() {
           <p className="text-center">Request a new verification link if needed.</p>
           <div className="flex items-center justify-center my-6">
             <Button
+              onClick={handleResendToken}
               label="Resend Verification Link"
               icon={<ArrowUpRight01Icon />}
               className="flex items-center gap-2 text-[#2F91D7] bg-white border py-2 px-8 border-[#2F91D7] rounded-full"
             />
           </div>
+          <p className={`${!error && "hidden"} text-center text-red-500 font-bold bg-red-100 p-2`}>{error}</p>
+          <p className={`${!success && "hidden"} text-center text-green-500 font-bold bg-green-100 p-2`}>{success}</p>
         </>
       );
     }

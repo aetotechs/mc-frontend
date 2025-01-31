@@ -63,6 +63,7 @@ const isAuthenticated = () => {
 };
 
 export {
+  decodeToken,
   setUserToken,
   isAuthenticated,
   getUserToken,

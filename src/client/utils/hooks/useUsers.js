@@ -120,7 +120,62 @@ export function useUsers(reload, admin) {
       if (!response.ok) {
         setError(await response.text())
       } else {
-        return await response.json();
+        return await response.text();
+      };
+    } catch (err) {
+      setError(err.message);
+    } finally {
+        setLoading(false);
+    }
+  };
+
+  const resetPassword = async (token, newPassword) => {
+    setLoading(true);
+    try {
+      const response = await fetch(api_urls.users.reset_operation(newPassword), {
+        method: 'PATCH',
+        headers: { 'Verification-Token': token },
+      });
+      if (!response.ok) {
+        setError(await response.text())
+      } else {
+        return await response.text();
+      };
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const resendVerificationToken = async (email) => {
+    setLoading(true);
+    try {
+      const response = await fetch(api_urls.users.regenerate_verification_token(email), {
+        method: 'POST'
+      });
+      if (!response.ok) {
+        setError(await response.text())
+      } else {
+        return await response.text();
+      };
+    } catch (err) {
+      setError(err.message);
+    } finally {
+        setLoading(false);
+    }
+  };
+
+  const sendPasswordResetToken = async (email) => {
+    setLoading(true);
+    try {
+      const response = await fetch(api_urls.users.generate_reset_token(email), {
+        method: 'POST'
+      });
+      if (!response.ok) {
+        setError(await response.text())
+      } else {
+        return await response.text();
       };
     } catch (err) {
       setError(err.message);
@@ -170,6 +225,9 @@ export function useUsers(reload, admin) {
     updateUser,
     deleteUser,
     verifyUser,
+    resetPassword,
+    sendPasswordResetToken,
+    resendVerificationToken,
     loginUser,
   };
 }
