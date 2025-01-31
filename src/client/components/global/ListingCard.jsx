@@ -19,7 +19,7 @@ const ListingCard = ({ item }) => {
 
   return (
     <div className="w-full border rounded-xl">
-      <section className="relative w-full h-[20vh] md:h-[23vh] bg-gray-200 rounded-t-xl">
+      <section className="relative w-full h-[20vh] md:h-[26vh] bg-gray-200 rounded-t-xl">
         <img
           src={item.photos[currentImageIndex]?.url || "/images/hero-image.png"}
           alt="Property"

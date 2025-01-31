@@ -1,4 +1,4 @@
-import jwtDecode from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 
 const setUserToken = (accessToken) => {
   localStorage.setItem("mc_user_tkn", accessToken);
@@ -63,6 +63,7 @@ const isAuthenticated = () => {
 };
 
 export {
+  decodeToken,
   setUserToken,
   isAuthenticated,
   getUserToken,

@@ -16,7 +16,7 @@ const Home = () => {
 
   const handleClick = () => {
     
-    navigate("/viewProperty");
+    navigate("/listings");
   };
   return (
     <div className="relative h-screen overflow-auto">

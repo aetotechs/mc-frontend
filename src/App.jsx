@@ -5,6 +5,7 @@ import { AuthProvider } from "./client/utils/context/AuthContext";
 import AuthModel from "./client/components/authentication/AuthModel";
 const Home = lazy(() => import("./client/pages/Home"));
 const Listings = lazy(() => import("./client/pages/Listings"));
+const AccountSettings = lazy(() => import("./client/pages/AccountSettings"));
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
           <Routes>
             <Route index element={<Home />} />
             <Route path="/listings" element={<Listings />} />
+            <Route path="/account" element={<AccountSettings />} />
           </Routes>
         </Suspense>
       </AuthProvider>
