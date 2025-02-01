@@ -15,7 +15,6 @@ function VerificationStatus() {
   const [searchParams] = useSearchParams();
   const [visible, setVisible] = useState(true);
   const [status, setStatus] = useState(""); // Options "verified" | "unverified" | "error"
-  // const email = searchParams.get("email") || "";
   const verificationToken = searchParams.get("Verification-Token") || "";
   const email = decodeToken(verificationToken).email;
 

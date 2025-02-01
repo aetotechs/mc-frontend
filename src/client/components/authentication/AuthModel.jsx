@@ -4,7 +4,6 @@ import { Login } from "./auth_forms/LogIn";
 import { useAuthDialog } from "../../utils/hooks/useAuthDialog";
 import { dialog_operations } from "../../utils/constansts/DialogOperations";
 import { SendPasswordResetEmail } from "./auth_forms/SendResetLink";
-import { VerifyAccount } from "./auth_forms/VerifyAccount";
 import { ResetPassword } from "./auth_forms/ResetPassword";
 import VerificationStatus from "./auth_forms/VerificationStatus";
 
@@ -28,7 +27,6 @@ export default function AuthModel() {
 
             {operation === dialog_operations.login && <Login />}
             {operation === dialog_operations.signup && <SignUp />}
-            {operation === dialog_operations.verify && <VerifyAccount />}
             {operation === dialog_operations.reset_email && <SendPasswordResetEmail />}
             {operation === dialog_operations.reset_password && <ResetPassword />}
             {operation === dialog_operations.verification_status && <VerificationStatus/>}
