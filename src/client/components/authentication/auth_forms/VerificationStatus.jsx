@@ -7,12 +7,12 @@ import { useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { dialog_operations } from "../../../utils/constansts/DialogOperations";
 import { useUsers } from "../../../utils/hooks/useUsers";
+import { decodeToken } from "../../../utils/cookies/AuthCookiesManager";
 
 function VerificationStatus() {
   const { verifyUser, resendVerificationToken, loading, success, setSuccess, error, setError } = useUsers();
   const { handleClose, openDialog } = useAuthDialog();
   const [searchParams] = useSearchParams();
-  const [isLoading, setIsLoading] = useState(false);
   const [visible, setVisible] = useState(true);
   const [status, setStatus] = useState(""); // Options "verified" | "unverified" | "error"
   // const email = searchParams.get("email") || "";
