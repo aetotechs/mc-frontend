@@ -7,6 +7,7 @@ const api_urls = {
     get_single_listing: (itemId) => `${baseUrl}listings?itemId=${itemId}`,
   },
   bookings: ``,
+  
   users: {
     login: `${userBaseUrl}users/login`,
     register: `${userBaseUrl}users`,
