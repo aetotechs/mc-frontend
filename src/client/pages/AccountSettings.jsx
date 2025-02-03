@@ -58,6 +58,9 @@ const AccountSettings = () => {
             <Button
               icon={<Edit02Icon size={14} />}
               label="Edit Profile"
+              onClick={() => {
+                openDialog(dialog_operations.edit_profile);
+              }}
               className="bg-[#2F91D7] text-xs text-white px-4 py-2 gap-2"
             />
           </div>

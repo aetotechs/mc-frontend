@@ -8,6 +8,7 @@ import { ResetPassword } from "./auth_forms/ResetPassword";
 import VerificationStatus from "./auth_forms/VerificationStatus";
 import { ChangePassword } from "./auth_forms/ChangePassword";
 import {ManageNotifications } from "./auth_forms/ManageNotifications";
+import { EditProfile } from "./auth_forms/EditProfile";
 
 export default function AuthModel() {
   const { dialogOpen, operation, handleClose } = useAuthDialog();
@@ -35,6 +36,8 @@ export default function AuthModel() {
 
             {operation === dialog_operations.change_password && <ChangePassword/>}
             {operation === dialog_operations.manage_notifications && <ManageNotifications/>}
+
+            {operation ===dialog_operations.edit_profile && <EditProfile/>}
           </div>
         )}
       >

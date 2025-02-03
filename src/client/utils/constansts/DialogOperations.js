@@ -7,5 +7,6 @@ export const dialog_operations = {
     verification_status: "_accountStatusUhh09jjjU9Hod9Hd90wef030HHs99Dk_",
     change_password:"_changePasswordrwtdytewdtewgfyefggrgg_",
     manage_notifications : "_manageNotificationstwetdtedtef_",
+    edit_profile : "_editProfilehehhewjdiwoiidieidi_",
   
   };  
