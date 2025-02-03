@@ -84,7 +84,7 @@ const Home = () => {
 
       <section className="bg-white grid md:flex gap-4 justify-center my-16">
         {categories.map((category, index) => (
-          <p className="font-bold hover:text-white text-sm hover:bg-black border cursor-pointer border-gray-300 px-6 py-3 rounded-full">
+          <p className="font-bold hover:text-white text-sm hover:bg-black border cursor-pointer border-gray-300 px-6 py-3 rounded-full" key={index}>
             {category.label}
           </p>
         ))}

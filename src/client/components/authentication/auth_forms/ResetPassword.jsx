@@ -38,7 +38,7 @@ export function ResetPassword() {
     trigger,
     reset
   } = useForm({
-    resolver: zodResolver( resetPasswordSchema ),
+    resolver: zodResolver(resetPasswordSchema),
     defaultValues: {
       password: "",
       newpassword: "",
