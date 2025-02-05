@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -7,28 +7,39 @@ import { Button } from "primereact/button";
 import CardLoadingSpinner from "../../global/CardLoadingSpinner";
 import { dialog_operations } from "../../../utils/constansts/DialogOperations";
 import { useAuthDialog } from "../../../utils/hooks/useAuthDialog";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { getAuthUser, isAuthenticated } from "../../../utils/cookies/AuthCookiesManager";
+
+const user = getAuthUser() || {};
+console.log(user);
 
 const FormSchema = z.object({
-  firstName: z.string().min(2, { message: "First Name is required." }),
-  lastName: z.string().min(2, { message: "Last Name is required." }),
+  firstName: z.string(),
+  lastName: z.string(),
   email: z.string().email({ message: "Invalid email address." }),
-  phoneNumber: z.string().min(10, { message: "Field is required." }),
-  username: z.string().min(2, { message: "Field is required." }),
-  gender: z.string().min(1, { message: "Field is required." }),
-  address: z.object({
+  phoneNumber: z.string(),
+  username: z.string(),
+  gender: z.string(),
+  shippingAddress: z.object({
     street: z.string().min(1, { message: "Street is required." }),
     city: z.string().min(1, { message: "City is required." }),
     country: z.string().min(1, { message: "Country is required." }),
-    postalCode: z.string().min(1, { message: "Postal Code is required." }),
+    zip: z.string().min(1, { message: "Postal Code is required." }),
   }),
 });
 
 export function EditProfile() {
+  const navigate = useNavigate();
   const { openDialog } = useAuthDialog();
   const [searchParams] = useSearchParams();
   const [currentStep, setCurrentStep] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    if(!isAuthenticated()){
+      navigate('/');
+    }
+  },[isAuthenticated()])
 
   const {
     register,
@@ -38,19 +49,20 @@ export function EditProfile() {
   } = useForm({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      firstName: "",
-      lastName: "",
-      email: searchParams.get("u_email") || "",
-      username: "",
-      phoneNumber: "",
-      gender: "",
-      address: {
-        street: "",
-        city: "",
-        country: "",
-        postalCode: "",
+      firstName: user.firstName ?? "",
+      lastName: user.lastName ?? "",
+      email: user.email ?? "",
+      username: user.username ?? "",
+      phone: user.phone ?? "",
+      gender: user.gender ?? "",
+      shippingAddress: {
+        country: user.shippingAddress?.country ?? "",
+        state: "UG",
+        street: user.shippingAddress?.street ?? "",
+        city: user.shippingAddress?.city ?? "",
+        zip: user.shippingAddress?.zip ?? "",
       },
-    },
+    },    
   });
 
   const _handleSubmit = (data) => {
@@ -59,7 +71,7 @@ export function EditProfile() {
   };
 
   const handleNextStep = async () => {
-    const valid = await trigger(["firstName", "lastName", "email", "username", "phoneNumber"]);
+    const valid = await trigger(["firstName", "lastName", "email", "username", "phone"]);
     if (valid) {
       setCurrentStep(2);
     }
@@ -95,7 +107,7 @@ export function EditProfile() {
       </div>
 
       {currentStep == 1 && (
-        <div className="grid grid-cols-2 gap-6 gap-y-3">
+        <div className="grid grid-cols-2 gap-6 gap-y-3 my-3">
      
             <div className="col-span-1">
               <label className="block mb-1 font-medium text-sm">
@@ -138,6 +150,7 @@ export function EditProfile() {
               Username
               </label>
               <InputText
+                disabled
                 type="text"
                 placeholder="e.g. Mark"
                 {...register("username")}
@@ -152,17 +165,17 @@ export function EditProfile() {
 
             <div className="col-span-1">
               <label className="block mb-1 font-medium text-sm">
-              PhoneNumber
+              phone
               </label>
               <InputText
                 type="text"
                 placeholder="e.g. Mutwale"
-                {...register("lastName")}
+                {...register("phone")}
                 className="border-gray-200 shadow-none rounded-lg w-full border-2 px-3 py-1 placeholder:text-md focus-within:border-[#6CAFE6] hover:border-[#6CAFE6]"
               />
-              {errors.lastName && (
+              {errors.phone && (
                 <p className="text-red-500 text-sm">
-                  {errors.lastName.message}
+                  {errors.phone.message}
                 </p>
               )}
             </div>
@@ -171,6 +184,7 @@ export function EditProfile() {
           <div className="col-span-2">
             <label className="block mb-1 font-medium text-sm">Email</label>
             <InputText
+              disabled
               type="email"
               placeholder="doe@example.com"
               {...register("email")}
@@ -181,8 +195,6 @@ export function EditProfile() {
             )}
           </div>
 
-
-          
           <div className="col-span-2">
             <label className="block mb-1 font-medium text-sm">Gender</label>
             <div className="flex gap-4">
@@ -229,64 +241,35 @@ export function EditProfile() {
         </div>
       )}
 
-{currentStep == 2 && (
-        <div className="w-full grid grid-cols-2 gap-6 my-3">
-          <div className="col-span-1">
-            <label className="block mb-1 font-medium text-sm">
-              Phone number
-            </label>
-            <InputText
-              type="text"
-              placeholder="+2567123456789"
-              {...register("phoneNumber")}
-              className="border-gray-200 shadow-none rounded-lg w-full border-2 px-3 py-1 text-md focus-within:border-[#6CAFE6] hover:border-[#6CAFE6]"
-            />
-            {errors.phoneNumber && (
-              <p className="text-red-500 text-sm">
-                {errors.phoneNumber.message}
-              </p>
-            )}
-          </div>
+      {currentStep == 2 && (
+        <div className="w-full grid grid-cols-2 gap-4 my-3">
 
-          <div className="col-span-1">
-            <label className="block mb-1 font-medium text-sm">Username</label>
-            <InputText
-              type="text"
-              placeholder="e.g. Mark"
-              {...register("username")}
-              className="border-gray-200 shadow-none rounded-lg w-full border-2 px-3 py-1 text-md focus-within:border-[#6CAFE6] hover:border-[#6CAFE6]"
-            />
-            {errors.username && (
-              <p className="text-red-500 text-sm">{errors.username.message}</p>
-            )}
-          </div>
-
-          <div className="col-span-1">
+          <div className="col-span-2">
             <label className="block mb-1 font-medium text-sm">Country</label>
             <InputText
               type="country"
               placeholder="e.g., Uganda"
-              {...register("address.country")}
+              {...register("shippingAddress.country")}
               className="border-gray-200 shadow-none rounded-lg w-full border-2 px-3 py-1 text-md focus-within:border-[#6CAFE6] hover:border-[#6CAFE6]"
             />
-            {errors.address?.country && (
+            {errors.shippingAddress?.country && (
               <p className="text-red-500 text-sm">
-                {errors.address.country.message}
+                {errors.shippingAddress.country.message}
               </p>
             )}
           </div>
 
-          <div className="col-span-1">
+          <div className="col-span-2">
             <label className="block mb-1 font-medium text-sm">City</label>
             <InputText
               type="text"
               placeholder="e.g., Kampala"
-              {...register("address.city")}
+              {...register("shippingAddress.city")}
               className="border-gray-200 shadow-none rounded-lg w-full border-2 px-3 py-1 text-md focus-within:border-[#6CAFE6] hover:border-[#6CAFE6]"
             />
             {errors.address?.city && (
               <p className="text-red-500 text-sm">
-                {errors.address.city.message}
+                {errors.shippingAddress.city.message}
               </p>
             )}
           </div>
@@ -296,29 +279,29 @@ export function EditProfile() {
             <InputText
               type="text"
               placeholder="e.g., Plot 24 Kampala Rd"
-              {...register("address.street")}
+              {...register("shippingAddress.street")}
               className="border-gray-200 shadow-none rounded-lg w-full border-2 px-3 py-1 text-md focus-within:border-[#6CAFE6] hover:border-[#6CAFE6]"
             />
-            {errors.address?.street && (
+            {errors.shippingAddress?.street && (
               <p className="text-red-500 text-sm">
-                {errors.address.street.message}
+                {errors.shippingAddress.street.message}
               </p>
             )}
           </div>
 
           <div className="col-span-1">
             <label className="block mb-1 font-medium text-sm">
-              Postal Code
+              Zip Code
             </label>
             <InputText
               type="text"
               placeholder="e.g., 256"
-              {...register("address.postalCode")}
+              {...register("shippingAddress.zip")}
               className="border-gray-200 shadow-none rounded-lg w-full border-2 px-3 py-1 text-md focus-within:border-[#6CAFE6] hover:border-[#6CAFE6]"
             />
-            {errors.address?.postalCode && (
+            {errors.shippingAddress?.zip && (
               <p className="text-red-500 text-sm">
-                {errors.address.postalCode.message}
+                {errors.shippingAddress.zip.message}
               </p>
             )}
           </div>

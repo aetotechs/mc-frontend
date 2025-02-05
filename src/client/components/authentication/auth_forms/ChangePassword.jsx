@@ -52,8 +52,6 @@ export function ChangePassword() {
     console.log("Form Data:", data);
   };
 
-
-
   const togglePasswordVisibility = () => setPasswordVisible((prev) => !prev);
 
   const toggleNewPasswordVisibility = () =>

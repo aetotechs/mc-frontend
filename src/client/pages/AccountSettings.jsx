@@ -12,6 +12,9 @@ import {
   PaymentSuccess02Icon,
   SquareLock01Icon,
 } from "hugeicons-react";
+import { getAuthUser } from "../utils/cookies/AuthCookiesManager";
+
+const user = getAuthUser();
 
 const AccountSettings = () => {
   const { openDialog } = useAuthDialog();
@@ -36,22 +39,26 @@ const AccountSettings = () => {
               <Edit02Icon className="h-3 w-3 text-white" />
             </div>
             <div className="flex flex-col">
-              <span className="font-semibold text-[20px]">John Doe</span>
-              <span className="text-[#62636C] text-[15px]">@john123</span>
-              <span className="text-[#62636C] text-[15px]">
-                johndoe@gmail.com
-              </span>
+              <p className="font-semibold text-[20px]">{ user.firstName + " " + user.lastName || "--"}</p>
+              <p className="text-[#62636C] text-[15px]">@{ user.username}</p>
+              <p className="text-[#62636C] text-[15px]">
+                {user.email}
+              </p>
             </div>
           </div>
           <div className="flex flex-col gap-2">
             <div className="flex items-center gap-2">
               <Location01Icon className="h-4 w-4" />
-              <span>Uganda, Entebbe Road, Entebbe, 47533</span>
+              { user.shippingAddress ? 
+                <span className="truncate">{user?.shippingAddress?.country || "--"}, {user?.shippingAddress?.street || "--"}, {user?.shippingAddress?.city || "--"}, {user?.shippingAddress?.zip || "--"}</span>
+              : 
+                <p>No Address</p>
+              }
             </div>
 
             <div className="flex items-center gap-2">
               <Call02Icon className="h-4 w-4" />
-              <span>+256708210793</span>
+              <span>{user.phone ? user.phone || "--" : "No Phone number"}</span>
             </div>
           </div>
           <div>
