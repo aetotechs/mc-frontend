@@ -11,6 +11,7 @@ import {
   Notification01Icon,
   PaymentSuccess02Icon,
   SquareLock01Icon,
+  UserCircle02Icon,
 } from "hugeicons-react";
 import { getAuthUser } from "../utils/cookies/AuthCookiesManager";
 
@@ -32,10 +33,10 @@ const AccountSettings = () => {
       <section className="grid grid-cols-2 px-[8vw] gap-5">
         <div className="border col-span-2 py-6 flex items-center justify-between px-8 border-[#D8D9E0] rounded-xl">
           <div className="flex items-center gap-6">
-            <div className="h-24 w-24 rounded-full object-cover overflow-hidden relative">
-              <img src="/images/user.png" alt="User" />
+            <div className="flex items-center justify-center bg-gray-100 h-24 w-24 rounded-full object-cover overflow-hidden relative">
+              <UserCircle02Icon size={45} className="text-gray-400"/>
             </div>
-            <div className="absolute border translate-x-20 translate-y-7 border-white rounded-full p-1 bg-[#2F91D7]">
+            <div className="absolute border translate-x-20 translate-y-7 border-white rounded-full p-1 bg-[#2F91D7] cursor-pointer" title="Picture update function not available">
               <Edit02Icon className="h-3 w-3 text-white" />
             </div>
             <div className="flex flex-col">
