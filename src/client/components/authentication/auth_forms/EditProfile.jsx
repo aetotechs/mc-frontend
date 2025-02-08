@@ -312,7 +312,7 @@ export function EditProfile() {
             <Button
               type="submit"
               disabled={isLoading}
-              className={`bg-[#2F91D7] text-white rounded-[8px] py-2 w-full px-16`}
+              className={`bg-[#2F91D7] text-white text-semibold rounded-[8px] py-2 w-full px-16`}
               label={
                 isLoading ? <CardLoadingSpinner color={"black"} /> : "Update Profile"
               }

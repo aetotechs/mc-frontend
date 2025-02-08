@@ -4,12 +4,13 @@ import { Route, Routes } from "react-router-dom";
 import { AuthProvider } from "./client/utils/context/AuthContext";
 import AuthModel from "./client/components/authentication/AuthModel";
 import { isAuthenticated, logout } from "./client/utils/cookies/AuthCookiesManager";
-const Home = lazy(() => import("./client/pages/Home"));
-const Listings = lazy(() => import("./client/pages/Listings"));
-const AccountSettings = lazy(() => import("./client/pages/AccountSettings"));
+import AdminRoutes from "./layout/AdminRoutes";
+import ClientRoutes from "./layout/ClientRoutes";
 
 function App() {
-  
+  const hostname = window.location.hostname;
+  const isAdminSubdomain = hostname.startsWith('admin');
+  const isPartnerSubdomain = hostname.startsWith('partner');
   useEffect(() => {
     if(!isAuthenticated()) logout();
   },[])
@@ -20,9 +21,7 @@ function App() {
         <AuthModel />
         <Suspense fallback={<PageLoadingSpinner />}>
           <Routes>
-            <Route index element={<Home />} />
-            <Route path="/listings" element={<Listings />} />
-            <Route path="/account" element={<AccountSettings />} />
+            <Route path="*" element={ isAdminSubdomain ? <AdminRoutes/> : isPartnerSubdomain ? <PartnerRoutes/> : <ClientRoutes /> } />
           </Routes>
         </Suspense>
       </AuthProvider>
