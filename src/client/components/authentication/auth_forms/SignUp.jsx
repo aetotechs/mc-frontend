@@ -75,9 +75,10 @@ export function SignUp() {
     searchParams.set('u_email', data.email);
     const res = await createUser(data);
     console.info(res);
-    if(error) return;
-    setSuccess(res);
-    reset();
+    if(res){
+      setSuccess(res);
+      reset();
+    }
   };
   
   const handleNextStep = async () => {
