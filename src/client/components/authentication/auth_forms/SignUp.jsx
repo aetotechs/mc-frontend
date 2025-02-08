@@ -10,6 +10,7 @@ import { dialog_operations } from "../../../utils/constansts/DialogOperations";
 import { useAuthDialog } from "../../../utils/hooks/useAuthDialog";
 import { useSearchParams } from "react-router-dom";
 import { useUsers } from "../../../utils/hooks/useUsers";
+import CustomToast from "../../ui/CustomToast";
 
 const FormSchema = z.object({
   firstName: z.string().min(2, { message: "First Name is required." }),
@@ -93,7 +94,7 @@ export function SignUp() {
   const togglePassword = () => setPasswordVisible(!passwordVisible);
 
   return (
-    <form onSubmit={handleSubmit(_handleSubmit)}>
+    <form onSubmit={handleSubmit(_handleSubmit)} className="overflow-y-auto no-scrollbar">
       <span className="text-left font-[600] text-xl">Welcome to MyCrib </span>
       <p className="flex">
         <p className="font-normal text-xs text-[#62636C] ">
@@ -101,9 +102,6 @@ export function SignUp() {
         </p>
         <p onClick={() => openDialog(dialog_operations.login) } className="font-medium text-xs text-blue-400 ml-2 cursor-pointer">Signin</p>
       </p>
-
-      <p className={`${!error && 'hidden'} mt-2 flex justify-between items-center bg-red-100 text-sm px-2 py-2 text-red-600 rounded-xs w-full`}> <p className="w-[80%] truncate">{error}</p> <span onClick={() => setError("")} className="pi pi-times text-black text-xs rounded-full px-2 cursor-pointer"/></p>
-      <p className={`${!success && 'hidden'} mt-2 flex justify-between items-center bg-green-100 text-sm px-2 py-2 text-green-600 rounded-xs w-full`}>{success} <span onClick={() => setSuccess("")} className="pi pi-times text-black text-xs rounded-full px-2 cursor-pointer"/></p>
 
       <div className="grid grid-cols-2 gap-6 my-4">
         <p className="h-1 bg-[#6CAFE6] rounded-full"></p>
@@ -336,22 +334,32 @@ export function SignUp() {
             )}
           </div>
 
-          <p className="text-xs col-span-2 text-gray-500"> # By clicking signup, you agree to <a href="/terms&conditions" className="text-blue-500">mycrib's terms and conditions </a>and <a href="/privacy_policy" className="text-blue-500">privacy policy</a></p>
-
-          <div className="col-span-2 flex justify-between mb-2 gap-8">
+          <div className="col-span-2 mt-4 flex justify-between">
             <Button
               disabled={loading}
               onClick={handlePreviousStep}
               label="Back"
-              icon={<i className="pi pi-backward ml-8"/>}
-              className="text-black w-full opacity-70 text-center rounded-lg py-2 border"
+              className="col-span-1 w-[25%] text-sm text-black text-left py-2"
             />
             <Button
               type="submit"
               disabled={loading}
-              className={`bg-[#2F91D7] w-full text-white rounded-lg py-2`}
+              className={`col-span-1 ${ loading ? "bg-gray-300" : "bg-[#2F91D7]"} w-[25%] text-white rounded-lg py-2`}
               label={ loading ? <CardLoadingSpinner color={'black'}/> : "Sign up"}
             />
+          </div>
+
+          <div className="col-span-2">
+           { success && <CustomToast 
+              message={success} 
+              type="success"
+              autoHide
+            />}
+            { error && <CustomToast 
+              message={error} 
+              type="error"
+              autoHide
+            />}
           </div>
           
         </div>

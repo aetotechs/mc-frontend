@@ -10,6 +10,7 @@ import { useAuthDialog } from "../../../utils/hooks/useAuthDialog";
 import { dialog_operations } from "../../../utils/constansts/DialogOperations";
 import { useSearchParams } from "react-router-dom";
 import { useUsers } from "../../../utils/hooks/useUsers";
+import CustomToast from "../../ui/CustomToast";
 
 const loginSchema = z.object({
   email: z.string().email({ message: "Invalid email address." }),
@@ -70,8 +71,6 @@ export function Login() {
               <p onClick={() => openDialog(dialog_operations.signup) } className="font-medium text-xs text-blue-400 hover:text-blue-700 cursor-pointer">Signup</p>
             </p>
           </div>
-          <p className={`${!error && 'hidden'} flex justify-between items-center bg-red-100 text-sm px-2 py-2 text-red-600 rounded-xs w-full`}>{error} <span onClick={() => setError("")} className="pi pi-times text-black text-xs rounded-full px-2"/></p>
-          <p className={`${!success && 'hidden'} flex justify-between items-center bg-green-100 text-sm px-2 py-2 text-green-600 rounded-xs w-full`}>{success} <span onClick={() => setSuccess("")} className="pi pi-times text-black text-xs rounded-full px-2"/></p>
           <div className="">
             <label className="block mb-1 font-medium text-sm">Email</label>
             <InputText
@@ -133,6 +132,19 @@ export function Login() {
               <p className="font-medium flex-1 text-center">Continue with Google</p>
             </button>
           </div>
+
+        </div>
+        <div className="col-span-2 mt-4">
+          { success && <CustomToast 
+            message={success} 
+            type="success"
+            autoHide
+          />}
+          { error && <CustomToast 
+            message={error} 
+            type="error"
+            autoHide
+          />}
         </div>
       </>
     </form>
