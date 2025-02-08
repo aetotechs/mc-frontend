@@ -10,7 +10,8 @@ const Header = ({ bottomBorder }) => {
 
       <div>
         <ul className="flex gap-5 items-center">
-          <NavLink to={'/listings'}>Explore</NavLink>
+          {/* Uncomment when listings page is active with endpoints */}
+          {/* <NavLink to={'/listings'}>Explore</NavLink> */}
 
           <a href='https://partner.mycrib.ug/'>Manage Rentals</a>
 
