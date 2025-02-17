@@ -4,9 +4,10 @@ import { Button } from 'primereact/button'
 import { Home11Icon, PlusSignIcon, Search01Icon } from 'hugeicons-react'
 import Footer from '../../client/components/global/Footer'
 import AetoGrid from '../../globals/ui/AetoGrid'
+import { useNavigate } from 'react-router-dom'
 
 const Properties = () => {
-
+    const navigate = useNavigate();
     const [data, setData] = useState([]);
 
     const columns = [
@@ -28,7 +29,7 @@ const Properties = () => {
                 <Search01Icon size={32} className='p-2' onClick={() => {console.log("Triger search event here")}}/>
                 <input type="search" name="" placeholder='Search' id="" className='flex-1 h-full rounded-r-lg focus:border-0'/>
             </article>
-            <Button className='bg-primary text-white gap-2 font-semibold p-2 text-xs'>
+            <Button onClick={() => navigate('/new') } className='bg-primary text-white gap-2 font-semibold p-2 text-xs'>
                 <PlusSignIcon size={14} />
                 New
             </Button>
