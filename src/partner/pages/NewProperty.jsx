@@ -5,7 +5,7 @@ import { ArrowLeft02Icon, Tick01Icon, Tick02Icon } from 'hugeicons-react'
 import { Link, useNavigate } from 'react-router-dom'
 
 const NewProperty = () => {
-  const navogate = useNavigate();
+  const navigate = useNavigate();
   const [step, setStep] = useState(1);
 
   const handleNext = () => {
