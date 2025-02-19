@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import PartnerHeader from '../components/PartnerHeader'
 import Footer from '../../client/components/global/Footer'
-import { ArrowLeft02Icon } from 'hugeicons-react'
+import { ArrowLeft02Icon, Tick01Icon, Tick02Icon } from 'hugeicons-react'
 import { Link, useNavigate } from 'react-router-dom'
 
 const NewProperty = () => {
@@ -31,13 +31,16 @@ const NewProperty = () => {
 
       {/* Forms and size bar */}
       <section className='mx-[8vw] flex gap-8'>
-        <section className='bg-blue-50 p-6 text-sm w-[20vw] space-y-6 rounded-lg'>
+        <section className='bg-blue-50 bg-opacity-40 p-6 text-sm w-[20vw] space-y-6 rounded-lg'>
           <div className={`text-gray-400`}>
-            <p className={`${step === 1 && 'text-primary'}`}>Step 1/5</p>
+            <p className={`${step === 1 && 'text-primary flex items-center gap-4'}`}>Step 1/5 <span className={`${step < 2 && '`text-green-500 '} 'font-bold`}><Tick01Icon size={20}/></span></p>
             <p className={`${step === 1 && 'text-black'}`}>Basic information</p>
           </div>
           <div className={`text-gray-400`}>
-            <p className={`${step === 2 && 'text-primary'}`}>Step 2/5</p>
+            <p className={`${step === 2 && 'text-primary flex gap-2'}`}>Step 2/5
+            <span className={`${step < 3 && '`text-green-500'} 'font-bold`}>
+              <Tick01Icon size={20}/></span>     
+              </p>'text-green-500 font-bold'
             <p className={`${step === 2 && 'text-black'}`}>Add Units</p>
           </div>
           <div className={`text-gray-400`}>
