@@ -6,7 +6,7 @@ const ListingCard = ({ item }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   const handleNextImage = () => {
-    if (currentImageIndex < item.photos.length - 1) {
+    if (currentImageIndex < item.media.photos.length - 1) {
       setCurrentImageIndex(currentImageIndex + 1);
     }
   };
@@ -21,7 +21,7 @@ const ListingCard = ({ item }) => {
     <div className="w-full border rounded-xl">
       <section className="relative w-full h-[20vh] md:h-[26vh] bg-gray-200 rounded-t-xl">
         <img
-          src={item.photos[currentImageIndex]?.url || "/images/hero-image.png"}
+          src={item?.media?.photos[currentImageIndex]?.url?? "/images/hero-image.png"}
           alt="Property"
           className="w-full h-full object-cover rounded-t-xl"
         />
@@ -32,7 +32,7 @@ const ListingCard = ({ item }) => {
         <button className="absolute right-4 top-4 rounded-full bg-white p-1" title="Add to favourites list">
           <FavouriteIcon size={14}/>
         </button>
-        {currentImageIndex < item.photos.length - 1 && (
+        {currentImageIndex < item?.media?.photos?.length - 1 && (
           <button
             onClick={handleNextImage}
             className="absolute right-4 top-[50%] translate-y-[-50%] bg-white rounded-full p-1"

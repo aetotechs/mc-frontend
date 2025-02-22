@@ -83,7 +83,7 @@ const Home = () => {
       </section>
 
       {/* Uncomment in production when the Endpoints are active */}
-      {/* <section className="bg-white grid md:flex gap-4 justify-center my-16">
+      <section className="bg-white grid md:flex gap-4 justify-center my-16">
         {categories.map((category, index) => (
           <p className="font-bold hover:text-white text-sm hover:bg-black border cursor-pointer border-gray-300 px-6 py-3 rounded-full" key={index}>
             {category.label}
@@ -99,7 +99,7 @@ const Home = () => {
 
       <section className="flex items-center justify-center my-16">
         <button className="px-8 py-4 text-blue-400 text-lg  border-2 border-blue-400 font-extrabold rounded-full" title="Load more items from the server">Load More</button>
-      </section> */}
+      </section>
 
       <Footer />
     </div>
