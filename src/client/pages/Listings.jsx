@@ -4,10 +4,11 @@ import ListingCard from '../components/global/ListingCard'
 import Footer from '../components/global/Footer'
 import ListingsFilterPanel from '../components/listings/ListingsFilterPanel'
 import useProperties from '../utils/hooks/useProperties'
+import Spinner from '../../globals/ui/Spinner'
 
 const Listings = () => {
-  const [pages, setPages] = useState({ page: 0, size: 20 });
-  const { properties } = useProperties(pages.page, pages.size);
+  const [pages, setPages] = useState({ page: 0, size: 2 });
+  const { properties, loading } = useProperties(pages.page, pages.size);
   return (
     <div className="relative h-screen overflow-auto">
       <section className="sticky top-0 z-10">
@@ -34,14 +35,20 @@ const Listings = () => {
           </div>
         </div>
       </section>
+
+      <section className={`${!loading && "hidden" } px-[8vw] py-4`}>
+        <div className="flex justify-center items-center">
+          <Spinner />
+        </div>
+      </section>
       
-      <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-6 gap-6 px-[8vw]">
+      <section className={`${ loading && "hidden" } grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-6 gap-6 px-[8vw]`}>
         {properties.map((item, index) => (
           <ListingCard key={index} item={item} />
         ))}
       </section>
 
-      <section className="flex items-center justify-center my-24">
+      <section className={`flex items-center justify-center my-24`}>
         <div className='flex gap-16 items-center'>
           <p>Page {pages?.page ?? 0} <span className='opacity-60'>of</span> {pages.page ?? 0}</p>
           <button onClick={() => setPages( prev => ({ ...prev, page: prev.page + 1 }))} className="px-8 py-2 bg-blue-400 text-white text-lg border-2 border-blue-400 font-extrabold rounded-lg" title="Get next items page from the server">Next Page</button>

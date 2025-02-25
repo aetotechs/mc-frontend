@@ -61,15 +61,15 @@ const ListingCard = ({ item }) => {
         <section className="flex whitespace-nowrap text-sm font-thin gap-4 items-center">
           <p className="flex gap-2 items-center">
             <BedIcon size={14} />
-            <span>{2 || "--"} Bed(s)</span>
+            <span>{item.bedRange || "--"} Bed(s)</span>
           </p>
           <p className="flex gap-2 items-center">
             <Bathtub01Icon size={14} />
-            <span>{3 || "--"} Bath(s)</span>
+            <span>{item?.bathRange || "--"} Bath(s)</span>
           </p>
         </section>
         <section>
-          <p className="truncate text-sm">{item.location || "--"}</p>
+          <p className="truncate text-sm">{item?.address?.description || "--"}</p>
         </section>
         <section>
           <p className="truncate opacity-60 text-xs mt-2">{item.units.length || "--"} Units available</p>
