@@ -10,9 +10,9 @@ const ClientRoutes = () => {
   return (
     <Routes>
       <Route path='/' element={<Home />} />
-      <Route path="/listings" element={<Listings />} />
-      <Route path="/account" element={<AccountSettings />} />
-      <Route path="/details" element={<DetailsPage />} />
+      <Route path="/listings?" element={<Listings />} />
+      <Route path="/account?" element={<AccountSettings />} />
+      <Route path="/details/:propertyId?" element={<DetailsPage />} />
     </Routes>
   );
 };

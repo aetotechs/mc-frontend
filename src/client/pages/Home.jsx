@@ -31,44 +31,26 @@ const Home = () => {
           Discover the Easiest Way to Rent
         </h3>
 
-        <div className="bg-white hidden md:flex items-center justify-between rounded-[50px] py-3 px-4 divide-x gap-3">
+        <div className="bg-white md:flex items-center justify-between rounded-[50px] py-3 px-4 divide-x gap-3">
           <div className="flex flex-col px-4">
             <span className="font-medium text-sm">Location</span>
             <span className="flex items-center gap-1">
-              <span>
-                <i
-                  className="pi pi-map-marker "
-                  style={{ fontSize: "12px" }}
-                ></i>
-              </span>
-              <span className="font-medium text-[15px] text-[#8B8D98]">
-                Search city or area
-              </span>
+              <i className="pi pi-map-marker text-[12px]"/>
+              <input type="text" placeholder="Search city or area" id="" className="w-[100%]" />
             </span>
           </div>
           <div className="flex flex-col px-4">
             <span className="font-medium text-sm">Property</span>
             <span className="flex items-center gap-1">
-              <span>
-                <i className="pi pi-building " style={{ fontSize: "12px" }}></i>
-              </span>
-              <span className="font-medium text-[15px] text-[#8B8D98]">
-                Search property type
-              </span>
+              <i className="pi pi-building text-[12px]"/>
+              <input type="text" name="" placeholder="Search property type" className="w-[100%]" />
             </span>
           </div>
           <div className="flex flex-col px-4">
             <span className="font-medium text-sm">Price</span>
             <span className="flex items-center gap-1">
-              <span>
-                <i
-                  className="pi pi-tag transform rotate-90"
-                  style={{ fontSize: "12px" }}
-                ></i>
-              </span>
-              <span className="font-medium text-[15px] text-[#8B8D98]">
-                Choose price range
-              </span>
+              <i className="pi pi-tag transform rotate-90 text-[12px]"/>
+              <input type="text" name="" placeholder="Choose price range" className="w-[100%]"/>
             </span>
           </div>
           <div className="flex flex-col pl-2">

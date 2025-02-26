@@ -1,7 +1,9 @@
 import { ArrowLeft01Icon, ArrowRight01Icon, Bathtub01Icon, BedIcon, FavouriteIcon } from "hugeicons-react";
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const ListingCard = ({ item }) => {
+  const navigate = useNavigate();
   const [price, setPrice] = useState({ min_price: 90000.0, max_price: 230000.0 });
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
@@ -51,7 +53,7 @@ const ListingCard = ({ item }) => {
           </button>
         )}
       </section>
-      <section className="p-2 px-4">
+      <section className="p-2 px-4 cursor-pointer" title="Property details" onClick={() => navigate(`/details/${item.id}`)}> 
         <section>
           <p className="font-bold text-xl md:text-lg whitespace-nowrap">
             UGX {price.min_price.toLocaleString() || "--"} - {price.max_price.toLocaleString() || "--"}{" "}
