@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import api_urls from '../resources/api_urls';
 
-const useProperties = (page, size, admin) => {
+const useProperties = (page = 0, size = 10, admin) => {
     const [properties, setProperties] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
@@ -46,9 +46,10 @@ const useProperties = (page, size, admin) => {
         try {
             const response = await fetch(api_urls.listings.get_single_listing(id));
             if (!response.ok) {
-                throw new Error('Failed to fetch property');
+                setError('Failed to fetch property');
             }
             const data = await response.json();
+            console.log(data);
             setSuccess('Property fetched successfully');
             return data;
         } catch (err) {

@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Header from "../components/global/Header";
 import { Button } from "primereact/button";
-
 import { useAuthDialog } from "../utils/hooks/useAuthDialog";
 import Footer from "../components/global/Footer";
 import {
@@ -13,12 +12,8 @@ import {
   ArrowUp01Icon,
   Bathtub01Icon,
   BedIcon,
-  ShieldKeyIcon,
-  SlowWindsIcon,
-  Sofa01Icon,
   BubbleChatIcon,
   CalendarAdd01Icon,
-  Dumbbell01Icon,
   FavouriteIcon,
   Image02Icon,
   ParkingAreaCircleIcon,
@@ -30,6 +25,10 @@ import {
   Key01Icon,
 } from "hugeicons-react";
 import Map from "../components/details/Map";
+import useProperties from "../utils/hooks/useProperties";
+import { useParams } from "react-router-dom";
+import Spinner from "../../globals/ui/Spinner";
+import { amenitiesList } from "../utils/constansts/AmenitiesList";
 
 const reviews = [
   {
@@ -73,10 +72,43 @@ const reviews = [
 
 const DetailsPage = () => {
   const { openDialog } = useAuthDialog();
-  const [activeTab, setActiveTab] = useState("Over view");
+  const [property, setProperty] = useState({});
+  const { propertyId } = useParams();
+  const { fetchPropertyById, loading } = useProperties();
+  const [activeTab, setActiveTab] = useState("Overview");
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isExpanded, setIsExpanded] = useState(false);
+  const [toggleAllAmenities, setToggleAllAmenities] = useState(false);
   const itemsPerPage = 3;
+  const [selectedFilter, setSelectedFilter] = useState("All");
+
+  const filters = [
+    "All",
+    ...new Set(
+      property?.units?.map((unit) => `${unit.bedRooms} Bed(${unit.bedRooms})`)
+    ),
+  ];
+
+  const filteredUnits =
+    selectedFilter === "All"
+      ? property?.units
+      : property?.units?.filter(
+          (unit) => `${unit.bedRooms} Bed(${unit.bedRooms})` === selectedFilter
+        );
+
+  const sectionsRef = {
+    "Overview": useRef(null),
+    "Amenities": useRef(null),
+    "Location": useRef(null),
+    "Reviews": useRef(null),
+  };
+
+  useEffect(() => {
+    const fetchItem = async () => {
+      setProperty(await fetchPropertyById(propertyId) || {});
+    }
+    fetchItem();
+  }, [propertyId]);
 
   const totalSlides = Math.ceil(reviews.length / itemsPerPage);
 
@@ -87,11 +119,8 @@ const DetailsPage = () => {
   const prevSlide = () => {
     setCurrentIndex((prev) => (prev === 0 ? totalSlides - 1 : prev - 1));
   };
-  const images = ["images/ap6.jpeg", "images/ap3.jpeg", "images/ap5.jpeg"];
-  const fullText =
-    "Uniport Garden Apartments in Wakiso, Uganda, offers modern and spacious rental units in a serene environment. Conveniently located near key amenities, these apartments feature comfortable living spaces with essential facilities, perfect for families and professionals. Enjoy a peaceful commun";
-  const shortText = fullText.slice(0, 120) + "...";
 
+  const images = ["images/ap6.jpeg", "images/ap3.jpeg", "images/ap5.jpeg"];
   const nextReview = () => {
     setCurrentIndex((prevIndex) => (prevIndex + 1) % reviews.length);
   };
@@ -102,22 +131,39 @@ const DetailsPage = () => {
     );
   };
 
+  const [toggledUnitDetails, setToggledUnitDetails] = useState(false);
+
+  const toggleUnitDetails = (unit, toggled) => {
+    setToggledUnitDetails(!toggled);
+    return(
+      <Dialog/>
+    )
+  }
+
   return (
     <div className="relative h-screen overflow-auto">
-      <section className="sticky top-0 z-10">
+      
+      <div className={`fixed h-[100vh] w-[100vw] flex justify-center items-center bg-black/30 z-50 ${loading ? "block" : "hidden"}`}>
+        <Spinner/>
+      </div>
+
+      <section>
         <Header bottomBorder={true}/>
       </section>
 
-      <section className="pb- pt-5 px-[8vw] flex justify-between">
+      <section className={`pb-4 pt-5 px-[8vw] flex justify-between ${""} sticky -top-2 z-10 bg-white`}>
         <div className="relative">
           <div className="flex gap-10 text-[15px] py-2">
-            {["Over view", "Amenities", "Location", "Reviews"].map((tab) => (
+            {["Overview", "Amenities", "Location", "Reviews"].map((tab) => (
               <div key={tab} className="relative">
-                <h4
+                <h4 
                   className={`cursor-pointer ${
                     activeTab === tab ? "text-primary font-semibold" : ""
                   }`}
-                  onClick={() => setActiveTab(tab)}
+                  onClick={() => {
+                    sectionsRef[tab].current?.scrollIntoView({ behavior: "smooth" });
+                    setActiveTab(tab);
+                  }}
                 >
                   {tab}
                 </h4>
@@ -150,9 +196,9 @@ const DetailsPage = () => {
 
       <section className="grid grid-cols-6 px-[8vw] my-4 gap-10">
         <div className="col-span-4">
-          <div className="rounded-md  w-full ">
+          <div className="rounded-md w-full" ref={sectionsRef["Overview"]}>
             <div className="relative w-full h-[65vh] overflow-hidden rounded-2xl">
-              <div className="absolute bg-[#FFC654] rounded-lg py-1 px-2 m-2 text-sm">
+              <div className="absolute bg-[#FFC654] rounded-lg py-1 px-2 m-4 text-sm">
                 Furnished
               </div>
               <img
@@ -163,31 +209,27 @@ const DetailsPage = () => {
 
               <button
                 onClick={prevSlide}
-                className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-black/50 text-white p-2 rounded-full"
+                className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white/80 text-black p-2 rounded-full"
               >
                 <ArrowLeft01Icon size={14} />
               </button>
 
               <button
                 onClick={nextSlide}
-                className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-black/50 text-white p-2 rounded-full"
+                className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white/80 text-black p-2 rounded-full"
               >
                 <ArrowRight01Icon size={14} />
               </button>
 
-              <div className="absolute bottom-4 px-4 w-full flex justify-end gap-2">
+              <div className="absolute bottom-4 right-4 w-full flex justify-end gap-2">
                 <div className="flex items-center gap-1 bg-white rounded-md px-2 py-1 text-sm">
-                  <span>
-                    <Image02Icon className="h-3 w-3" />
-                  </span>
+                  <Image02Icon className="h-3 w-3" />
                   <span>{images.length}</span>
                   <span>photos</span>
                 </div>
 
                 <div className="flex items-center gap-1 bg-white rounded-sm px-2 py-1 text-sm">
-                  <span>
-                    <Video01Icon className="h-3 w-3" />
-                  </span>
+                  <Video01Icon className="h-3 w-3" />
                   <span>video</span>
                 </div>
               </div>
@@ -196,140 +238,133 @@ const DetailsPage = () => {
           <div>
             <div className="flex items-center gap-1 mt-4">
               <i className="rounded-full bg-[#006AB5] h-2 w-2"/>
-              <p className="text-sm">Rental</p>
+              <p className="text-sm">{ property?.propertyType?.toString() }</p>
             </div>
 
             <div className="flex justify-between items-center">
-              <h1 className="text-2xl">Uniport Garden Apartments</h1>
+              <h1 className="text-2xl">{ property?.name}</h1>
               <article>
-                <h1 className="font-bold text-2xl">UGX 800,000 - UGX 1,000,000 <span className="text-sm font-normal">month</span></h1>
+                <h1 className="font-bold text-2xl">UGX { property?.priceRange } <span className="text-sm font-normal">month</span></h1>
               </article>
             </div>
             <p className="text-gray-500">
-              Sunrise rest, Bombo, Luweero
+              { property?.address?.description || "No address provided, contact support for details" }
             </p>
             
             <div className="flex items-center gap-6 my-2">
               <div className="flex items-center gap-1">
                 <BedIcon/>
-                <span className="">1-2 Beds</span>
+                <span className="">{property?.bedRange || "0"} Beds</span>
               </div>
               
               <div className="flex items-center gap-1">
                 <Bathtub01Icon/>
-                <span className="">1-2 Baths</span>
+                <span className="">{property?.bathRange || "0"} Baths</span>
               </div>
 
               <div className="flex items-center gap-1">
                 <TapeMeasureIcon/>
-                <span className="">410 sqft</span>
+                <span className="">{property?.propertyArea || "--"} sqft</span>
               </div>
 
               <div className="flex items-center gap-1">
                 <ParkingAreaCircleIcon/>
-                <span className="">4 Parking Spaces</span>
+                <span className="">{property?.parkingCapacity || "--"} Parking Spaces</span>
               </div>
             </div>
 
             <div className="my-6">
-              <h1 className="font-normal text-xl mb-2">About this property</h1>
+              <h1 className="font-normal text-[1.2rem] mb-2">About this property</h1>
               <div>
-                <p className="text-gray-600 text-lg">{ isExpanded ? fullText : shortText }</p>
+                <p className="text-gray-600 text-lg">{ isExpanded ? 
+                  property?.description : property?.description?.slice(0, 150) + "..." }
+                </p>
                 <button
+                  disabled={property?.description?.length <= 150}
+                  type="button"
                   className="flex items-center gap-1 text-primary font-medium mt-2"
                   onClick={() => setIsExpanded(!isExpanded)}
                 >
-                  {isExpanded ? "Read Less" : "Read full description"}
-                  {isExpanded ? (
-                    <ArrowUp01Icon size={18} />
-                  ) : (
-                    <ArrowDown01Icon size={18} />
-                  )}
+                  { property?.description?.length <= 150 ? 
+                      "All set" : isExpanded ? 
+                          "Read Less" : "Read full description"
+                  }
+                  { property?.description?.length <= 150 ? 
+                      null : isExpanded ? 
+                        <ArrowUp01Icon size={18} /> : <ArrowDown01Icon size={18} />
+                  }
                 </button>
               </div>
             </div>
           </div>
 
-          <div>
-            <span>What’s Available (4 units)</span>
-          </div>
-
-          <div className="my-3">
-            <p className="">Amenities</p>
+          <section>
+            <h1 className="font-normal text-[1.2rem] mb-2">
+              What’s Available ({filteredUnits?.length} units)
+            </h1>
             
-            <div className="grid grid-cols-3 ">
-              <div className="space-y-4">
-                
-                <div className="flex items-center gap-1">
-                  <Sofa01Icon />
-                  <p>Furnished</p>
-                </div>
+            {/* Tabs */}
+            <section className="flex mb-4 border rounded-lg w-content">
+              {filters.map((filter) => (
+                <Button
+                  key={filter}
+                  className={`px-2 py-1 w-[10%] text-center ${selectedFilter === filter ? "border-2 border-primary" : ""}`}
+                  onClick={() => setSelectedFilter(filter)}
+                >
+                  {filter}
+                </Button>
+              ))}
+            </section>
 
-                <div className="flex items-center gap-1">
-                  <ShieldKeyIcon />
-                  <p>Security</p>
-                </div>
+            {/* Units Display */}
+            <section className="grid gap-4">
+              {filteredUnits?.map((unit, i) => (
+                <article key={unit.unitId} className="flex items-center gap-2 w-full border rounded-xl">
+                  <div className="w-[20%] m-2 h-[90%] bg-gray-200 rounded-lg">
+                    <img src={ unit?.media?.photos[0] || "/images/ap2.jpeg"} alt={unit?.name} className="w-full h-full object-cover rounded-lg"/>
+                  </div>
+                  <article className="p-5 rounded-lg flex justify-between items-center w-full">
+                    <div className="flex gap-3 text-[1.2rem]">
+                      <p onClick={ () => toggleUnitDetails(unit, !toggledUnitDetails) } className="font-semibold text- onClick={ toggleUnitDetails(unit) } imary">{"Unit " + i}</p>
+                      <p className="text-gray-500">{unit.bedRooms} Bed • {unit.bathRooms} Baths • {unit.size} sqft</p>
+                      <p className="font-bold">UGX {unit.price.toLocaleString()} month</p>
+                    </div>
+                    <p className="flex gap-2 items-center px-4 py-2 border-2 border-primary bg-blue-100 text-primary font-semibold rounded-xl"><span className="bg-primary w-2 h-2 rounded-full"/>Available</p>
+                  </article>
+                </article>
+              ))}
+            </section>
+          </section>
+          <section className="my-3" ref={sectionsRef["Amenities"]}>
+            <h1 className="font-normal text-[1.2rem] mb-2">Amenities</h1>
 
-                <div className="flex items-center gap-1">
-                  <SlowWindsIcon />
-                  <p>Air conditioning</p>
-                </div>
-
-                <div className="flex items-center gap-1">
-                  <Dumbbell01Icon />
-                  <p>Gym</p>
-                </div>
-              </div>
-
-              <div className="space-y-4">
-                <div className="flex items-center gap-1">
-                  <Sofa01Icon />
-                  <p>Furnished</p>
-                </div>
-
-                <div className="flex items-center gap-1">
-                  <ShieldKeyIcon />
-                  <p>Security</p>
-                </div>
-
-                <div className="flex items-center gap-1">
-                  <SlowWindsIcon />
-                  <p>Air conditioning</p>
-                </div>
-
-                <div className="flex items-center gap-1">
-                  <Dumbbell01Icon />
-                  <p>Gym</p>
-                </div>
-              </div>
-
-              <div className="space-y-4">
-                <div className="flex items-center gap-1">
-                  <Sofa01Icon />
-                  <p>Furnished</p>
-                </div>
-
-                <div className="flex items-center gap-1">
-                  <ShieldKeyIcon />
-                  <p>Security</p>
-                </div>
-
-                <div className="flex items-center gap-1">
-                  <SlowWindsIcon />
-                  <p>Air conditioning</p>
-                </div>
-
-                <div className="flex items-center gap-1">
-                  <Dumbbell01Icon />
-                  <p>Gym</p>
-                </div>
-
-              </div>
+            <div className="grid grid-cols-3 gap-4 text-[0.8rem]">
+              {property?.amenities && (
+                console.log(property.amenities),
+                Object.keys(property.amenities)
+                  .filter((key) => property.amenities[key])
+                  .slice(1, toggleAllAmenities ? undefined : 6)
+                  .map((key, i) => (
+                    <div key={i} className="flex items-center gap-3">
+                      {amenitiesList[key]?.icon && React.createElement(amenitiesList[key].icon)}
+                      <span>{amenitiesList[key]?.name || key}</span>
+                    </div>
+                  ))
+              )}
             </div>
-          </div>
+
+            <button
+              disabled={Object.values(property?.amenities || {}).filter(Boolean).length <= 6}
+              type="button"
+              className="bg-white text-primary font-semibold mt-2 border rounded-lg py-2 px-4"
+              onClick={() => setToggleAllAmenities(!toggleAllAmenities)}
+            >
+              { Object.values(property?.amenities || {}).filter(Boolean).length <= 6 ? "All shown" : toggleAllAmenities ? "Show less amenities" : "See all amenities"}
+            </button>
+          </section>
 
           <div className="w-[50%]">
-            <p>Features</p>
+            <h1 className="font-normal text-[1.2rem] mb-2">Features</h1>
 
             <div className="flex justify-between">
               <div>
@@ -391,25 +426,26 @@ const DetailsPage = () => {
         </div>
       </section>
 
-      <section className="px-[8vw]">
+      <section className="px-[8vw]" ref={sectionsRef["Location"]}>
         <div className="flex flex-col ">
-          <span className="font-semibold">Explore the area</span>
+          <h1 className="font-normal text-[1.2rem] mb-2">Explore the area</h1>
           <span className="text-sm">Wakiso, Uganda</span>
 
           <div className="border rounded-lg my-2 h-[40vh]">
             <Map/>
             {/* <iframe
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d31918.13613198205!2d32.49461968053299!3d0.2905604467530591!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x177da322867754d1%3A0x56da7cad63130f35!2sWakiso%2C%20Kampala!5e0!3m2!1sen!2sug!4v1739857757719!5m2!1sen!2sug"
-              style={{ width: "100%", height: "250px", border: "none" }}
+              // style={{ width: "100%", height: "250px", border: "none" }}
+              className="w-full h-full"
               allowfullscreen=""
               loading="lazy"
               referrerpolicy="no-referrer-when-downgrade"
-            ></iframe> */}
+            /> */}
           </div>
         </div>
 
-        <div className="my-4 flex  flex-col ">
-          <span>Reviews</span>
+        <div className="my-4 flex flex-col hidden" ref={sectionsRef["Reviews"]}>
+          <h1 className="font-normal text-[1.2rem] mb-2">Reviews</h1>
 
           <div className=" gap-5 items-center  grid grid-cols-5">
             <div className="border shadow-md rounded-md col-span-1  p-3 my-3">
@@ -446,7 +482,7 @@ const DetailsPage = () => {
               </div>
             </div>
 
-            <div className=" relative col-span-4 ">
+            <div className="relative col-span-4 hidden">
               <div className="overflow-hidden">
                 <div
                   className="flex transition-transform duration-500 gap-5"

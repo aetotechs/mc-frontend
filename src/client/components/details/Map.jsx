@@ -19,20 +19,15 @@ const Map = ({ lat, lng }) => {
     }
   }, [lat, lng]);
 
-  const mapSrc = `https://maps.google.com/maps?width=100%25&height=300&hl=en&q=${location.lat},${location.lng}&t=&z=14&ie=UTF8&iwloc=B&output=embed`;
+  const mapSrc = `https://maps.google.com/maps?height=300&hl=en&q=${location.lat},${location.lng}&t=&z=14&ie=UTF8&iwloc=B&output=embed`;
 
   return (
     <iframe
-      width="100%"
-      style={{ flex: 1 }}
-      height="100%"
-      frameBorder="0"
-      scrolling="yes"
-      marginHeight="0"
-      marginWidth="0"
+      zoom="14"
       src={mapSrc}
       title="Google Map"
-    ></iframe>
+      className='w-full h-full'
+    />
   );
 };
 

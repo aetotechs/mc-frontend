@@ -5,7 +5,7 @@ const inventoryBaseUrl = import.meta.env.VITE_INVENTORY_API_URL;
 const api_urls = {
   listings: {
     get_all_listings: (page, size) => `${inventoryBaseUrl}properties?page=${page}&size=${size}`,
-    get_single_listing: (itemId) => `${inventoryBaseUrl}properties?itemId=${itemId}`,
+    get_single_listing: (itemId) => `${inventoryBaseUrl}properties/property?propertyId=${itemId}`,
   },
   bookings: ``,
   
