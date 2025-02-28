@@ -29,6 +29,7 @@ import useProperties from "../utils/hooks/useProperties";
 import { useParams } from "react-router-dom";
 import Spinner from "../../globals/ui/Spinner";
 import { amenitiesList } from "../utils/constansts/AmenitiesList";
+import RatingStars from "../components/ui/RatingStars";
 
 const reviews = [
   {
@@ -94,7 +95,7 @@ const DetailsPage = () => {
       ? property?.units
       : property?.units?.filter(
           (unit) => `${unit.bedRooms} Bed(${unit.bedRooms})` === selectedFilter
-        );
+  );
 
   const sectionsRef = {
     "Overview": useRef(null),
@@ -102,6 +103,8 @@ const DetailsPage = () => {
     "Location": useRef(null),
     "Reviews": useRef(null),
   };
+
+  const averageRating = reviews.reduce((acc, review) => acc + review.rating, 0)/reviews?.length;
 
   useEffect(() => {
     const fetchItem = async () => {
@@ -195,7 +198,7 @@ const DetailsPage = () => {
       </section>
 
       <section className="grid grid-cols-6 px-[8vw] my-4 gap-10">
-        <div className="col-span-4">
+        <section className="col-span-4">
           <div className="rounded-md w-full" ref={sectionsRef["Overview"]}>
             <div className="relative w-full h-[65vh] overflow-hidden rounded-2xl">
               <div className="absolute bg-[#FFC654] rounded-lg py-1 px-2 m-4 text-sm">
@@ -298,8 +301,8 @@ const DetailsPage = () => {
             </div>
           </div>
 
-          <section>
-            <h1 className="font-normal text-[1.2rem] mb-2">
+          <section className="my-8">
+            <h1 className="font-normal text-[1.2rem] mb-4">
               What’s Available ({filteredUnits?.length} units)
             </h1>
             
@@ -325,7 +328,7 @@ const DetailsPage = () => {
                   </div>
                   <article className="p-5 rounded-lg flex justify-between items-center w-full">
                     <div className="flex gap-3 text-[1.2rem]">
-                      <p onClick={ () => toggleUnitDetails(unit, !toggledUnitDetails) } className="font-semibold text- onClick={ toggleUnitDetails(unit) } imary">{"Unit " + i}</p>
+                      <p onClick={ () => toggleUnitDetails(unit, !toggledUnitDetails) } className="cursor-pointer hover:underline font-semibold text-primary">{"Unit " + i}</p>
                       <p className="text-gray-500">{unit.bedRooms} Bed • {unit.bathRooms} Baths • {unit.size} sqft</p>
                       <p className="font-bold">UGX {unit.price.toLocaleString()} month</p>
                     </div>
@@ -335,7 +338,8 @@ const DetailsPage = () => {
               ))}
             </section>
           </section>
-          <section className="my-3" ref={sectionsRef["Amenities"]}>
+
+          <section className="my-8" ref={sectionsRef["Amenities"]}>
             <h1 className="font-normal text-[1.2rem] mb-2">Amenities</h1>
 
             <div className="grid grid-cols-3 gap-4 text-[0.8rem]">
@@ -363,7 +367,7 @@ const DetailsPage = () => {
             </button>
           </section>
 
-          <div className="w-[50%]">
+          <section className="w-[50%] ">
             <h1 className="font-normal text-[1.2rem] mb-2">Features</h1>
 
             <div className="flex justify-between">
@@ -383,10 +387,11 @@ const DetailsPage = () => {
                 </ol>
               </div>
             </div>
-          </div>
-        </div>
+          </section>
 
-        <div className="col-span-2 flex flex-col gap-10">
+        </section>
+
+        <section className="col-span-2 flex flex-col gap-10">
           <div className="rounded-2xl object-cover overflow-hidden bg-red-700 h-[65vh]">
             <img
               src="/images/ap6.jpeg"
@@ -423,13 +428,14 @@ const DetailsPage = () => {
               </span>
             </div>
           </div>
-        </div>
+        </section>
+
       </section>
 
       <section className="px-[8vw]" ref={sectionsRef["Location"]}>
-        <div className="flex flex-col ">
+        <section className="flex flex-col ">
           <h1 className="font-normal text-[1.2rem] mb-2">Explore the area</h1>
-          <span className="text-sm">Wakiso, Uganda</span>
+          <span className="text-sm text-gray-500">{ property?.address?.description || "Exact address not available"}</span>
 
           <div className="border rounded-lg my-2 h-[40vh]">
             <Map/>
@@ -442,50 +448,99 @@ const DetailsPage = () => {
               referrerpolicy="no-referrer-when-downgrade"
             /> */}
           </div>
-        </div>
+        </section>
 
-        <div className="my-4 flex flex-col hidden" ref={sectionsRef["Reviews"]}>
-          <h1 className="font-normal text-[1.2rem] mb-2">Reviews</h1>
+        <section className="my-4 flex flex-col" ref={sectionsRef["Reviews"]}>
+          <h1 className="font-normal text-[1.2rem] mb-1">Reviews</h1>
 
-          <div className=" gap-5 items-center  grid grid-cols-5">
-            <div className="border shadow-md rounded-md col-span-1  p-3 my-3">
+          <div className="flex gap-8 w-full my-1">
+            <div className="border shadow-md rounded-md col-span-1 p-3 w-[25%]">
               <span className="font-bold">Ratings</span>
 
-              <div className="flex justify-between my-1 gap-2">
-                <span className=" text-2xl font-bold">4.1</span>
+              <div className="flex my-1 gap-2 border-b pb-2">
+                <span className="text-2xl font-bold">{averageRating?.toFixed(1) || "0.0"}</span>
 
                 <div className="flex flex-col">
-                  <div className="flex text-yellow-500 ">
-                    {Array.from({ length: 5 }).map((_, i) => (
-                      <StarIcon key={i} size={14} fill="yellow" />
-                    ))}
-                  </div>
-                  <span className="text-[#62636C] text-sm">
-                    Based on 80 ratings
+                  <RatingStars rating={averageRating}/>
+
+                  <span className="text-[#62636C] text-[0.8rem]">
+                    Based on {reviews?.length || 0} ratings
                   </span>
                 </div>
               </div>
-              <div className="border h-1 my-3 w-full bg-slate-400"></div>
 
-              <div className="space-y-2">
-                {[5, 4, 3, 2, 1].map((rating) => (
-                  <div key={rating} className="flex items-center gap-2">
-                    <span className="w-4 text-sm font-medium">{rating}</span>
-                    <div className="w-full bg-gray-200 rounded-full overflow-hidden h-1">
-                      <div
-                        className="h-full bg-[#FFAA00] transition-all"
-                        style={{ width: `${Math.random() * 100}%` }}
-                      ></div>
+              {/* <div className="border h-1/2 my-3 w-full bg-slate-400"></div> */}
+
+              <div className="space-y-1">
+                {[5, 4, 3, 2, 1].map((rating) => {
+                  const totalReviews = reviews?.length || 1;
+                  const ratePercentages = {
+                    _5: reviews?.filter((review) => review?.rating === 5)?.length / totalReviews * 100,
+                    _4: reviews?.filter((review) => review?.rating === 4)?.length / totalReviews * 100,
+                    _3: reviews?.filter((review) => review?.rating === 3)?.length / totalReviews * 100,
+                    _2: reviews?.filter((review) => review?.rating === 2)?.length / totalReviews * 100,
+                    _1: reviews?.filter((review) => review?.rating === 1)?.length / totalReviews * 100, 
+                  }
+                  console.log(JSON.stringify(ratePercentages));
+                  return (
+                    <div key={rating} className="flex items-center gap-1">
+                      <span className="w-4 text-sm font-medium">{rating}</span>
+                      <div className="w-full bg-gray-200 rounded-full overflow-hidden h-1">
+                        <div className={`h-full bg-[#FFAA00] transition-all`}
+                        style={{ width: `${ratePercentages['_' + rating]?.toFixed(0)}%` }}></div>
+                      </div>
                     </div>
-                  </div>
-                ))}
+                )})}
               </div>
             </div>
 
+            <section className="w-full overflow-hidden space-y-3 flex flex-col">
+              <section className="relative flex-1">
+                <button className="absolute top-1/2 -left-0 transform -translate-y-1/2 bg-white p-2 rounded-full shadow-md hover:bg-gray-200"
+                  onClick={prevReview}
+                >
+                  <ArrowLeft01Icon size={14} />
+                </button>
+                <button
+                  className="absolute top-1/2 -right-0 transform -translate-y-1/2 bg-white p-2 rounded-full shadow-md hover:bg-gray-200"
+                  onClick={nextReview}
+                >
+                  <ArrowRight01Icon size={14} />
+                </button>
+                <section className="flex w-full gap-4 overflow-auto no-scrollbar ">
+                  {
+                    reviews?.map((review, i) => (
+                      <article className="p-3 bg-gray-100 rounded-lg">
+                        <section className="flex gap-4">
+                          <div className="rounded-full w-[3rem] h-[3rem]">
+                            <img src={review?.image} alt={review?.name + "'s image"} className="object-cover rounded-full" />
+                          </div>
+                          <div>
+                            <p className="text-[1rem] font-nromal whitespace-nowrap">{review?.name}</p>
+                            <div className="flex gap-4 items-center">
+                              <RatingStars rating={review?.rating}/>
+                              <p>{Date.now().toPrecision()}</p>
+                            </div>
+                          </div>
+                        </section>
+                        <section className="pt-4 text-[1rem] text-gray-500">
+                          <p>{review?.comment}</p>
+                        </section>
+                        
+                      </article>
+                    ))
+                  }
+                </section>
+
+              </section>
+              <section className="flex justify-end">
+                <button className="text-primary border px-4 py-2 rounded-lg font-semibold">See all reviews</button>
+              </section>
+            </section>
+
             <div className="relative col-span-4 hidden">
               <div className="overflow-hidden">
-                <div
-                  className="flex transition-transform duration-500 gap-5"
+                <div className="flex transition-transform duration-500 gap-5"
                   style={{ transform: `translateX(-${currentIndex * 100}%)` }}
                 >
                   {Array.from({ length: totalSlides }).map((_, slideIndex) => (
@@ -541,17 +596,17 @@ const DetailsPage = () => {
                 className="absolute top-1/2 -left-4 transform -translate-y-1/2 bg-white p-2 rounded-full shadow-md hover:bg-gray-200"
                 onClick={prevReview}
               >
-                <ArrowLeft02Icon size={20} />
+                <ArrowLeft01Icon size={14} />
               </button>
               <button
                 className="absolute top-1/2 -right-4 transform -translate-y-1/2 bg-white p-2 rounded-full shadow-md hover:bg-gray-200"
                 onClick={nextReview}
               >
-                <ArrowRight02Icon size={20} />
+                <ArrowRight01Icon size={14} />
               </button>
             </div>
           </div>
-        </div>
+        </section>
       </section>
 
       <section className="mt-16">

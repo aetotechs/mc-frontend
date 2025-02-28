@@ -26,6 +26,8 @@ const Map = ({ lat, lng }) => {
       zoom="14"
       src={mapSrc}
       title="Google Map"
+      loading="lazy"
+      referrerpolicy="no-referrer-when-downgrade"
       className='w-full h-full'
     />
   );
