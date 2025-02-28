@@ -6,9 +6,7 @@ import Footer from "../components/global/Footer";
 import {
   ArrowDown01Icon,
   ArrowLeft01Icon,
-  ArrowLeft02Icon,
   ArrowRight01Icon,
-  ArrowRight02Icon,
   ArrowUp01Icon,
   Bathtub01Icon,
   BedIcon,
@@ -30,46 +28,7 @@ import { useParams } from "react-router-dom";
 import Spinner from "../../globals/ui/Spinner";
 import { amenitiesList } from "../utils/constansts/AmenitiesList";
 import RatingStars from "../components/ui/RatingStars";
-
-const reviews = [
-  {
-    name: "Alice Johnson",
-    comment: "Great experience! The place was clean and very comfortable.",
-    rating: 5,
-    image: "https://randomuser.me/api/portraits/women/1.jpg",
-  },
-  {
-    name: "John Doe",
-    comment: "Loved the environment. Definitely coming back!",
-    rating: 4,
-    image: "https://randomuser.me/api/portraits/men/2.jpg",
-  },
-  {
-    name: "Emma Brown",
-    comment: "The service was top-notch, and the location is perfect.",
-    rating: 5,
-    image: "https://randomuser.me/api/portraits/women/3.jpg",
-  },
-
-  {
-    name: "Alice Johnson",
-    comment: "Great experience! The place was clean and very comfortable.",
-    rating: 5,
-    image: "https://randomuser.me/api/portraits/women/1.jpg",
-  },
-  {
-    name: "John Doe",
-    comment: "Loved the environment. Definitely coming back!",
-    rating: 4,
-    image: "https://randomuser.me/api/portraits/men/2.jpg",
-  },
-  {
-    name: "Emma Brown",
-    comment: "The service was top-notch, and the location is perfect.",
-    rating: 5,
-    image: "https://randomuser.me/api/portraits/women/3.jpg",
-  },
-];
+import { dialog_operations } from "../utils/constansts/DialogOperations";
 
 const DetailsPage = () => {
   const { openDialog } = useAuthDialog();
@@ -104,7 +63,7 @@ const DetailsPage = () => {
     "Reviews": useRef(null),
   };
 
-  const averageRating = reviews.reduce((acc, review) => acc + review.rating, 0)/reviews?.length;
+  const averageRating = property?.reviews && property?.reviews?.reduce((acc, review) => acc + review.rating, 0)/reviews?.length;
 
   useEffect(() => {
     const fetchItem = async () => {
@@ -113,34 +72,37 @@ const DetailsPage = () => {
     fetchItem();
   }, [propertyId]);
 
-  const totalSlides = Math.ceil(reviews.length / itemsPerPage);
-
   const nextSlide = () => {
-    setCurrentIndex((prev) => (prev + 1) % totalSlides);
+    if(currentIndex < property?.media?.photos?.length - 1) {
+      setCurrentIndex(currentIndex + 1);
+    }
   };
 
   const prevSlide = () => {
-    setCurrentIndex((prev) => (prev === 0 ? totalSlides - 1 : prev - 1));
+    if(currentIndex > 0) {
+      setCurrentIndex(currentIndex - 1);
+    }
   };
-
-  const images = ["images/ap6.jpeg", "images/ap3.jpeg", "images/ap5.jpeg"];
+  
+  const images = ["/images/ap6.jpeg", "/images/ap5.jpeg", "/images/ap3.jpeg", ];
+  
   const nextReview = () => {
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % reviews.length);
+    // setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
   };
 
   const prevReview = () => {
-    setCurrentIndex((prevIndex) =>
-      prevIndex === 0 ? reviews.length - 1 : prevIndex - 1
-    );
+    // setCurrentIndex((prevIndex) =>
+    //   prevIndex === 0 ? images.length - 1 : prevIndex - 1
+    // );
   };
 
   const [toggledUnitDetails, setToggledUnitDetails] = useState(false);
 
   const toggleUnitDetails = (unit, toggled) => {
-    setToggledUnitDetails(!toggled);
-    return(
-      <Dialog/>
-    )
+    setToggledUnitDetails(toggled);
+    console.log("Unit details for: " + JSON.stringify(unit));
+
+    openDialog(dialog_operations.unit_details, '90vw', unit);
   }
 
   return (
@@ -205,7 +167,7 @@ const DetailsPage = () => {
                 Furnished
               </div>
               <img
-                src={ '/images/ap6.jpeg' || images[currentIndex]}
+                src={ images[currentIndex] || property?.media?.photos[currentIndex] }
                 alt={`Slide ${currentIndex}`}
                 className="w-full h-full object-cover rounded-2xl transition-all duration-300"
               />
@@ -227,7 +189,7 @@ const DetailsPage = () => {
               <div className="absolute bottom-4 right-4 w-full flex justify-end gap-2">
                 <div className="flex items-center gap-1 bg-white rounded-md px-2 py-1 text-sm">
                   <Image02Icon className="h-3 w-3" />
-                  <span>{images.length}</span>
+                  <span>{property?.media?.photos?.length}</span>
                   <span>photos</span>
                 </div>
 
@@ -367,7 +329,7 @@ const DetailsPage = () => {
             </button>
           </section>
 
-          <section className="w-[50%] ">
+          <section className="w-[50%] hidden">
             <h1 className="font-normal text-[1.2rem] mb-2">Features</h1>
 
             <div className="flex justify-between">
@@ -403,17 +365,17 @@ const DetailsPage = () => {
           <div className="bg-white rounded-xl flex flex-col gap-4 p-5 shadow-md border">
             <span className="text-xl font-medium">Tour Property</span>
             
-            <Button className="py-3 flex items-center bg-primary justify-center gap-2 text-white text-sm font-normal rounded-md p-2">
+            <Button onClick={() => { alert("Not yet enabled")}} className="py-3 flex items-center bg-primary justify-center gap-2 text-white text-sm font-normal rounded-md p-2">
               <Key01Icon className="h-4 w-4" />
               <span>Request to rent</span>
             </Button>
 
-            <Button className="py-3 flex items-center bg-primary bg-opacity-20 justify-center gap-2 text-primary text-sm font-semibold rounded-md p-2">
+            <Button onClick={() => { alert("Not yet enabled")}} className="py-3 flex items-center bg-primary bg-opacity-20 justify-center gap-2 text-primary text-sm font-semibold rounded-md p-2">
               <CalendarAdd01Icon className="h-4 w-4" />
               <span>Schedule tour</span>
             </Button>
 
-            <Button className="py-3 mt-3 flex items-center justify-center gap-1 text-sm font-semibold rounded-md border p-2">
+            <Button onClick={() => { alert("Not yet enabled")}} className="py-3 mt-3 flex items-center justify-center gap-1 text-sm font-semibold rounded-md border p-2">
               <BubbleChatIcon className="h-4 w-4" />
               <span>Chat with Owner </span>
             </Button>
@@ -439,21 +401,15 @@ const DetailsPage = () => {
 
           <div className="border rounded-lg my-2 h-[40vh]">
             <Map/>
-            {/* <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d31918.13613198205!2d32.49461968053299!3d0.2905604467530591!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x177da322867754d1%3A0x56da7cad63130f35!2sWakiso%2C%20Kampala!5e0!3m2!1sen!2sug!4v1739857757719!5m2!1sen!2sug"
-              // style={{ width: "100%", height: "250px", border: "none" }}
-              className="w-full h-full"
-              allowfullscreen=""
-              loading="lazy"
-              referrerpolicy="no-referrer-when-downgrade"
-            /> */}
           </div>
         </section>
 
         <section className="my-4 flex flex-col" ref={sectionsRef["Reviews"]}>
           <h1 className="font-normal text-[1.2rem] mb-1">Reviews</h1>
 
-          <div className="flex gap-8 w-full my-1">
+          <p className={`${property?.reviews?.length <= 0 || !property?.reviews ? "flex" : "hidden"} text-gray-500`}>No reviews available yet</p>
+
+          <div className={`${property?.reviews?.length > 0 ? "flex" : "hidden"} gap-8 w-full my-1`}>
             <div className="border shadow-md rounded-md col-span-1 p-3 w-[25%]">
               <span className="font-bold">Ratings</span>
 
@@ -464,22 +420,20 @@ const DetailsPage = () => {
                   <RatingStars rating={averageRating}/>
 
                   <span className="text-[#62636C] text-[0.8rem]">
-                    Based on {reviews?.length || 0} ratings
+                    Based on {property?.reviews?.length || 0} ratings
                   </span>
                 </div>
               </div>
 
-              {/* <div className="border h-1/2 my-3 w-full bg-slate-400"></div> */}
-
               <div className="space-y-1">
                 {[5, 4, 3, 2, 1].map((rating) => {
-                  const totalReviews = reviews?.length || 1;
+                  const totalReviews = property?.reviews?.length || 1;
                   const ratePercentages = {
-                    _5: reviews?.filter((review) => review?.rating === 5)?.length / totalReviews * 100,
-                    _4: reviews?.filter((review) => review?.rating === 4)?.length / totalReviews * 100,
-                    _3: reviews?.filter((review) => review?.rating === 3)?.length / totalReviews * 100,
-                    _2: reviews?.filter((review) => review?.rating === 2)?.length / totalReviews * 100,
-                    _1: reviews?.filter((review) => review?.rating === 1)?.length / totalReviews * 100, 
+                    _5: property?.reviews?.filter((review) => review?.rating === 5)?.length / totalReviews * 100,
+                    _4: property?.reviews?.filter((review) => review?.rating === 4)?.length / totalReviews * 100,
+                    _3: property?.reviews?.filter((review) => review?.rating === 3)?.length / totalReviews * 100,
+                    _2: property?.reviews?.filter((review) => review?.rating === 2)?.length / totalReviews * 100,
+                    _1: property?.reviews?.filter((review) => review?.rating === 1)?.length / totalReviews * 100, 
                   }
                   console.log(JSON.stringify(ratePercentages));
                   return (
@@ -509,14 +463,14 @@ const DetailsPage = () => {
                 </button>
                 <section className="flex w-full gap-4 overflow-auto no-scrollbar ">
                   {
-                    reviews?.map((review, i) => (
+                    property?.reviews?.map((review, i) => (
                       <article className="p-3 bg-gray-100 rounded-lg">
                         <section className="flex gap-4">
                           <div className="rounded-full w-[3rem] h-[3rem]">
-                            <img src={review?.image} alt={review?.name + "'s image"} className="object-cover rounded-full" />
+                            <img src={review?.image} alt={review?.username + "'s image"} className="object-cover rounded-full" />
                           </div>
                           <div>
-                            <p className="text-[1rem] font-nromal whitespace-nowrap">{review?.name}</p>
+                            <p className="text-[1rem] font-nromal whitespace-nowrap">{review?.username}</p>
                             <div className="flex gap-4 items-center">
                               <RatingStars rating={review?.rating}/>
                               <p>{Date.now().toPrecision()}</p>
@@ -531,7 +485,6 @@ const DetailsPage = () => {
                     ))
                   }
                 </section>
-
               </section>
               <section className="flex justify-end">
                 <button className="text-primary border px-4 py-2 rounded-lg font-semibold">See all reviews</button>
@@ -543,7 +496,7 @@ const DetailsPage = () => {
                 <div className="flex transition-transform duration-500 gap-5"
                   style={{ transform: `translateX(-${currentIndex * 100}%)` }}
                 >
-                  {Array.from({ length: totalSlides }).map((_, slideIndex) => (
+                  {Array.from({ length: property?.reviews?.length || 0 }).map((_, slideIndex) => (
                     <div
                       key={slideIndex}
                       className="grid grid-cols-3 gap-5 min-w-full"
