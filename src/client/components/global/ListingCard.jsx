@@ -1,12 +1,15 @@
 import { ArrowLeft01Icon, ArrowRight01Icon, Bathtub01Icon, BedIcon, FavouriteIcon } from "hugeicons-react";
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const ListingCard = ({ item }) => {
+  console.log(item);
+  const navigate = useNavigate();
   const [price, setPrice] = useState({ min_price: 90000.0, max_price: 230000.0 });
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   const handleNextImage = () => {
-    if (currentImageIndex < item.photos.length - 1) {
+    if (currentImageIndex < item.media.photos.length - 1) {
       setCurrentImageIndex(currentImageIndex + 1);
     }
   };
@@ -21,7 +24,7 @@ const ListingCard = ({ item }) => {
     <div className="w-full border rounded-xl">
       <section className="relative w-full h-[20vh] md:h-[26vh] bg-gray-200 rounded-t-xl">
         <img
-          src={item.photos[currentImageIndex]?.url || "/images/hero-image.png"}
+          src={item?.media?.photos[currentImageIndex]?.url?? "/images/hero-image.png"}
           alt="Property"
           className="w-full h-full object-cover rounded-t-xl"
         />
@@ -32,7 +35,7 @@ const ListingCard = ({ item }) => {
         <button className="absolute right-4 top-4 rounded-full bg-white p-1" title="Add to favourites list">
           <FavouriteIcon size={14}/>
         </button>
-        {currentImageIndex < item.photos.length - 1 && (
+        {currentImageIndex < item?.media?.photos?.length - 1 && (
           <button
             onClick={handleNextImage}
             className="absolute right-4 top-[50%] translate-y-[-50%] bg-white rounded-full p-1"
@@ -51,7 +54,7 @@ const ListingCard = ({ item }) => {
           </button>
         )}
       </section>
-      <section className="p-2 px-4">
+      <section className="p-2 px-4 cursor-pointer" title="Property details" onClick={() => navigate(`/details/${item?.propertyId}`)}> 
         <section>
           <p className="font-bold text-xl md:text-lg whitespace-nowrap">
             UGX {price.min_price.toLocaleString() || "--"} - {price.max_price.toLocaleString() || "--"}{" "}
@@ -61,15 +64,15 @@ const ListingCard = ({ item }) => {
         <section className="flex whitespace-nowrap text-sm font-thin gap-4 items-center">
           <p className="flex gap-2 items-center">
             <BedIcon size={14} />
-            <span>{2 || "--"} Bed(s)</span>
+            <span>{item.bedRange || "--"} Bed(s)</span>
           </p>
           <p className="flex gap-2 items-center">
             <Bathtub01Icon size={14} />
-            <span>{3 || "--"} Bath(s)</span>
+            <span>{item?.bathRange || "--"} Bath(s)</span>
           </p>
         </section>
         <section>
-          <p className="truncate text-sm">{item.location || "--"}</p>
+          <p className="truncate text-sm">{item?.address?.description || "--"}</p>
         </section>
         <section>
           <p className="truncate opacity-60 text-xs mt-2">{item.units.length || "--"} Units available</p>
