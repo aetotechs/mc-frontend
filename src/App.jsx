@@ -6,6 +6,7 @@ import AuthModel from "./client/components/authentication/AuthModel";
 import { isAuthenticated, logout } from "./client/utils/cookies/AuthCookiesManager";
 import AdminRoutes from "./layout/AdminRoutes";
 import ClientRoutes from "./layout/ClientRoutes";
+import PartnerRoutes from "./layout/PartnerRoutes";
 
 function App() {
   const hostname = window.location.hostname;

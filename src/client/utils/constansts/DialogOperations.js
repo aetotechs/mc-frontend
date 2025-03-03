@@ -8,5 +8,8 @@ export const dialog_operations = {
     change_password:"_changePasswordrwtdytewdtewgfyefggrgg_",
     manage_notifications : "_manageNotificationstwetdtedtef_",
     edit_profile : "_editProfilehehhewjdiwoiidieidi_",
+
+    // Details
+    unit_details: "_unitDetailsjdiwjdiwjdjwjdjwjdjw_",
   
   };  
