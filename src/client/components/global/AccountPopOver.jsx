@@ -55,7 +55,7 @@ export function AccountPopover() {
         >
           <div className="absolute -top-1 left-[80%] transform -translate-x-1/2 w-0 h-0 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-b-[6px] border-b-white"></div>
           <div className="flex flex-col font-normal py-2 text-sm">
-            {isAuthenticated() ? (
+            {!isAuthenticated() ? (
               <ul>
                 <li
                   className="px-4 py-1.5 hover:bg-gray-200 cursor-pointer"
