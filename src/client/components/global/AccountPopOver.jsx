@@ -108,7 +108,7 @@ export function AccountPopover() {
                 </li>
 
                 <li className="px-4 py-1.5 hover:bg-gray-200">
-                  <NavLink to={"/"}>Notifications</NavLink>
+                  <NavLink to={"/notifications"}>Notifications</NavLink>
                 </li>
 
                 <li className="px-4 py-1.5 hover:bg-gray-200">

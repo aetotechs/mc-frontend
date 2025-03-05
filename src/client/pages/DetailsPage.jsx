@@ -162,15 +162,20 @@ const DetailsPage = () => {
       <section className="grid grid-cols-6 px-[8vw] my-4 gap-10">
         <section className="col-span-4">
           <div className="rounded-md w-full" ref={sectionsRef["Overview"]}>
-            <div className="relative w-full h-[65vh] overflow-hidden rounded-2xl">
-              <div className="absolute bg-[#FFC654] rounded-lg py-1 px-2 m-4 text-sm">
+            <div className="relative flex items-center justify-center w-full h-[65vh] overflow-hidden rounded-2xl">
+              <div className="absolute bg-[#FFC654] rounded-lg py-1 left-2 top-2 px-2 m-4 text-sm">
                 Furnished
               </div>
-              <img
-                src={ images[currentIndex] || property?.media?.photos[currentIndex] }
-                alt={`Slide ${currentIndex}`}
-                className="w-full h-full object-cover rounded-2xl transition-all duration-300"
-              />
+              {!loading ?
+                  <img
+                    src={property?.media?.photos[currentIndex] || "/logos/mycrib.png"}
+                    alt={`Slide ${currentIndex}`}
+                    className="w-full h-full object-cover bg-gray-100 rounded-2xl transition-all duration-300"
+                    onError={(e) => (e.currentTarget.src = "/images/placeholder.png")}
+                  />
+                : 
+                  <Spinner/>
+              }
 
               <button
                 onClick={prevSlide}
@@ -269,16 +274,20 @@ const DetailsPage = () => {
             </h1>
             
             {/* Tabs */}
-            <section className="flex mb-4 border rounded-lg w-content">
-              {filters.map((filter) => (
-                <Button
-                  key={filter}
-                  className={`px-2 py-1 w-[10%] text-center ${selectedFilter === filter ? "border-2 border-primary" : ""}`}
-                  onClick={() => setSelectedFilter(filter)}
-                >
-                  {filter}
-                </Button>
-              ))}
+            <section className="flex my-4 w-fill">
+              <section className="border rounded-lg flex gap-2 ">
+                {filters.map((filter, i) => (
+                  <div className="flex gap-2">
+                    <Button
+                      label={filter}
+                      key={filter}
+                      className={`px-4 whitespace-nowrap py-2 font-normal ${selectedFilter === filter ? "border-2 border-primary" : ""}`}
+                      onClick={() => setSelectedFilter(filter)}
+                    />
+                    <span className={`${filters.length - 1 === i ? 'hidden' : 'flex'} items-center`}>|</span>
+                  </div>
+                ))}
+              </section>
             </section>
 
             {/* Units Display */}
@@ -286,7 +295,11 @@ const DetailsPage = () => {
               {filteredUnits?.map((unit, i) => (
                 <article key={unit.unitId} className="flex items-center gap-2 w-full border rounded-xl">
                   <div className="w-[20%] m-2 h-[90%] bg-gray-200 rounded-lg">
-                    <img src={ unit?.media?.photos[0] || "/images/ap2.jpeg"} alt={unit?.name} className="w-full h-full object-cover rounded-lg"/>
+                    <img 
+                      src={ unit?.media?.photos[0] || "/images/placeholder.png"} 
+                      alt={unit?.name} 
+                      onError={(e) => (e.currentTarget.src = "/images/placeholder.png")}
+                      className="w-full h-full object-cover rounded-lg"/>
                   </div>
                   <article className="p-5 rounded-lg flex justify-between items-center w-full">
                     <div className="flex gap-3 text-[1.2rem]">
@@ -354,12 +367,17 @@ const DetailsPage = () => {
         </section>
 
         <section className="col-span-2 flex flex-col gap-10">
-          <div className="rounded-2xl object-cover overflow-hidden bg-red-700 h-[65vh]">
+          <div className="relative rounded-2xl object-cover overflow-hidden bg-gray-100 p-32 opacity-50 h-[65vh]">
             <img
-              src="/images/ap6.jpeg"
+              src="/logos/logo.png"
               alt="House"
-              className="w-full h-full object-cover"
+              onError={(e) => (e.currentTarget.src = "/images/placeholder.png")}
+              className="w-full object-cover"
             />
+            <div className="absolute top-[40%] left-[27%] p-4 space-y-2 text-center bg-white rounded-xl border-2 border-primary">
+              <button className="text-primary border rounded-lg text-center p-1 border-2 border-primary text-xs font-bold">VR</button>
+              <p className="text-xs text-primary font-bold whitespace-nowrap">No 3D Walkthrough</p>
+            </div>
           </div>
 
           <div className="bg-white rounded-xl flex flex-col gap-4 p-5 shadow-md border">
