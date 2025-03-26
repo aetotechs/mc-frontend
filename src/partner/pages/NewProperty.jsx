@@ -1,88 +1,168 @@
-import React, { useState } from 'react'
-import PartnerHeader from '../components/PartnerHeader'
-import Footer from '../../client/components/global/Footer'
-import { ArrowLeft02Icon, Tick01Icon, Tick02Icon } from 'hugeicons-react'
-import { Link, useNavigate } from 'react-router-dom'
+import React, { useState, useRef } from 'react';
+import { useForm, FormProvider } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import PartnerHeader from '../components/PartnerHeader';
+import Footer from '../../client/components/global/Footer';
+import { ArrowLeft02Icon } from 'hugeicons-react';
+import { Link, useNavigate } from 'react-router-dom';
+import BasicInfomation from '../components/property_upload_forms/BasicInfomation';
+import AddUnits from '../components/property_upload_forms/AddUnits';
+import PropertyFeatures from '../components/property_upload_forms/PropertyFeatures';
+import UploadMedia from '../components/property_upload_forms/UploadMedia';
+import Preview from '../components/property_upload_forms/Preview';
+import PropertySchema from '../components/form_schemas/PropertyUploadFormSchema';
+import propertyUploadDefaultValues from '../components/default_values/PropertyUploadDefaultValues';
 
 const NewProperty = () => {
   const navigate = useNavigate();
   const [step, setStep] = useState(1);
+  const [completed, setCompleted] = useState(false);
+  const basicInfoRef = useRef(null);
+  const addUnitsRef = useRef(null);
+  const propertyFeaturesRef = useRef(null);
+  const uploadMediaRef = useRef(null);
 
-  const handleNext = () => {
-    if(step < 5) setStep(step + 1);
-  }
+  const methods = useForm({
+    resolver: zodResolver(PropertySchema),
+    defaultValues: propertyUploadDefaultValues,
+  });
+
+  const { control, handleSubmit, formState: { errors }, getValues, setValue } = methods;
+
+  const handleNext = async () => {
+    let isValid = false;
+
+    if (step === 1 && basicInfoRef.current) {
+      isValid = await basicInfoRef.current.validate();
+    } else if (step === 2 && addUnitsRef.current) {
+      isValid = await addUnitsRef.current.validate();
+    } else if (step === 3 && propertyFeaturesRef.current) {
+      isValid = await propertyFeaturesRef.current.validate();
+    } else if (step === 4 && uploadMediaRef.current) {
+      isValid = await uploadMediaRef.current.validate();
+    } else if (step === 5) {
+      // On Step 5, validate the entire form
+      handleSubmit(
+        (data) => {
+          setCompleted(true);
+          onSubmit(data);
+        },
+        (err) => {
+          console.log('Final submission validation errors:', err);
+        }
+      )();
+      return; // Exit early since we're submitting
+    }
+
+    if (isValid) {
+      setStep(step + 1);
+    } else {
+      console.log('Validation errors:', errors);
+    }
+  };
 
   const handlePrevious = () => {
-    if(step > 1) setStep(step - 1);
-  }
+    if (step > 1) setStep(step - 1);
+  };
+
+  const onSubmit = (data) => {
+    console.log('Form Data:', data);
+    // Submit to your API
+    // navigate('/success');
+  };
 
   return (
-    <div className='relative h-screen'>
-      <section className='sticky top-0 z-50'>
-        <PartnerHeader bottomBorder />
-      </section>
-
-      <section className='px-[8vw] py-[2vw] flex items-center gap-6'>
-        <Link to={-1}>
-          <ArrowLeft02Icon/>
-        </Link>
-        <article className='font-bold text-xl'>Add property</article>
-      </section>
-
-      {/* Forms and size bar */}
-      <section className='mx-[8vw] flex gap-8'>
-        <section className='bg-blue-50 bg-opacity-40 p-6 text-sm w-[20vw] space-y-6 rounded-lg'>
-          <div className={`text-gray-400`}>
-            <p className={`${step === 1 && 'text-primary flex items-center gap-4'}`}>Step 1/5 <span className={`${step < 2 && 'text-green-500 '} 'font-bold`}><Tick01Icon size={20}/></span></p>
-            <p className={`${step === 1 && 'text-black'}`}>Basic information</p>
-          </div>
-          <div className={`text-gray-400`}>
-            <p className={`${step === 2 && 'text-primary'} items-center flex gap-4`}>
-              Step 2/5
-              <span className={`${step < 3 && 'text-green-500'} 'font-bold`}>
-                <Tick01Icon size={20}/>
-              </span>     
-            </p>
-            <p className={`${step === 2 && 'text-black'}`}>Add Units</p>
-          </div>
-          <div className={`text-gray-400`}>
-          <p className={`${step === 3 && 'text-primary'} items-center flex gap-4`}>
-              Step 3/5
-              <span className={`${step < 4 && 'text-green-500'} 'font-bold`}>
-                <Tick01Icon size={20}/>
-              </span>     
-            </p>
-            <p className={`${step === 3 && 'text-black'}`}>Property Features</p>
-          </div>
-          <div className={`text-gray-400`}>
-            <p className={`${step === 4 && 'text-primary'} items-center flex gap-4`}>
-              Step 4/5
-              <span className={`${step < 5 && 'text-green-500'} 'font-bold`}>
-                <Tick01Icon size={20}/>
-              </span>     
-            </p>
-            <p className={`${step === 4 && 'text-black'}`}>Upload Media</p>
-          </div>
-          <div className={`text-gray-400`}>
-            <p className={`${step === 5 && 'text-primary'} items-center flex gap-4`}>
-              Step 5/5
-              <span className={`${step < 6 && 'text-green-500'} 'font-bold`}>
-                <Tick01Icon size={20}/>
-              </span>     
-            </p>
-            <p className={`${step === 5 && 'text-black'}`}>Preview</p>
-          </div>
+    <FormProvider {...methods}>
+      <div className="relative h-[100vh] overflow-y-auto">
+        <section className="sticky top-0 z-50">
+          <PartnerHeader bottomBorder />
         </section>
-        <section className=''>
-          section 2
+
+        <section className="px-[8vw] py-[2vw] flex items-center gap-6">
+          <Link to={-1}>
+            <ArrowLeft02Icon />
+          </Link>
+          <article className="font-bold text-xl">Add property</article>
         </section>
-      </section>
 
-      <section className='pt-[4vh]'>
-        <Footer/>
-      </section>
-    </div>
-  )
-}
+        <section className="mx-[8vw] flex gap-8">
+          <section className="bg-blue-50 bg-opacity-40 p-6 text-sm w-[20vw] space-y-6 rounded-lg">
+            <div className="text-gray-400">
+              <p className={`${step === 1 ? 'text-primary' : step > 1 ? 'text-gray-700' : ''} flex items-center gap-4`}>
+                Step 1/5{' '}
+                <span className={`${step > 1 ? 'font-extrabold text-green-500' : 'hidden'}`}>
+                  <i className="pi pi-check font-extrabold" />
+                </span>
+              </p>
+              <p className={`${step >= 1 ? 'text-black' : ''}`}>Basic information</p>
+            </div>
+            <div className="text-gray-400">
+              <p className={`${step === 2 ? 'text-primary' : step > 2 ? 'text-gray-700' : ''} flex items-center gap-4`}>
+                Step 2/5{' '}
+                <span className={`${step > 2 ? 'font-extrabold text-green-500' : 'hidden'}`}>
+                  <i className="pi pi-check font-extrabold" />
+                </span>
+              </p>
+              <p className={`${step >= 2 ? 'text-black' : ''}`}>Add Units</p>
+            </div>
+            <div className="text-gray-400">
+              <p className={`${step === 3 ? 'text-primary' : step > 3 ? 'text-gray-700' : ''} flex items-center gap-4`}>
+                Step 3/5{' '}
+                <span className={`${step > 3 ? 'font-extrabold text-green-500' : 'hidden'}`}>
+                  <i className="pi pi-check font-extrabold" />
+                </span>
+              </p>
+              <p className={`${step >= 3 ? 'text-black' : ''}`}>Property Features</p>
+            </div>
+            <div className="text-gray-400">
+              <p className={`${step === 4 ? 'text-primary' : step > 4 ? 'text-gray-700' : ''} flex items-center gap-4`}>
+                Step 4/5{' '}
+                <span className={`${step > 4 ? 'font-extrabold text-green-500' : 'hidden'}`}>
+                  <i className="pi pi-check font-extrabold" />
+                </span>
+              </p>
+              <p className={`${step >= 4 ? 'text-black' : ''}`}>Upload Media</p>
+            </div>
+            <div className="text-gray-400">
+              <p className={`${step >= 5 ? 'text-primary' : ''} flex items-center gap-4`}>
+                Step 5/5{' '}
+              </p>
+              <p className={`${step === 5 ? 'text-black' : ''}`}>Preview</p>
+            </div>
+          </section>
 
-export default NewProperty
+          <section className="w-[35vw]">
+            {step === 1 && <BasicInfomation ref={basicInfoRef} control={control} errors={errors} />}
+            {step === 2 && <AddUnits ref={addUnitsRef} control={control} errors={errors} setValue={setValue} />}
+            {step === 3 && <PropertyFeatures ref={propertyFeaturesRef} control={control} errors={errors} setValue={setValue} />}
+            {step === 4 && <UploadMedia ref={uploadMediaRef} control={control} errors={errors} setValue={setValue} />}
+            {step === 5 && <Preview formData={getValues()} />}
+            <section className="flex justify-between items-center mt-8">
+              <button onClick={handlePrevious} className="text-black font-semibold p-2 rounded-lg">
+                Back
+              </button>
+              <button
+                onClick={handleNext}
+                className={`${step === 5 ? 'hidden' : ''} bg-primary font-semibold text-white px-8 py-2 rounded-lg`}
+              >
+                Next
+              </button>
+              <button
+                onClick={handleNext}
+                className={`${step !== 5 ? 'hidden' : ''} bg-primary font-semibold text-white px-8 py-2 rounded-lg`}
+              >
+                Submit for approval
+              </button>
+            </section>
+          </section>
+        </section>
+
+        <section className="pt-[4vh]">
+          <Footer />
+        </section>
+      </div>
+    </FormProvider>
+  );
+};
+
+export default NewProperty;

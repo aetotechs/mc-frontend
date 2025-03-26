@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Sen:wght@300;400;600&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Sen:wght@400..800&display=swap');
 @import "primereact/resources/themes/lara-light-blue/theme.css";
 @import "primereact/resources/primereact.min.css";
 @import "primeicons/primeicons.css";
@@ -7,12 +7,14 @@
 @tailwind components;
 @tailwind utilities;
 
+@theme {
+  --font-inter: 'Sen';
+}
+
 @layer base {
   body,
   html {
     background-color: rgb(255, 255, 255);
-    font-family:
-      "Sen";
     scroll-behavior: smooth;
     overflow-x: hidden;
   }
@@ -81,7 +83,6 @@
 }
 
 @layer utilities {
-  /* Chrome, Safari and Opera */
   .no-scrollbar::-webkit-scrollbar {
     display: none;
   }

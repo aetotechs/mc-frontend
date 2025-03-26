@@ -4,6 +4,9 @@ export default {
     content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
     theme: {
         extend: {
+            fontFamily: {
+                sen: ['"Sen"', 'sans-serif'],
+            },
             animation: {
                 'spin-slow': 'spin 0.8s linear infinite'
             },
