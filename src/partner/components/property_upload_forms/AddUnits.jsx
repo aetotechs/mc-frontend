@@ -8,7 +8,7 @@ import { ToggleButton } from 'primereact/togglebutton';
 import { Button } from 'primereact/button';
 import { InputSwitch } from 'primereact/inputswitch';
 import { Plus } from 'lucide-react';
-import { PlusSignIcon } from 'hugeicons-react';
+import { CloudUploadIcon, PlusSignIcon } from 'hugeicons-react';
 
 const AddUnits = forwardRef(({ control, errors, setValue }, ref) => {
   const { trigger, watch } = useFormContext();
@@ -49,7 +49,6 @@ const AddUnits = forwardRef(({ control, errors, setValue }, ref) => {
     setCollapsedUnits(newCollapsedUnits);
   };
 
-  // Add a new unit
   const addNewUnit = () => {
     append({
       name: '',
@@ -62,7 +61,7 @@ const AddUnits = forwardRef(({ control, errors, setValue }, ref) => {
       bathRooms: 0,
       available: '',
     });
-    setCollapsedUnits([...collapsedUnits, false]); // New unit starts expanded
+    setCollapsedUnits([...collapsedUnits, false]);
   };
 
   // Remove a unit
@@ -220,6 +219,7 @@ const AddUnits = forwardRef(({ control, errors, setValue }, ref) => {
                   control={control}
                   render={({ field }) => (
                     <Dropdown
+                      filter
                       options={paymentCycleOptions}
                       value={field.value}
                       onChange={(e) => {
@@ -412,91 +412,130 @@ const AddUnits = forwardRef(({ control, errors, setValue }, ref) => {
                             )}
                         </div>
                       </div>
-                        <div className='col-span-3'>
-                            <label className="block mb-1 text-sm">Availability</label>
-                            <Controller
-                                name={`units[${index}].available`}
-                                control={control}
-                                render={({ field }) => (
-                                <Dropdown
-                                    options={availabilityOptions}
-                                    value={field.value}
-                                    onChange={(e) => {
-                                    field.onChange(e.value);
-                                    trigger(`units[${index}].available`);
-                                    }}
-                                    className="w-full border border-gray-400 rounded-lg focus-within:border-[#6CAFE6] hover:border-[#6CAFE6]"
-                                    panelClassName="border border-gray-400 rounded-lg mt-1"
-                                />
-                                )}
-                            />
-                            {errors.units?.[index]?.available && (
-                                <p className="text-red-500 text-sm">{errors.units[index].available.message}</p>
-                            )}
-                        </div>
-                        <div className='col-span-3'> 
-                            <label className="block mb-1 text-sm">Photos (optional)</label>
-                            <Controller
-                                name={`units[${index}].media.photos`}
-                                control={control}
-                                render={({ field }) => (
-                                <FileUpload
-                                    mode="advanced"
-                                    accept="image/jpeg,image/png"
-                                    maxFileSize={5 * 1024 * 1024} // 5MB
-                                    onSelect={(e) => {
-                                    const files = Array.from(e.files).map((file) => URL.createObjectURL(file));
+                      <div className='col-span-3'>
+                          <label className="block mb-1 text-sm">Availability</label>
+                          <Controller
+                              name={`units[${index}].available`}
+                              control={control}
+                              render={({ field }) => (
+                              <Dropdown
+                                  options={availabilityOptions}
+                                  value={field.value}
+                                  onChange={(e) => {
+                                  field.onChange(e.value);
+                                  trigger(`units[${index}].available`);
+                                  }}
+                                  className="w-full border border-gray-400 rounded-lg focus-within:border-[#6CAFE6] hover:border-[#6CAFE6]"
+                                  panelClassName="border border-gray-400 rounded-lg mt-1"
+                              />
+                              )}
+                          />
+                          {errors.units?.[index]?.available && (
+                              <p className="text-red-500 text-sm">{errors.units[index].available.message}</p>
+                          )}
+                      </div>
+                      <div className="col-span-3">
+                        <label className="block mb-1 text-sm font-medium text-gray-700">Photos (optional)</label>
+                        <Controller
+                          name={`units[${index}].media.photos`}
+                          control={control}
+                          render={({ field }) => (
+                            <div className="">
+                              <div className='text-center border-2 border-dashed border-gray-200 rounded-lg p-4'>
+                                <label htmlFor={`photo-upload-${index}`} className="text-blue-500 underline cursor-pointer">Upload</label>
+                                <input
+                                  id={`photo-upload-${index}`}
+                                  type="file"
+                                  multiple
+                                  accept="image/jpeg,image/png"
+                                  className="hidden"
+                                  onChange={(e) => {
+                                    const files = Array.from(e.target.files).map((file) => URL.createObjectURL(file));
                                     field.onChange(files);
                                     trigger(`units[${index}].media.photos`);
-                                    }}
-                                    onClear={() => {
-                                    field.onChange([]);
-                                    trigger(`units[${index}].media.photos`);
-                                    }}
-                                    className="w-full border rounded-lg border-dashed"
-                                    chooseLabel="Upload"
-                                    customUpload
+                                  }}
                                 />
-                                )}
-                            />
-                            <p className="text-sm text-gray-500">Supports JPEG, PNG; max 5MB per file</p>
-                            {errors.units?.[index]?.media?.photos && (
-                                <p className="text-red-500 text-sm">{errors.units[index].media.photos.message}</p>
-                            )}
-                        </div>
-                        <div className='col-span-3'>
-                            <label className="block mb-1 text-sm">Video (optional)</label>
-                            <Controller
-                                name={`units[${index}].media.videos`}
-                                control={control}
-                                render={({ field }) => (
-                                <FileUpload
-                                    mode="advanced"
-                                    accept="video/mp4"
-                                    multiple
-                                    maxFileSize={10 * 1024 * 1024} // 10MB
-                                    onSelect={(e) => {
-                                        const files = Array.from(e.files).map((file) => URL.createObjectURL(file));
-                                        field.onChange(files);
-                                        trigger(`units[${index}].media.videos`);
-                                    }}
-                                    onClear={() => {
-                                    field.onChange([]);
-                                    trigger(`units[${index}].media.videos`);
-                                    }}
-                                    className="w-full border rounded-lg border-dashed"
-                                    // chooseLabel="Upload"
-                                    customUpload
-                                />
-                                )}
-                            />
-                            <p className="text-sm text-gray-500">Supports MP4; max 10MB</p>
-                            {errors.units?.[index]?.media?.videos && (
-                                <p className="text-red-500 text-sm">{errors.units[index].media.videos.message}</p>
-                            )}
+                                <p className="text-sm text-gray-500 mt-1">Supports JPEG, PNG; max 5MB per file</p>
+                              </div>
+                              {field.value?.length > 0 && (
+                                <div className="mt-2 flex gap-2">
+                                  {field.value.map((photoUrl, idx) => (
+                                    <div key={idx} className="relative">
+                                      <img src={photoUrl} alt="Uploaded" className="w-14 h-14 object-cover rounded-lg" />
+                                      <button
+                                        onClick={() => {
+                                          const updatedFiles = field.value.filter((_, i) => i !== idx);
+                                          field.onChange(updatedFiles);
+                                          trigger(`units[${index}].media.photos`);
+                                        }}
+                                        className="absolute top-1 right-1 bg-gray-200 rounded-full p-1 flex justify-center items-center"
+                                      >
+                                        <i className='pi pi-times text-[8px]' />
+                                      </button>
+                                    </div>
+                                  ))}
+                                </div>
+                              )}
                             </div>
-                        </div>
+                          )}
+                        />
+                        {errors.units?.[index]?.media?.photos && (
+                          <p className="text-red-500 text-sm">{errors.units[index].media.photos.message}</p>
+                        )}
+                      </div>
+
+                      <div className="col-span-3">
+                        <label className="block mb-1 text-sm font-medium text-gray-700">Video (optional)</label>
+                        <Controller
+                          name={`units[${index}].media.videos`}
+                          control={control}
+                          render={({ field }) => (
+                            <div className="">
+                              <div className='text-center border-2 border-dashed border-gray-200 rounded-lg p-4'>
+                                <label htmlFor={`video-upload-${index}`} className="text-blue-500 underline cursor-pointer text-center">Upload</label>
+                                <input
+                                  id={`video-upload-${index}`}
+                                  type="file"
+                                  multiple
+                                  accept="video/mp4"
+                                  className="hidden"
+                                  onChange={(e) => {
+                                    const files = Array.from(e.target.files).map((file) => URL.createObjectURL(file));
+                                    field.onChange(files);
+                                    trigger(`units[${index}].media.videos`);
+                                  }}
+                                />
+                                <p className="text-sm text-gray-500 mt-1">Supports MP4; max 10MB</p>
+                              </div>
+                                
+                              {field.value?.length > 0 && (
+                                <div className="mt-2 flex gap-2">
+                                  {field.value.map((videoUrl, idx) => (
+                                    <div key={idx} className="relative">
+                                      <video src={videoUrl} className="w-14 h-14 object-cover rounded-lg" controls />
+                                      <button
+                                        onClick={() => {
+                                          const updatedFiles = field.value.filter((_, i) => i !== idx);
+                                          field.onChange(updatedFiles);
+                                          trigger(`units[${index}].media.videos`);
+                                        }}
+                                        className="absolute top-1 right-1 bg-gray-200 rounded-full p-1 flex justify-center items-center"
+                                      >
+                                        <i className='pi pi-times text-[8px]' />
+                                      </button>
+                                    </div>
+                                  ))}
+                                </div>
+                              )}
+                            </div>
+                          )}
+                        />
+                        { errors.units?.[index]?.media?.videos && (
+                          <p className="text-red-500 text-sm">{errors.units[index].media.videos.message}</p>
+                        )}
+                      </div>
                     </div>
+                  </div>
                 )}
               </div>
             ))}

@@ -31,6 +31,7 @@ const NewProperty = () => {
 
   const handleNext = async () => {
     let isValid = false;
+    console.log(getValues());
 
     if (step === 1 && basicInfoRef.current) {
       isValid = await basicInfoRef.current.validate();

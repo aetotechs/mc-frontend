@@ -15,8 +15,12 @@ const UnitlessDetailsSchema = z.object({
 
 const PaymentCycleSchema = z.object({
   name: PaymentCycleEnum,
-  number: z.number().min(1, 'Number of payment cycles cannot be less than 1'),
-  description: z.string().min(1, 'Payment cycle description is required').max(3000, 'Payment cycle description cannot exceed 3000 characters'),
+  number: z.number().optional()
+  // .min(1, 'Number of payment cycles cannot be less than 1')
+  ,
+  description: z.string()
+  // .min(1, 'Payment cycle description is required')
+  // .max(3000, 'Payment cycle description cannot exceed 3000 characters'),
 });
 
 const MediaDataSchema = z.object({
