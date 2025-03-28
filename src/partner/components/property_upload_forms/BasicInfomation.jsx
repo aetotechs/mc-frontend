@@ -1,14 +1,14 @@
-import React, { forwardRef, useImperativeHandle } from 'react';
+import React, { forwardRef, useEffect, useImperativeHandle } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import { InputText } from 'primereact/inputtext';
 import { Dropdown } from 'primereact/dropdown';
 import { InputTextarea } from 'primereact/inputtextarea';
+import { ArrowDown01Icon } from 'hugeicons-react';
 
 const BasicInfomation = forwardRef(({ control, errors }, ref) => {
   const { trigger } = useFormContext(); // Access form context to trigger validation
 
   const propertyTypes = [
-    { label: 'Select type', value: '' },
     { label: 'Rental', value: 'RENTAL' },
     { label: 'Apartment', value: 'APARTMENT' },
     { label: 'Hostel', value: 'HOSTEL' },
@@ -30,6 +30,10 @@ const BasicInfomation = forwardRef(({ control, errors }, ref) => {
     },
   }));
 
+  useEffect(() => {
+    document.title = `Basic Information - Property Upload`;
+  })
+
   return (
     <div className="space-y-4">
       <h1 className="text-[1rem] font-[500]">Basic Information</h1>
@@ -42,11 +46,12 @@ const BasicInfomation = forwardRef(({ control, errors }, ref) => {
             render={({ field }) => (
               <InputText
                 {...field}
+                placeholder='e.g., "MyCrib residents"'
                 onChange={(e) => {
                   field.onChange(e); 
                   trigger('name');
                 }}
-                className="w-full border border-gray-400 rounded-lg px-3 py-2 placeholder:text-sm focus-within:border-[#6CAFE6] hover:border-[#6CAFE6]"
+                className="w-full border border-gray-400 rounded-lg p-3 placeholder:text-sm focus-within:border-[#6CAFE6] hover:border-[#6CAFE6]"
               />
             )}
           />
@@ -66,7 +71,7 @@ const BasicInfomation = forwardRef(({ control, errors }, ref) => {
                     field.onChange(e);
                     trigger('address.country');
                   }}
-                  className="w-full border border-gray-400 rounded-lg px-3 py-2 placeholder:text-sm focus-within:border-[#6CAFE6] hover:border-[#6CAFE6]"
+                  className="w-full border border-gray-400 rounded-lg p-3 placeholder:text-sm focus-within:border-[#6CAFE6] hover:border-[#6CAFE6]"
                 />
               )}
             />
@@ -85,7 +90,7 @@ const BasicInfomation = forwardRef(({ control, errors }, ref) => {
                     field.onChange(e);
                     trigger('address.city');
                   }}
-                  className="w-full border border-gray-400 rounded-lg px-3 py-2 placeholder:text-sm focus-within:border-[#6CAFE6] hover:border-[#6CAFE6]"
+                  className="w-full border border-gray-400 rounded-lg p-3 placeholder:text-sm focus-within:border-[#6CAFE6] hover:border-[#6CAFE6]"
                 />
               )}
             />
@@ -106,7 +111,7 @@ const BasicInfomation = forwardRef(({ control, errors }, ref) => {
                     field.onChange(e);
                     trigger('address.street');
                   }}
-                  className="w-full border border-gray-400 rounded-lg px-3 py-2 placeholder:text-sm focus-within:border-[#6CAFE6] hover:border-[#6CAFE6]"
+                  className="w-full border border-gray-400 rounded-lg p-3 placeholder:text-sm focus-within:border-[#6CAFE6] hover:border-[#6CAFE6]"
                 />
               )}
             />
@@ -125,7 +130,7 @@ const BasicInfomation = forwardRef(({ control, errors }, ref) => {
                     field.onChange(e);
                     trigger('address.zip');
                   }}
-                  className="w-full border border-gray-400 rounded-lg px-3 py-2 placeholder:text-sm focus-within:border-[#6CAFE6] hover:border-[#6CAFE6]"
+                  className="w-full border border-gray-400 rounded-lg p-3 placeholder:text-sm focus-within:border-[#6CAFE6] hover:border-[#6CAFE6]"
                 />
               )}
             />
@@ -141,6 +146,8 @@ const BasicInfomation = forwardRef(({ control, errors }, ref) => {
               <Dropdown
                 options={propertyTypes}
                 value={field.value}
+                placeholder="Select type"
+                dropdownIcon={<ArrowDown01Icon/>}
                 onChange={(e) => {
                   field.onChange(e.value);
                   trigger('propertyType');
@@ -164,7 +171,7 @@ const BasicInfomation = forwardRef(({ control, errors }, ref) => {
                   field.onChange(e);
                   trigger('description');
                 }}
-                className="w-full border border-gray-400 rounded-lg px-3 py-2 placeholder:text-sm focus-within:border-[#6CAFE6] hover:border-[#6CAFE6]"
+                className="w-full border border-gray-400 rounded-lg p-3 placeholder:text-sm focus-within:border-[#6CAFE6] hover:border-[#6CAFE6]"
               />
             )}
           />

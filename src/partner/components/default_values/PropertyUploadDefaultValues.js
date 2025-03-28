@@ -5,20 +5,20 @@ const propertyUploadDefaultValues = {
     propertyArea: '',
     parkingCapacity: '',
     unitlessDetails: {
-      price: 0,
-      paymentCycle: 'MONTHLY',
+      price: null,
+      paymentCycle: '',
       size: '',
-      bedRooms: 0,
-      bathRooms: 0,
-      available: 'AVAILABLE',
+      bedRooms: null,
+      bathRooms: null,
+      available: '',
     },
-    propertyType: 'RENTAL',
+    propertyType: '',
     unitsAvailable: true,
     units: [
       {
         name: '',
         description: '',
-        price: 0,
+        price: null,
         media: {
           photos: [],
           videos: [],
@@ -31,9 +31,9 @@ const propertyUploadDefaultValues = {
             description: '', // e.g. 'Payment is made every month'
         },
         size: '',
-        bedRooms: 0,
-        bathRooms: 0,
-        available: 'AVAILABLE',
+        bedRooms: null,
+        bathRooms: null,
+        available: '',
       },
     ],
     amenities: {
@@ -53,8 +53,8 @@ const propertyUploadDefaultValues = {
     media: {
       photos: [],
       videos: [],
-      threeDTour: '',
-      threeDTourLink: '',
+      threeDTour: null,
+      threeDTourLink: null,
     },
     address: {
       street: '',
@@ -63,7 +63,6 @@ const propertyUploadDefaultValues = {
       zip: '',
       country: '',
     },
-    status: 'draft',
   };
   
   export default propertyUploadDefaultValues;

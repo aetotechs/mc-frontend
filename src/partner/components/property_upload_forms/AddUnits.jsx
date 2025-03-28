@@ -1,14 +1,11 @@
-import React, { forwardRef, useImperativeHandle, useState } from 'react';
+import React, { forwardRef, useEffect, useImperativeHandle, useState } from 'react';
 import { useFormContext, Controller, useFieldArray } from 'react-hook-form';
 import { InputText } from 'primereact/inputtext';
 import { Dropdown } from 'primereact/dropdown';
 import { InputNumber } from 'primereact/inputnumber';
-import { FileUpload } from 'primereact/fileupload';
-import { ToggleButton } from 'primereact/togglebutton';
 import { Button } from 'primereact/button';
 import { InputSwitch } from 'primereact/inputswitch';
-import { Plus } from 'lucide-react';
-import { CloudUploadIcon, PlusSignIcon } from 'hugeicons-react';
+import { ArrowDown01Icon } from 'hugeicons-react';
 
 const AddUnits = forwardRef(({ control, errors, setValue }, ref) => {
   const { trigger, watch } = useFormContext();
@@ -24,16 +21,29 @@ const AddUnits = forwardRef(({ control, errors, setValue }, ref) => {
   const [collapsedUnits, setCollapsedUnits] = useState(fields.map(() => true));
 
   const paymentCycleOptions = [
-    { label: 'Select duration', value: '' },
-    { label: 'Second', value: 'SECOND' },
-    { label: 'Minute', value: 'MINUTE' },
-    { label: 'Hour', value: 'HOUR' },
-    { label: 'Day', value: 'DAY' },
-    { label: 'Week', value: 'WEEK' },
-    { label: 'Month', value: 'MONTH' },
-    { label: 'Year', value: 'YEAR' },
-    { label: 'Decade', value: 'DECADE' },
-    { label: 'Century', value: 'CENTURY' },
+    { label: 'Per Second', value: { name: "SECOND", number: 1 } },
+    { label: 'Per Minute', value: { name: 'MINUTE', number: 1 } },
+    { label: 'Per Hour', value: { name: 'HOUR', number: 1 } },
+    { label: 'Per Day', value: { name: 'DAY', number: 1 } },
+    { label: 'Per Week', value: { name: 'WEEK', number: 1 } },
+    { label: 'Per Month', value: { name: 'MONTH', number: 1 } },
+    { label: 'Per Year', value: { name: 'YEAR', number: 1 } },
+    { label: 'Per Decade', value: { name: 'DECADE', number: 1 } },
+    { label: 'Per Century', value: { name: 'CENTURY', number: 1 } },
+  ];
+
+  const numberOptions = [
+    { label: "0", value: 0 },
+    { label: "1", value: 1 },
+    { label: "2", value: 2 },
+    { label: "3", value: 3 },
+    { label: "4", value: 4 },
+    { label: "5", value: 5 },
+    { label: "6", value: 6 },
+    { label: "7", value: 7 },
+    { label: "8", value: 8 },
+    { label: "9", value: 9 },
+    { label: "10", value: 10 },
   ];
 
   const availabilityOptions = [
@@ -96,6 +106,10 @@ const AddUnits = forwardRef(({ control, errors, setValue }, ref) => {
     },
   }));
 
+  useEffect(() => {
+    document.title = `Add Units - Property Upload`;
+  })
+
   return (
     <div className="space-y-4">
       <h1 className="text-[1rem] font-[500]">Add Units</h1>
@@ -130,15 +144,19 @@ const AddUnits = forwardRef(({ control, errors, setValue }, ref) => {
                   name="unitlessDetails.bedRooms"
                   control={control}
                   render={({ field }) => (
-                    <InputText
-                      type='number'
+                    <Dropdown
                       value={field.value}
-                      onValueChange={(e) => {
+                      placeholder='Number'
+                      options={numberOptions}
+                      dropdownIcon={<ArrowDown01Icon/>}
+                      onChange={(e) => {
+                        console.log("New Value:", e.value);
                         field.onChange(e.value);
                         trigger('unitlessDetails.bedRooms');
                       }}
                       min={0}
-                      className="w-full border border-gray-400 rounded-lg px-3 py-2 placeholder:text-sm focus-within:border-[#6CAFE6] hover:border-[#6CAFE6]"
+                      className="w-full border border-gray-400 rounded-lg focus-within:border-[#6CAFE6] hover:border-[#6CAFE6]"
+                      panelClassName="border border-gray-400 rounded-lg mt-1"
                     />
                   )}
                 />
@@ -152,15 +170,17 @@ const AddUnits = forwardRef(({ control, errors, setValue }, ref) => {
                   name="unitlessDetails.bathRooms"
                   control={control}
                   render={({ field }) => (
-                    <InputText
-                    type='number'
+                    <Dropdown
+                      placeholder={'Number'}
                       value={field.value}
-                      onValueChange={(e) => {
+                      options={numberOptions}
+                      dropdownIcon={<ArrowDown01Icon/>}
+                      onChange={(e) => {
                         field.onChange(e.value);
                         trigger('unitlessDetails.bathRooms');
                       }}
-                      min={0}
-                      className="w-full border border-gray-400 rounded-lg px-3 py-2 placeholder:text-sm focus-within:border-[#6CAFE6] hover:border-[#6CAFE6]"
+                      className="w-full border border-gray-400 rounded-lg focus-within:border-[#6CAFE6] hover:border-[#6CAFE6]"
+                      panelClassName="border border-gray-400 rounded-lg mt-1"
                     />
                   )}
                 />
@@ -176,11 +196,12 @@ const AddUnits = forwardRef(({ control, errors, setValue }, ref) => {
                   render={({ field }) => (
                     <InputText
                       {...field}
+                      placeholder='e.g., 98'
                       onChange={(e) => {
                         field.onChange(e);
                         trigger('unitlessDetails.size');
                       }}
-                      className="w-full border border-gray-400 rounded-lg px-3 py-2 placeholder:text-sm focus-within:border-[#6CAFE6] hover:border-[#6CAFE6]"
+                      className="w-full border border-gray-400 rounded-lg px-3 py-3 placeholder:text-sm focus-within:border-[#6CAFE6] hover:border-[#6CAFE6]"
                     />
                   )}
                 />
@@ -196,15 +217,17 @@ const AddUnits = forwardRef(({ control, errors, setValue }, ref) => {
                   name="unitlessDetails.price"
                   control={control}
                   render={({ field }) => (
-                    <InputText
-                      type='number'
-                      value={field.value}
+                    <InputNumber
+                      value={field.value ?? 0}
+                      placeholder='UGX'
                       onValueChange={(e) => {
                         field.onChange(e.value);
                         trigger('unitlessDetails.price');
                       }}
                       min={0}
-                      className="w-full border border-gray-400 rounded-lg px-3 py-2 placeholder:text-sm focus-within:border-[#6CAFE6] hover:border-[#6CAFE6]"
+                      prefix='UGX '
+                      invalid={errors.unitlessDetails?.price}
+                      inputClassName="w-full border border-gray-400 rounded-lg p-3 placeholder:text-sm focus-within:border-[#6CAFE6] hover:border-[#6CAFE6]"
                     />
                   )}
                 />
@@ -215,24 +238,26 @@ const AddUnits = forwardRef(({ control, errors, setValue }, ref) => {
               <div className="flex-1">
                 <label className="block mb-1 text-sm">Payment cycle</label>
                 <Controller
-                  name="unitlessDetails.paymentCycle.name"
+                  name="unitlessDetails.paymentCycle"
                   control={control}
                   render={({ field }) => (
                     <Dropdown
                       filter
                       options={paymentCycleOptions}
+                      placeholder='Select duration'
                       value={field.value}
+                      dropdownIcon={<ArrowDown01Icon/>}
                       onChange={(e) => {
                         field.onChange(e.value);
-                        trigger('unitlessDetails.paymentCycle.name');
+                        trigger('unitlessDetails.paymentCycle');
                       }}
                       className="w-full border border-gray-400 rounded-lg focus-within:border-[#6CAFE6] hover:border-[#6CAFE6]"
                       panelClassName="border border-gray-400 rounded-lg mt-1"
                     />
                   )}
                 />
-                {errors.unitlessDetails?.paymentCycle?.name && (
-                  <p className="text-red-500 text-sm">{errors.unitlessDetails.paymentCycle.name.message}</p>
+                {errors.unitlessDetails?.paymentCycle && (
+                  <p className="text-red-500 text-sm">{errors.unitlessDetails.paymentCycle.message}</p>
                 )}
               </div>
             </div>
@@ -244,6 +269,8 @@ const AddUnits = forwardRef(({ control, errors, setValue }, ref) => {
                 render={({ field }) => (
                   <Dropdown
                     options={availabilityOptions}
+                    placeholder='Select status'
+                    dropdownIcon={<ArrowDown01Icon/>}
                     value={field.value}
                     onChange={(e) => {
                       field.onChange(e.value);
@@ -270,13 +297,13 @@ const AddUnits = forwardRef(({ control, errors, setValue }, ref) => {
                       onClick={() => removeUnit(index)}
                       className="pi pi-times absolute top-[40%] -right-12 bg-gray-300 rounded-full cursor-pointer p-1 text-[8px]"
                   />
-                <div className="flex justify-between items-center p-4">
-                  <h2 className="text-sm font-medium">Unit {index + 1}</h2>
+                <div className="flex justify-between items-center p-4" onClick={() => toggleUnitCollapse(index)}>
+                <h2 className="truncate text-sm font-medium">{ watch('units')[index]?.name ?? `Unit ${index + 1}`}</h2>
                   <div className="flex gap-2">
                     <Button
                       icon={collapsedUnits[index] ? 'pi pi-chevron-down' : 'pi pi-chevron-up'}
                       onClick={() => toggleUnitCollapse(index)}
-                      className="text-xs"
+                      className="text-xs border-0"
                     />
                   </div>
                 </div>
@@ -291,11 +318,12 @@ const AddUnits = forwardRef(({ control, errors, setValue }, ref) => {
                             render={({ field }) => (
                             <InputText
                                 {...field}
+                                placeholder='e.g., Unit 1 or Kansasa crib, '
                                 onChange={(e) => {
                                 field.onChange(e);
                                 trigger(`units[${index}].name`);
                                 }}
-                                className="w-full border border-gray-400 rounded-lg px-3 py-2 placeholder:text-sm focus-within:border-[#6CAFE6] hover:border-[#6CAFE6]"
+                                className="w-full border border-gray-400 rounded-lg p-3 placeholder:text-sm focus-within:border-[#6CAFE6] hover:border-[#6CAFE6]"
                             />
                             )}
                         />
@@ -309,15 +337,18 @@ const AddUnits = forwardRef(({ control, errors, setValue }, ref) => {
                           name={`units[${index}].bedRooms`}
                           control={control}
                           render={({ field }) => (
-                            <InputText
+                            <Dropdown
                               type='number'
+                              options={numberOptions}
+                              placeholder='Number'
+                              dropdownIcon={<ArrowDown01Icon/>}
                               value={field.value}
-                              onValueChange={(e) => {
+                              onChange={(e) => {
                                 field.onChange(e.value);
                                 trigger(`units[${index}].bedRooms`);
                               }}
-                              min={0}
-                              className="w-full border border-gray-400 rounded-lg px-3 py-2 placeholder:text-sm focus-within:border-[#6CAFE6] hover:border-[#6CAFE6]"
+                              className="w-full border border-gray-400 rounded-lg focus-within:border-[#6CAFE6] hover:border-[#6CAFE6]"
+                              panelClassName="border border-gray-400 rounded-lg mt-1"
                             />
                           )}
                         />
@@ -331,15 +362,18 @@ const AddUnits = forwardRef(({ control, errors, setValue }, ref) => {
                           name={`units[${index}].bathRooms`}
                           control={control}
                           render={({ field }) => (
-                            <InputText
-                              type='number'
+                            <Dropdown
+                              options={numberOptions}
+                              placeholder='Number'
+                              dropdownIcon={<ArrowDown01Icon/>}
                               value={field.value}
-                              onValueChange={(e) => {
+                              onChange={(e) => {
                                 field.onChange(e.value);
                                 trigger(`units[${index}].bathRooms`);
                               }}
                               min={0}
-                              className="w-full border border-gray-400 rounded-lg px-3 py-2 placeholder:text-sm focus-within:border-[#6CAFE6] hover:border-[#6CAFE6]"
+                              className="w-full border border-gray-400 rounded-lg focus-within:border-[#6CAFE6] hover:border-[#6CAFE6]"
+                              panelClassName="border border-gray-400 rounded-lg mt-1"
                             />
                           )}
                         />
@@ -355,11 +389,12 @@ const AddUnits = forwardRef(({ control, errors, setValue }, ref) => {
                           render={({ field }) => (
                             <InputText
                               {...field}
+                              placeholder='e.g., 98'
                               onChange={(e) => {
                                 field.onChange(e);
                                 trigger(`units[${index}].size`);
                               }}
-                              className="w-full border border-gray-400 rounded-lg px-3 py-2 placeholder:text-sm focus-within:border-[#6CAFE6] hover:border-[#6CAFE6]"
+                              className="w-full border border-gray-400 rounded-lg p-3 placeholder:text-sm focus-within:border-[#6CAFE6] hover:border-[#6CAFE6]"
                             />
                           )}
                         />
@@ -369,73 +404,78 @@ const AddUnits = forwardRef(({ control, errors, setValue }, ref) => {
                       </div>
                       <div className='grid grid-cols-2 col-span-3 gap-4'>
                         <div className="flex-1">
-                            <label className="block text-sm">Rent fee (UGX)</label>
-                            <Controller
+                          <label className="block text-sm">Rent fee (UGX)</label>
+                          <Controller
                             name={`units[${index}].price`}
                             control={control}
                             render={({ field }) => (
-                                <InputText
-                                type='number'
+                              <InputNumber
+                                placeholder='UGX'
                                 value={field.value}
                                 onValueChange={(e) => {
-                                    field.onChange(e.value);
-                                    trigger(`units[${index}].price`);
+                                  field.onChange(e.value);
+                                  trigger(`units[${index}].price`);
                                 }}
-                                min={0}
-                                className="w-full border border-gray-400 rounded-lg px-3 py-2 placeholder:text-sm focus-within:border-[#6CAFE6] hover:border-[#6CAFE6]"
-                                />
+                                prefix='UGX '
+                                inputClassName="w-full border border-gray-400 rounded-lg p-3 placeholder:text-sm focus-within:border-[#6CAFE6] hover:border-[#6CAFE6]"
+                              />
                             )}
-                            />
-                            {errors.units?.[index]?.price && (
+                          />
+                          {errors.units?.[index]?.price && (
                             <p className="text-red-500 text-sm">{errors.units[index].price.message}</p>
-                            )}
+                          )}
                         </div>
                         <div className="flex-1">
-                            <label className="block text-sm">Payment cycle Name</label>
-                            <Controller
-                            name={`units[${index}].paymentCycle.name`}
+                          <label className="block text-sm">Payment cycle</label>
+                          <Controller
+                            name={`units[${index}].paymentCycle`}
                             control={control}
                             render={({ field }) => (
-                                <Dropdown
+                              <Dropdown
                                 options={paymentCycleOptions}
+                                placeholder='Select duration'
+                                dropdownIcon={<ArrowDown01Icon/>}
                                 value={field.value}
                                 onChange={(e) => {
-                                    field.onChange(e.value);
-                                    trigger(`units[${index}].paymentCycle.name`);
+                                  field.onChange(e.value);
+                                  trigger(`units[${index}].paymentCycle`);
                                 }}
                                 className="w-full border border-gray-400 rounded-lg focus-within:border-[#6CAFE6] hover:border-[#6CAFE6]"
-                                />
+                              />
                             )}
-                            />
-                            {errors.units?.[index]?.paymentCycle?.name && (
-                            <p className="text-red-500 text-sm">{errors.units[index].paymentCycle.name.message}</p>
-                            )}
+                          />
+                          {errors.units?.[index]?.paymentCycle && (
+                            <p className="text-red-500 text-sm">{errors.units[index].paymentCycle.message}</p>
+                          )}
                         </div>
                       </div>
                       <div className='col-span-3'>
-                          <label className="block mb-1 text-sm">Availability</label>
-                          <Controller
-                              name={`units[${index}].available`}
-                              control={control}
-                              render={({ field }) => (
-                              <Dropdown
-                                  options={availabilityOptions}
-                                  value={field.value}
-                                  onChange={(e) => {
-                                  field.onChange(e.value);
-                                  trigger(`units[${index}].available`);
-                                  }}
-                                  className="w-full border border-gray-400 rounded-lg focus-within:border-[#6CAFE6] hover:border-[#6CAFE6]"
-                                  panelClassName="border border-gray-400 rounded-lg mt-1"
-                              />
-                              )}
+                        <label className="block mb-1 text-sm">Availability</label>
+                        <Controller
+                          name={`units[${index}].available`}
+                          control={control}
+                          render={({ field }) => (
+                          <Dropdown
+                              options={availabilityOptions}
+                              placeholder='Select status'
+                              value={field.value}
+                              dropdownIcon={<ArrowDown01Icon/>}
+                              onChange={(e) => {
+                                field.onChange(e.value);
+                                trigger(`units[${index}].available`);
+                              }}
+                              className={`w-full border border-gray-400 rounded-lg focus-within:border-[#6CAFE6] hover:border-[#6CAFE6]`}
+                              panelClassName="border border-gray-400 rounded-lg mt-1"
+                              inputClassName={`${ field?.value === 'AVAILABLE' ? 'text-green-600' : 'text-red-600'}`}
                           />
-                          {errors.units?.[index]?.available && (
-                              <p className="text-red-500 text-sm">{errors.units[index].available.message}</p>
                           )}
+                        />
+                        {errors.units?.[index]?.available && (
+                          <p className="text-red-500 text-sm">{errors.units[index].available.message}</p>
+                        )}
                       </div>
                       <div className="col-span-3">
-                        <label className="block mb-1 text-sm font-medium text-gray-700">Photos (optional)</label>
+                        <label className="block mb-1 text-sm font-medium text-gray-700">Photos(Max 20)</label>
                         <Controller
                           name={`units[${index}].media.photos`}
                           control={control}
@@ -451,14 +491,15 @@ const AddUnits = forwardRef(({ control, errors, setValue }, ref) => {
                                   className="hidden"
                                   onChange={(e) => {
                                     const files = Array.from(e.target.files).map((file) => URL.createObjectURL(file));
-                                    field.onChange(files);
+                                    const newFiles = [...field.value, ...files];
+                                    field.onChange(newFiles);
                                     trigger(`units[${index}].media.photos`);
                                   }}
                                 />
                                 <p className="text-sm text-gray-500 mt-1">Supports JPEG, PNG; max 5MB per file</p>
                               </div>
                               {field.value?.length > 0 && (
-                                <div className="mt-2 flex gap-2">
+                                <div className="mt-2 flex gap-2 flex-wrap">
                                   {field.value.map((photoUrl, idx) => (
                                     <div key={idx} className="relative">
                                       <img src={photoUrl} alt="Uploaded" className="w-14 h-14 object-cover rounded-lg" />
@@ -485,7 +526,7 @@ const AddUnits = forwardRef(({ control, errors, setValue }, ref) => {
                       </div>
 
                       <div className="col-span-3">
-                        <label className="block mb-1 text-sm font-medium text-gray-700">Video (optional)</label>
+                        <label className="block mb-1 text-sm font-medium text-gray-700">Video (optional but recommended) [Max 5]</label>
                         <Controller
                           name={`units[${index}].media.videos`}
                           control={control}
@@ -501,7 +542,8 @@ const AddUnits = forwardRef(({ control, errors, setValue }, ref) => {
                                   className="hidden"
                                   onChange={(e) => {
                                     const files = Array.from(e.target.files).map((file) => URL.createObjectURL(file));
-                                    field.onChange(files);
+                                    const newFiles = [...field.value, ...files];
+                                    field.onChange(newFiles);
                                     trigger(`units[${index}].media.videos`);
                                   }}
                                 />
@@ -509,7 +551,7 @@ const AddUnits = forwardRef(({ control, errors, setValue }, ref) => {
                               </div>
                                 
                               {field.value?.length > 0 && (
-                                <div className="mt-2 flex gap-2">
+                                <div className="mt-2 flex gap-2 flex-wrap">
                                   {field.value.map((videoUrl, idx) => (
                                     <div key={idx} className="relative">
                                       <video src={videoUrl} className="w-14 h-14 object-cover rounded-lg" controls />

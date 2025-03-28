@@ -6,6 +6,8 @@ const api_urls = {
   listings: {
     get_all_listings: (page, size) => `${inventoryBaseUrl}properties?page=${page}&size=${size}`,
     get_single_listing: (itemId) => `${inventoryBaseUrl}properties/property?propertyId=${itemId}`,
+    create_listing: `${inventoryBaseUrl}properties`,
+    update_listing: (itemId) => `${inventoryBaseUrl}properties?propertyId=${itemId}`,
   },
   bookings: ``,
   

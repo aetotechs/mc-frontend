@@ -12,6 +12,10 @@ import UploadMedia from '../components/property_upload_forms/UploadMedia';
 import Preview from '../components/property_upload_forms/Preview';
 import PropertySchema from '../components/form_schemas/PropertyUploadFormSchema';
 import propertyUploadDefaultValues from '../components/default_values/PropertyUploadDefaultValues';
+import Spinner from '../../globals/ui/Spinner';
+import api_urls from '../../client/utils/resources/api_urls';
+import { getUserToken } from '../../client/utils/cookies/AuthCookiesManager';
+import UnitDetails from '../../client/components/details/UnitDetails';
 
 const NewProperty = () => {
   const navigate = useNavigate();
@@ -21,6 +25,7 @@ const NewProperty = () => {
   const addUnitsRef = useRef(null);
   const propertyFeaturesRef = useRef(null);
   const uploadMediaRef = useRef(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const methods = useForm({
     resolver: zodResolver(PropertySchema),
@@ -31,7 +36,7 @@ const NewProperty = () => {
 
   const handleNext = async () => {
     let isValid = false;
-    console.log(getValues());
+    // console.log(getValues());
 
     if (step === 1 && basicInfoRef.current) {
       isValid = await basicInfoRef.current.validate();
@@ -41,16 +46,16 @@ const NewProperty = () => {
       isValid = await propertyFeaturesRef.current.validate();
     } else if (step === 4 && uploadMediaRef.current) {
       isValid = await uploadMediaRef.current.validate();
-    } else if (step === 5) {
+    } 
+    else if (step === 5) {
       // On Step 5, validate the entire form
-      handleSubmit(
-        (data) => {
+      handleSubmit((data) => {
           setCompleted(true);
           onSubmit(data);
         },
-        (err) => {
-          console.log('Final submission validation errors:', err);
-        }
+        // (err) => {
+        //   console.log('Final submission validation errors:', err);
+        // }
       )();
       return; // Exit early since we're submitting
     }
@@ -66,10 +71,61 @@ const NewProperty = () => {
     if (step > 1) setStep(step - 1);
   };
 
-  const onSubmit = (data) => {
-    console.log('Form Data:', data);
-    // Submit to your API
-    // navigate('/success');
+  const _handleSubmit = async () => {
+    setIsSubmitting(true);
+    const propertyDetails = getValues();
+    if(propertyDetails.unitsAvailable) {
+      setValue('unitlessDetails', null);
+    } else {
+      setValue('units', []);
+    }
+    console.log('Property Details:', propertyDetails);
+
+    const formData = new FormData();
+    const { media, ...filteredPropertyDetails } = propertyDetails;
+    const { photos, videos, threeDTour, status, ...filteredMedia } = media;
+    
+    filteredPropertyDetails.media = filteredMedia;
+
+    formData.append('property', JSON.stringify(filteredPropertyDetails));
+
+    photos.forEach((photo) => {
+      formData.append('photos', photo);
+    });
+  
+    videos.forEach((video) => {
+      formData.append('videos', video);
+    });
+  
+    if (threeDTour) {
+      formData.append('threeDTour', threeDTour);
+    }
+
+    console.log('Form Data:', formData);
+  try {
+    const response = await fetch(api_urls.listings.create_listing, {
+      method: 'POST',
+      body: formData,
+      headers: {
+        ContentType: 'multipart/form-data',
+        Authorization: `Bearer ${getUserToken()}`,
+      },
+    });
+
+    const result = await response.json();
+    console.log('Upload Response:', result);
+
+    if (response.ok) {
+      alert('Property uploaded successfully!');
+    } else {
+      throw new Error(result.message || 'Upload failed');
+    }
+  } catch (error) {
+    console.error('Error uploading property:', error);
+    alert('Error uploading property. Please try again.');
+  } finally {
+    setIsSubmitting(false);
+  }
   };
 
   return (
@@ -132,7 +188,7 @@ const NewProperty = () => {
             </div>
           </section>
 
-          <section className="w-[35vw]">
+          <section className={`w-[35vw] ${step === 5 && 'w-[50vw]'}`}>
             {step === 1 && <BasicInfomation ref={basicInfoRef} control={control} errors={errors} />}
             {step === 2 && <AddUnits ref={addUnitsRef} control={control} errors={errors} setValue={setValue} />}
             {step === 3 && <PropertyFeatures ref={propertyFeaturesRef} control={control} errors={errors} setValue={setValue} />}
@@ -149,10 +205,10 @@ const NewProperty = () => {
                 Next
               </button>
               <button
-                onClick={handleNext}
+                onClick={_handleSubmit}
                 className={`${step !== 5 ? 'hidden' : ''} bg-primary font-semibold text-white px-8 py-2 rounded-lg`}
               >
-                Submit for approval
+                { isSubmitting ? <Spinner/> : "Submit for approval"}
               </button>
             </section>
           </section>
