@@ -102,15 +102,15 @@ const Preview = ({ control, errors, setValue }) => {
         </div>
       </section>
 
-      <section className='' ref={sectionsRef.Units}>
+      <section className={`${ !property?.unitsAvailable && 'hidden'}`} ref={sectionsRef.Units}>
         <h1 className="truncate text-[1.2rem] font-[500] mt-2 mb-1">Units</h1>
         <div className='space-y-4'>
-          {property?.units?.map((unit, index) => (
+          { property?.units?.length > 0 && property?.unitsAvailable && property?.units?.map((unit, index) => (
             <div key={index} className="relative border border-gray-300 rounded-lg ">
               <div className="flex justify-between items-center py-4 px-8" onClick={() => toggleUnitCollapse(index)}>
                 <h2 className="truncate w-[10%] text-lg font-medium text-primary">{unit?.name} </h2>
                 <p className="text-gray-500 text-lg">{unit.bedRooms} Bed • {unit.bathRooms} Baths • {unit.size} sqft</p>
-                <p className="font-bold text-lg">UGX {unit.price.toLocaleString()} <span className='text-sm font-[400]'>month</span></p>
+                <p className="font-bold text-lg">UGX {unit?.price?.toLocaleString()} <span className='text-sm font-[400]'>month</span></p>
                 <div className='flex items-center gap-2 text-sm text-green-800 px-2 py-1 border border-green-300 bg-green-50 rounded-lg'>
                   <p className='w-1.5 h-1.5 bg-green-600 rounded-full'/>
                   Available

@@ -89,6 +89,7 @@ const AddUnits = forwardRef(({ control, errors, setValue }, ref) => {
           `units[${index}].bedRooms`,
           `units[${index}].bathRooms`,
           `units[${index}].price`,
+          `units[${index}].size`,
           `units[${index}].paymentCycle`,
           `units[${index}].available`,
         ]).flat();
@@ -99,6 +100,7 @@ const AddUnits = forwardRef(({ control, errors, setValue }, ref) => {
           'unitlessDetails.bedRooms',
           'unitlessDetails.bathRooms',
           'unitlessDetails.price',
+          'unitlessDetails.size',
           'unitlessDetails.paymentCycle',
           'unitlessDetails.available',
         ]);

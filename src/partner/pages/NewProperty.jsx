@@ -26,6 +26,7 @@ const NewProperty = () => {
   const propertyFeaturesRef = useRef(null);
   const uploadMediaRef = useRef(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submissionStatus, setSubmissionStatus] = useState({ success: false, message: '' });
 
   const methods = useForm({
     resolver: zodResolver(PropertySchema),
@@ -83,7 +84,7 @@ const NewProperty = () => {
 
     const formData = new FormData();
     const { media, ...filteredPropertyDetails } = propertyDetails;
-    const { photos, videos, threeDTour, status, ...filteredMedia } = media;
+    const { photos, videos, threeDTour, ...filteredMedia } = media;
     
     filteredPropertyDetails.media = filteredMedia;
 
@@ -116,7 +117,7 @@ const NewProperty = () => {
     console.log('Upload Response:', result);
 
     if (response.ok) {
-      alert('Property uploaded successfully!');
+      setSubmissionStatus({ success: true, message: 'Property submitted for review. You will be notified upon approval' });
     } else {
       throw new Error(result.message || 'Upload failed');
     }

@@ -48,7 +48,6 @@ const PropertyFeatures = forwardRef(({ control, errors, setValue }, ref) => {
     { label: "Gym", value: 'gym'},
     { label: "Parking", value: 'parking'},
     { label: "Internet", value: 'internet'},
-    { label: "Pool", value: 'pool'},
     { label: "Maintenance", value: 'maintenance'},
     { label: "Fire Unit", value: 'fireUnit'},
     { label: "Swimming Pool", value: 'swimmingPool'},

@@ -19,6 +19,10 @@ const propertyUploadDefaultValues = {
         name: '',
         description: '',
         price: null,
+        size: '',
+        bedRooms: null,
+        bathRooms: null,
+        available: '',
         media: {
           photos: [],
           videos: [],
@@ -30,10 +34,6 @@ const propertyUploadDefaultValues = {
             number: 1,
             description: '', // e.g. 'Payment is made every month'
         },
-        size: '',
-        bedRooms: null,
-        bathRooms: null,
-        available: '',
       },
     ],
     amenities: {
@@ -59,7 +59,7 @@ const propertyUploadDefaultValues = {
     address: {
       street: '',
       city: '',
-      state: '',
+      state: 'UG',
       zip: '',
       country: '',
     },
