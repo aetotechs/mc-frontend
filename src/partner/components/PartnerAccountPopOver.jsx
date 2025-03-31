@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { CircleUserRound } from "lucide-react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useSearchParams } from "react-router-dom";
 import { useAuthDialog } from "../../client/utils/hooks/useAuthDialog";
 import { dialog_operations } from "../../client/utils/constansts/DialogOperations";
 import { getAuthUser, isAuthenticated, logout } from "../../client/utils/cookies/AuthCookiesManager";
@@ -10,6 +10,7 @@ const user = getAuthUser() || {};
 
 export function PartnerAccountPopover() {
   const { openDialog } = useAuthDialog();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [isTooltipVisible, setIsTooltipVisible] = useState(false);
   const popoverRef = useRef(null);
 

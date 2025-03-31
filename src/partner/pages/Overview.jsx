@@ -39,7 +39,7 @@ const Overview = () => {
   ]
 
   return (
-    <div className='relative h-screen'>
+    <div className='relative h-screen font-sen'>
       <section className='sticky top-0 z-50'>
         <PartnerHeader bottomBorder />
       </section>

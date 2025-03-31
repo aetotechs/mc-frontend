@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect } from "react";
+import { Suspense, useEffect } from "react";
 import PageLoadingSpinner from "./client/components/global/PageLoadingSpinner";
 import { Route, Routes } from "react-router-dom";
 import { AuthProvider } from "./client/utils/context/AuthContext";
