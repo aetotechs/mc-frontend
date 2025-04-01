@@ -1,9 +1,9 @@
 import { ArrowDown01Icon, ArrowUp01Icon, Bathtub01Icon, BedIcon, ParkingAreaCircleIcon, TapeMeasureIcon } from 'hugeicons-react';
-import { Dot } from 'lucide-react';
 import { Button } from 'primereact/button';
 import React, { useEffect, useRef, useState } from 'react'
 import { useFormContext } from 'react-hook-form';
 import { amenitiesList } from '../../../client/utils/constansts/AmenitiesList';
+import { getBathroomRange, getBedroomRange, getPriceRange } from '../../utilities/getRanges';
 
 const Preview = ({ control, errors, setValue }) => {
   const [activeTab, setActiveTab] = useState('Basic');
@@ -18,7 +18,14 @@ const Preview = ({ control, errors, setValue }) => {
     setCollapsedUnits(newCollapsedUnits);
   };
 
-  const priceRange = ""
+  const priceRange = property?.unitsAvailable ?
+    getPriceRange(property?.units) : property.unitlessDetails.price;
+  
+  const bathroomRange = property?.unitsAvailable ?
+    getBathroomRange(property?.units) : property.unitlessDetails.bathRooms;
+
+  const bedroomRange = property?.unitsAvailable ?
+    getBedroomRange(property?.units) : property.unitlessDetails.bedRooms;
 
   const sectionsRef = {
     Basic: useRef(),
@@ -66,19 +73,19 @@ const Preview = ({ control, errors, setValue }) => {
         </div>
         <div className='flex items-center justify-between'>
           <p className='truncate text-[1.2rem] font-[500]'>{property?.name}</p>
-          <p className='text-[1.3rem] font-bold'>UGX { priceRange } 600,000 - 700,000 <span className='text-sm font-normal'>month</span></p>
+          <p className='text-[1.3rem] font-bold'>UGX { priceRange } <span className='text-sm font-normal'>month</span></p>
         </div>
         <p className='text-[16px] text-gray-500'>{ property?.address?.zip + " " + property?.address?.street + ", " + property?.address?.city }</p>
 
         <div className="flex items-center gap-6 my-2">
           <div className="flex items-center gap-1">
             <BedIcon/>
-            <span className="">{property?.bedRange || "0"} Beds</span>
+            <span className="">{bedroomRange || "0"} Beds</span>
           </div>
           
           <div className="flex items-center gap-1">
             <Bathtub01Icon/>
-            <span className="">{property?.bathRange || "0"} Baths</span>
+            <span className="">{bathroomRange || "0"} Baths</span>
           </div>
 
           <div className="flex items-center gap-1">
