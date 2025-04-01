@@ -1,10 +1,10 @@
 import React, { useState, useRef } from 'react';
-import { useForm, FormProvider } from 'react-hook-form';
+import { useForm, FormProvider, useFormContext } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import PartnerHeader from '../components/PartnerHeader';
 import Footer from '../../client/components/global/Footer';
 import { ArrowLeft02Icon } from 'hugeicons-react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import BasicInfomation from '../components/property_upload_forms/BasicInfomation';
 import AddUnits from '../components/property_upload_forms/AddUnits';
 import PropertyFeatures from '../components/property_upload_forms/PropertyFeatures';
@@ -16,10 +16,11 @@ import Spinner from '../../globals/ui/Spinner';
 import api_urls from '../../client/utils/resources/api_urls';
 import { getUserToken } from '../../client/utils/cookies/AuthCookiesManager';
 import UnitDetails from '../../client/components/details/UnitDetails';
+import { decryptParams, encryptParams } from '../../client/utils/helpers/EncryptionHelper';
 
 const NewProperty = () => {
   const navigate = useNavigate();
-  const [step, setStep] = useState(1);
+  const [searchParams, setSearchParams] = useSearchParams();
   const [completed, setCompleted] = useState(false);
   const basicInfoRef = useRef(null);
   const addUnitsRef = useRef(null);
@@ -27,10 +28,14 @@ const NewProperty = () => {
   const uploadMediaRef = useRef(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submissionStatus, setSubmissionStatus] = useState({ success: false, message: '' });
+  const [step, setStep] = useState(() => {
+    const savedStep = searchParams.get("_uploadFormStep");
+    return savedStep ? parseInt(savedStep, 10) : 1;
+  });  
 
   const methods = useForm({
     resolver: zodResolver(PropertySchema),
-    defaultValues: propertyUploadDefaultValues,
+    defaultValues: decryptParams(searchParams.get('_newProperty')) || propertyUploadDefaultValues,
   });
 
   const { control, handleSubmit, formState: { errors }, getValues, setValue } = methods;
@@ -58,11 +63,16 @@ const NewProperty = () => {
         //   console.log('Final submission validation errors:', err);
         // }
       )();
-      return; // Exit early since we're submitting
+      return;
     }
 
     if (isValid) {
-      setStep(step + 1);
+      const nextStep = step + 1;
+      setStep(nextStep);
+      
+      searchParams.set("_newProperty", encryptParams(getValues()));
+      searchParams.set("_uploadFormStep", nextStep.toString());
+      setSearchParams(searchParams);
     } else {
       console.log('Validation errors:', errors);
     }
@@ -70,6 +80,8 @@ const NewProperty = () => {
 
   const handlePrevious = () => {
     if (step > 1) setStep(step - 1);
+    searchParams.set("_uploadFormStep", step.toString());
+    setSearchParams(searchParams);
   };
 
   const _handleSubmit = async () => {
