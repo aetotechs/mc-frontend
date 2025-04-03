@@ -63,7 +63,7 @@ const DetailsPage = () => {
     "Reviews": useRef(null),
   };
 
-  const averageRating = property?.reviews && property?.reviews?.reduce((acc, review) => acc + review.rating, 0)/reviews?.length;
+  const averageRating = property?.reviews && property?.reviews?.reduce((acc, review) => acc + review.rating, 0)/property?.reviews?.length;
 
   useEffect(() => {
     const fetchItem = async () => {
@@ -163,9 +163,9 @@ const DetailsPage = () => {
         <section className="col-span-4">
           <div className="rounded-md w-full" ref={sectionsRef["Overview"]}>
             <div className="relative flex items-center justify-center w-full h-[65vh] overflow-hidden rounded-2xl">
-              <div className="absolute bg-[#FFC654] rounded-lg py-1 left-2 top-2 px-2 m-4 text-sm">
+              { property?.furnished && <div className="absolute bg-[#FFC654] rounded-lg py-1 left-2 top-2 px-2 m-4 text-sm">
                 Furnished
-              </div>
+              </div>}
               {!loading ?
                   <img
                     src={property?.media?.photos[currentIndex] || "/logos/mycrib.png"}

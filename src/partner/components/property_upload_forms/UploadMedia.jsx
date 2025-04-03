@@ -89,7 +89,7 @@ const UploadMedia = forwardRef(({ control, errors, setValue }, ref) => {
                     <div className="mt-2 flex gap-2 flex-wrap">
                       {field.value.map((photo, idx) => (
                         <div key={idx} className="relative">
-                          <img src={URL.createObjectURL(photo)} alt="Uploaded" className="w-20 h-20 object-cover rounded-lg" />
+                          <img src={URL.createObjectURL(photo) || ''} alt="Uploaded" className="w-20 h-20 object-cover rounded-lg" />
                           <button
                             onClick={() => {
                               const updatedFiles = field.value.filter((_, i) => i !== idx);
@@ -148,7 +148,7 @@ const UploadMedia = forwardRef(({ control, errors, setValue }, ref) => {
                     <div className="mt-2 flex gap-2 flex-wrap">
                       {field.value.map((vid, idx) => (
                         <div key={idx} className="relative">
-                          <video src={URL.createObjectURL(vid)} alt="Uploaded" controls className="w-20 h-20 object-cover rounded-lg" />
+                          <video src={URL.createObjectURL(vid || "")} alt="Uploaded" controls className="w-20 h-20 object-cover rounded-lg" />
                           <button
                             onClick={() => {
                               const updatedFiles = field.value.filter((_, i) => i !== idx);
@@ -208,7 +208,7 @@ const UploadMedia = forwardRef(({ control, errors, setValue }, ref) => {
                   {field.value?.length > 0 && (
                     <div className="mt-2 flex gap-2 flex-wrap">
                         <div className="relative">
-                          <img src={URL.createObjectURL(field.value)} alt="Uploaded" className="w-20 h-20 object-cover rounded-lg" />
+                          <img src={URL.createObjectURL(field.value || '')} alt="Uploaded" className="w-20 h-20 object-cover rounded-lg" />
                           <button
                             onClick={() => {
                               field.onChange(null);

@@ -24,13 +24,14 @@ const ListingCard = ({ item }) => {
     <div className="w-full border rounded-xl">
       <section className="relative w-full h-[20vh] md:h-[26vh] bg-gray-200 rounded-t-xl">
         <img
-          src={item?.media?.photos[currentImageIndex]?.url?? "/images/hero-image.png"}
-          alt="Property"
+          src={item?.media?.photos[currentImageIndex]?.url ?? "/images/placeholder.png"}
+          alt={item?.name}
           className="w-full h-full object-cover rounded-t-xl"
+          onError={(e) => (e.currentTarget.src = "/images/placeholder.png")}
         />
         <div className="absolute flex items-center gap-2 left-4 text-sm md:text-[10px] top-4 ">
           { item.furnished && <p className="rounded-full bg-orange-300 px-2">Furnished</p>}
-          { item.videoTour && <p className="whitespace-nowrap text-white top-4 rounded-full bg-blue-500 px-2">3D & Video Tour</p>}
+          { (item?.media?.threeDTourLink || item?.media?.threeDTour) && <p className="whitespace-nowrap text-white top-4 rounded-full bg-blue-500 px-2">3D & Video Tour</p>}
         </div>
         <button className="absolute right-4 top-4 rounded-full bg-white p-1" title="Add to favourites list">
           <FavouriteIcon size={14}/>
@@ -57,14 +58,14 @@ const ListingCard = ({ item }) => {
       <section className="p-2 px-4 cursor-pointer" title="Property details" onClick={() => navigate(`/details/${item?.propertyId}`)}> 
         <section>
           <p className="font-bold text-xl md:text-lg whitespace-nowrap">
-            UGX {price.min_price.toLocaleString() || "--"} - {price.max_price.toLocaleString() || "--"}{" "}
+            UGX { item?.priceRange}{" "}
             <span className="font-thin text-sm">month</span>
           </p>
         </section>
         <section className="flex whitespace-nowrap text-sm font-thin gap-4 items-center">
           <p className="flex gap-2 items-center">
             <BedIcon size={14} />
-            <span>{item.bedRange || "--"} Bed(s)</span>
+            <span>{item?.bedRange || "--"} Bed(s)</span>
           </p>
           <p className="flex gap-2 items-center">
             <Bathtub01Icon size={14} />
@@ -75,7 +76,7 @@ const ListingCard = ({ item }) => {
           <p className="truncate text-sm">{item?.address?.description || "--"}</p>
         </section>
         <section>
-          <p className="truncate opacity-60 text-xs mt-2">{item.units.length || "--"} Units available</p>
+          <p className="truncate opacity-60 text-xs mt-2">{item?.units?.length || "--"} Units available</p>
         </section>
       </section>
     </div>
