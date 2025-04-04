@@ -163,7 +163,7 @@ const DetailsPage = () => {
         <section className="col-span-4">
           <div className="rounded-md w-full" ref={sectionsRef["Overview"]}>
             <div className="relative flex items-center justify-center w-full h-[65vh] overflow-hidden rounded-2xl">
-              { property?.furnished && <div className="absolute bg-[#FFC654] rounded-lg py-1 left-2 top-2 px-2 m-4 text-sm">
+              { property?.furnished === "FURNISHED" && <div className="absolute bg-[#FFC654] rounded-lg py-1 left-2 top-2 px-2 m-4 text-sm">
                 Furnished
               </div>}
               {!loading ?

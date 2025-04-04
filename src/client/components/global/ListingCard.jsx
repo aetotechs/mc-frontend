@@ -30,7 +30,7 @@ const ListingCard = ({ item }) => {
           onError={(e) => (e.currentTarget.src = "/images/placeholder.png")}
         />
         <div className="absolute flex items-center gap-2 left-4 text-sm md:text-[10px] top-4 ">
-          { item.furnished && <p className="rounded-full bg-orange-300 px-2">Furnished</p>}
+          { item.furnished === "FURNISHED" && <p className="rounded-full bg-orange-300 px-2">Furnished</p>}
           { (item?.media?.threeDTourLink || item?.media?.threeDTour) && <p className="whitespace-nowrap text-white top-4 rounded-full bg-blue-500 px-2">3D & Video Tour</p>}
         </div>
         <button className="absolute right-4 top-4 rounded-full bg-white p-1" title="Add to favourites list">
