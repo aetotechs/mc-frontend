@@ -10,6 +10,7 @@ const api_urls = {
     create_listing: `${inventoryBaseUrl}properties`,
     update_listing: (itemId) => `${inventoryBaseUrl}properties?propertyId=${itemId}`,
     check_property_name: (name) => `${inventoryBaseUrl}properties/unique-name?name=${name}`,
+    delete_listing: (itemId) => `${inventoryBaseUrl}properties?propertyId=${itemId}`,
   },
   bookings: ``,
   
