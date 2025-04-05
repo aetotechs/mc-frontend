@@ -4,6 +4,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { useFormContext } from 'react-hook-form';
 import { amenitiesList } from '../../../client/utils/constansts/AmenitiesList';
 import { getBathroomRange, getBedroomRange, getPriceRange } from '../../utilities/getRanges';
+import AvailabilityBadge from '../../../client/components/ui/AvailabilityBadge';
 
 const Preview = ({ control, errors, setValue }) => {
   const [activeTab, setActiveTab] = useState('Basic');
@@ -63,21 +64,18 @@ const Preview = ({ control, errors, setValue }) => {
       </div>
 
       <section className='rounded-lg border-2 border-gray-300 py-4 px-8' ref={sectionsRef.Basic}>
-        <div className='flex items-center gap-4 py-2'>
+        <div className='flex items-center gap-2 py-2'>
           <p className='w-2 h-2 bg-green-600 rounded-full'/>
-          <p>{ property?.propertyType?.slice(0, 1).toUpperCase() + property?.propertyType?.slice(1)?.toLowerCase()}</p>
-          <div className='flex items-center gap-2 text-sm text-green-800 px-2 py-1 border border-green-300 bg-green-50 rounded-lg'>
-            <p className='w-1.5 h-1.5 bg-green-600 rounded-full'/>
-            Available
-          </div>
+          <p className='text-[.8rem]'>{ property?.propertyType?.slice(0, 1).toUpperCase() + property?.propertyType?.slice(1)?.toLowerCase()}</p>
+          { !property?.unitsAvailable && <AvailabilityBadge status={property?.unitlessDetails?.available} />}
         </div>
         <div className='flex items-center justify-between'>
-          <p className='truncate text-[1.2rem] font-[500]'>{property?.name}</p>
-          <p className='text-[1.3rem] font-bold'>UGX { priceRange } <span className='text-sm font-normal'>month</span></p>
+          <p className='text-[1.3rem] truncate'>{property?.name}</p>
+          <p className='font-bold text-[1.4rem]'>UGX { priceRange } <span className='text-sm font-normal'>month</span></p>
         </div>
-        <p className='text-[16px] text-gray-500'>{ property?.address?.zip + " " + property?.address?.street + ", " + property?.address?.city }</p>
+        <p className='text-gray-500 text-[.8rem]'>{ property?.address?.zip + " " + property?.address?.street + ", " + property?.address?.city }</p>
 
-        <div className="flex items-center gap-6 my-2">
+        <div className="flex items-center gap-6 my-2 text-[.9rem]">
           <div className="flex items-center gap-1">
             <BedIcon/>
             <span className="">{bedroomRange || "0"} Beds</span>
@@ -100,9 +98,9 @@ const Preview = ({ control, errors, setValue }) => {
         </div>
 
         <div className="my-6">
-          <h1 className="font-normal mb-2">About this property</h1>
+          <h1 className="font-normal text-[1.1rem] mb-2">About this property</h1>
           <div>
-            <p className="text-gray-800">
+            <p className="text-gray-800 text-[.9rem]">
               { property?.description }
             </p>
           </div>
@@ -110,18 +108,15 @@ const Preview = ({ control, errors, setValue }) => {
       </section>
 
       <section className={`${ !property?.unitsAvailable && 'hidden'}`} ref={sectionsRef.Units}>
-        <h1 className="truncate text-[1.2rem] font-[500] mt-2 mb-1">Units</h1>
+        <h1 className="truncate font-normal text-[1.1rem] mb-2 mt-2">Units</h1>
         <div className='space-y-4'>
           { property?.units?.length > 0 && property?.unitsAvailable && property?.units?.map((unit, index) => (
             <div key={index} className="relative border border-gray-300 rounded-lg ">
               <div className="flex justify-between items-center py-4 px-8" onClick={() => toggleUnitCollapse(index)}>
-                <h2 className="truncate w-[10%] text-lg font-medium text-primary">{unit?.name} </h2>
-                <p className="text-gray-500 text-lg">{unit.bedRooms} Bed • {unit.bathRooms} Baths • {unit.size} sqft</p>
+                <h2 className="truncate min-w-[10%] text-[1rem] font-medium text-primary">{unit?.name} </h2>
+                <p className="text-gray-500 text-[.9rem]">{unit.bedRooms} Bed • {unit.bathRooms} Baths • {unit.size} sqft</p>
                 <p className="font-bold text-lg">UGX {unit?.price?.toLocaleString()} <span className='text-sm font-[400]'>month</span></p>
-                <div className='flex items-center gap-2 text-sm text-green-800 px-2 py-1 border border-green-300 bg-green-50 rounded-lg'>
-                  <p className='w-1.5 h-1.5 bg-green-600 rounded-full'/>
-                  Available
-                </div>
+                <AvailabilityBadge status={unit?.available} />
                 <div className="flex gap-2">
                   <Button
                     icon={collapsedUnits[index] ? <ArrowDown01Icon/> : <ArrowUp01Icon/>}
@@ -160,7 +155,7 @@ const Preview = ({ control, errors, setValue }) => {
       </section>
 
       <section className="my-8" ref={sectionsRef.Amenities}>
-        <h1 className="truncate text-[1.2rem] font-[500] my-2">Amenities</h1>
+        <h1 className="truncate font-normal text-[1.1rem] mb-2 my-2">Amenities</h1>
         <div className="grid grid-cols-3 gap-4 text-[0.8rem] border-2 border-gray-300 rounded-lg py-4 px-8">
           {property?.amenities && (
             console.log(property.amenities),
@@ -176,20 +171,22 @@ const Preview = ({ control, errors, setValue }) => {
         </div>
       </section>
 
-      <section className="my-8" ref={sectionsRef.Features}>
-        <h1 className="truncate text-[1.2rem] font-[500] my-4">Custom Features</h1>
-        <div className="space-y-2">
-          {property?.customFeatures?.map((feature, i) => (
-            <div key={i} className="flex items-center gap-3 border-2 border-gray-300 rounded-lg py-4 px-8">
-              <p className='w-[30%] font-semibold'>{feature?.name}</p>
-              <p className=''>{feature?.description}</p>
-            </div>
-          ))}
-        </div>
-      </section>
+      { property?.customFeatures?.length > 0 && 
+        <section className="my-8" ref={sectionsRef.Features}>
+          <h1 className="truncate font-normal text-[1.1rem] mb-2 my-4">Custom Features</h1>
+          <div className="space-y-2">
+            {property?.customFeatures?.map((feature, i) => (
+              <div key={i} className="flex items-center gap-3 border-2 border-gray-300 rounded-lg py-4 px-8">
+                <p className='w-[30%] font-semibold'>{feature?.name}</p>
+                <p className=''>{feature?.description}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+      }
 
       <section className="" ref={sectionsRef.Media}>
-        <h1 className="truncate text-[1.2rem] font-[500] mt-2">General Media(Photos, Videos, 3D Tour)</h1>
+        <h1 className="truncate font-normal text-[1.1rem] mb-2 mt-2">General Media(Photos, Videos, 3D Tour)</h1>
         <div className="mt-2 w-full flex gap-2 overflow-x-scroll no-scrollbar mb-6">
           {property?.media?.photos?.map((photo, idx) => (
             <div key={idx} className="relative">

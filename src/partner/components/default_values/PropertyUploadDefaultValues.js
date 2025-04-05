@@ -6,7 +6,7 @@ const propertyUploadDefaultValues = {
     parkingCapacity: '',
     unitlessDetails: {
       price: null,
-      paymentCycle: '',
+      paymentCycle: {},
       size: '',
       bedRooms: null,
       bathRooms: null,
@@ -29,11 +29,7 @@ const propertyUploadDefaultValues = {
           threeDTour: '',
           threeDTourLink: '',
         },
-        paymentCycle: {
-            name: '', // e.g. ['MONTHLY', 'YEARLY']
-            number: 1,
-            description: '', // e.g. 'Payment is made every month'
-        },
+        paymentCycle: {},
       },
     ],
     amenities: {

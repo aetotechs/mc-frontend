@@ -139,7 +139,8 @@ const PropertyFeatures = forwardRef(({ control, errors, setValue }, ref) => {
                     <div className="flex items-center gap-4">
                       <input
                         type="checkbox"
-                        {...field}
+                        value={field.value}
+                        checked={field.value}
                         onChange={(e) => {
                           field.onChange(e.target.checked);
                           trigger(`amenities.${amenity.value}`);

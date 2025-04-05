@@ -1,6 +1,6 @@
-import { Image01Icon, Video01Icon, VirtualRealityVr01Icon, VirtualRealityVr02Icon } from 'hugeicons-react';
+import { Image01Icon, Video01Icon, VirtualRealityVr02Icon } from 'hugeicons-react';
 import { InputText } from 'primereact/inputtext';
-import React, { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react'
+import React, { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 
 const UploadMedia = forwardRef(({ control, errors, setValue }, ref) => {
@@ -28,17 +28,25 @@ const UploadMedia = forwardRef(({ control, errors, setValue }, ref) => {
 
   useEffect(() => {
     document.title = `Upload overall property media`;
-  })
+  }, []);
+
+  const isValidFile = (file) => file instanceof File;
 
   return (
     <div className="space-y-4">
       <h1 className='text-[1.2rem] font-[500]'>Upload Media</h1>
-      <p className='font-normal text-gray-500'>Add General photos, videos and 3D Tour to make your listing stand out</p>
+      <p className='font-normal text-gray-500'>
+        Add General photos, videos and 3D Tour to make your listing stand out. <br />
+        <span className="text-red-500 text-xs">
+          Note: Uploaded files will be cleared if you refresh the page.
+        </span>
+      </p>
 
       <div className="flex gap-10 text-[15px] py-2">
         {tabs.map((tab) => (
           <div key={tab} className="relative">
-            <h4 className={`cursor-pointer ${ activeTab === tab ? "text-primary font-semibold" : "" }`}
+            <h4
+              className={`cursor-pointer ${activeTab === tab ? "text-primary font-semibold" : ""}`}
               onClick={() => {
                 sectionsRef[tab].current?.scrollIntoView({ behavior: "smooth" });
                 setActiveTab(tab);
@@ -64,10 +72,12 @@ const UploadMedia = forwardRef(({ control, errors, setValue }, ref) => {
                 <div className="">
                   <div className='text-center border-2 border-dashed border-gray-200 rounded-lg p-4'>
                     <div className='text-4xl w-full flex justify-center items-center p-4'>
-                      <Image01Icon size={32}/>
+                      <Image01Icon size={32} />
                     </div>
                     <div className='flex justify-center items-center gap-2'>
-                      <label htmlFor={`photo-upload-general`} className="text-blue-500 underline cursor-pointer">Upload</label>
+                      <label htmlFor={`photo-upload-general`} className="text-blue-500 underline cursor-pointer">
+                        Upload
+                      </label>
                       <p className='text-black'>Photos</p>
                     </div>
                     <input
@@ -78,29 +88,36 @@ const UploadMedia = forwardRef(({ control, errors, setValue }, ref) => {
                       className="hidden"
                       onChange={(e) => {
                         const files = Array.from(e.target.files);
-                        const newFiles = [...(field.value || []), ...files]; 
+                        const newFiles = [...(field.value || []), ...files];
                         field.onChange(newFiles);
                         trigger(`media.photos`);
-                      }}                      
+                      }}
                     />
                     <p className="text-sm text-gray-500 mt-1">Supports JPEG, PNG; max 5MB per file</p>
                   </div>
                   {field.value?.length > 0 && (
                     <div className="mt-2 flex gap-2 flex-wrap">
                       {field.value.map((photo, idx) => (
-                        <div key={idx} className="relative">
-                          <img src={URL.createObjectURL(photo) || ''} alt="Uploaded" className="w-20 h-20 object-cover rounded-lg" />
-                          <button
-                            onClick={() => {
-                              const updatedFiles = field.value.filter((_, i) => i !== idx);
-                              field.onChange(updatedFiles);
-                              trigger(`media.photos`);
-                            }}
-                            className="absolute top-1 right-1 bg-gray-200 rounded-full p-1 flex justify-center items-center"
-                          >
-                            <i className='pi pi-times text-[8px]' />
-                          </button>
-                        </div>
+                        isValidFile(photo) ? (
+                          <div key={idx} className="relative">
+                            <img
+                              src={URL.createObjectURL(photo)}
+                              alt="Uploaded"
+                              className="w-20 h-20 object-cover rounded-lg"
+                              onError={(e) => (e.currentTarget.src = '')} // Fallback if URL fails
+                            />
+                            <button
+                              onClick={() => {
+                                const updatedFiles = field.value.filter((_, i) => i !== idx);
+                                field.onChange(updatedFiles);
+                                trigger(`media.photos`);
+                              }}
+                              className="absolute top-1 right-1 bg-gray-200 rounded-full p-1 flex justify-center items-center"
+                            >
+                              <i className='pi pi-times text-[8px]' />
+                            </button>
+                          </div>
+                        ) : null
                       ))}
                     </div>
                   )}
@@ -123,10 +140,12 @@ const UploadMedia = forwardRef(({ control, errors, setValue }, ref) => {
                 <div className="">
                   <div className='text-center border-2 border-dashed border-gray-200 rounded-lg p-4'>
                     <div className='text-4xl w-full flex justify-center items-center p-4'>
-                      <Video01Icon size={32}/>
+                      <Video01Icon size={32} />
                     </div>
                     <div className='flex justify-center items-center gap-2'>
-                      <label htmlFor={`video-upload-general`} className="text-blue-500 underline cursor-pointer">Upload</label>
+                      <label htmlFor={`video-upload-general`} className="text-blue-500 underline cursor-pointer">
+                        Upload
+                      </label>
                       <p className='text-black'>videos</p>
                     </div>
                     <input
@@ -137,29 +156,36 @@ const UploadMedia = forwardRef(({ control, errors, setValue }, ref) => {
                       className="hidden"
                       onChange={(e) => {
                         const files = Array.from(e.target.files);
-                        const newFiles = [...(field.value || []), ...files]; 
+                        const newFiles = [...(field.value || []), ...files];
                         field.onChange(newFiles);
                         trigger(`media.videos`);
-                      }}                      
+                      }}
                     />
                     <p className="text-sm text-gray-500 mt-1">Supports MP4; max 10MB</p>
                   </div>
                   {field.value?.length > 0 && (
                     <div className="mt-2 flex gap-2 flex-wrap">
                       {field.value.map((vid, idx) => (
-                        <div key={idx} className="relative">
-                          <video src={URL.createObjectURL(vid || "")} alt="Uploaded" controls className="w-20 h-20 object-cover rounded-lg" />
-                          <button
-                            onClick={() => {
-                              const updatedFiles = field.value.filter((_, i) => i !== idx);
-                              field.onChange(updatedFiles);
-                              trigger(`media.videos`);
-                            }}
-                            className="absolute top-1 right-1 bg-gray-200 rounded-full p-1 flex justify-center items-center"
-                          >
-                            <i className='pi pi-times text-[8px]' />
-                          </button>
-                        </div>
+                        isValidFile(vid) ? (
+                          <div key={idx} className="relative">
+                            <video
+                              src={URL.createObjectURL(vid)}
+                              controls
+                              className="w-20 h-20 object-cover rounded-lg"
+                              onError={(e) => (e.currentTarget.src = '')} // Fallback if URL fails
+                            />
+                            <button
+                              onClick={() => {
+                                const updatedFiles = field.value.filter((_, i) => i !== idx);
+                                field.onChange(updatedFiles);
+                                trigger(`media.videos`);
+                              }}
+                              className="absolute top-1 right-1 bg-gray-200 rounded-full p-1 flex justify-center items-center"
+                            >
+                              <i className='pi pi-times text-[8px]' />
+                            </button>
+                          </div>
+                        ) : null
                       ))}
                     </div>
                   )}
@@ -182,11 +208,10 @@ const UploadMedia = forwardRef(({ control, errors, setValue }, ref) => {
                 <div className="">
                   <div className='text-center border-2 border-dashed border-gray-200 rounded-lg p-4'>
                     <div className='text-4xl w-full flex justify-center items-center p-4'>
-                      <VirtualRealityVr02Icon size={32}/>
+                      <VirtualRealityVr02Icon size={32} />
                     </div>
                     <div className='flex justify-center items-center gap-2'>
-                      <label 
-                        // htmlFor={`threedtour-upload-general`}  // This is commented out because the 3D Tour is not yet available
+                      <label
                         className="text-blue-500 underline cursor-pointer"
                       >
                         Upload
@@ -201,24 +226,29 @@ const UploadMedia = forwardRef(({ control, errors, setValue }, ref) => {
                       onChange={(e) => {
                         field.onChange(e.target.files[0]);
                         trigger(`media.threeDTour`);
-                      }}                      
+                      }}
                     />
                     <p className="text-sm text-gray-500 mt-1">Supports .glb, .obj; max 10MB</p>
                   </div>
-                  {field.value?.length > 0 && (
+                  {field.value && isValidFile(field.value) && (
                     <div className="mt-2 flex gap-2 flex-wrap">
-                        <div className="relative">
-                          <img src={URL.createObjectURL(field.value || '')} alt="Uploaded" className="w-20 h-20 object-cover rounded-lg" />
-                          <button
-                            onClick={() => {
-                              field.onChange(null);
-                              trigger(`media.threeDTour`);
-                            }}
-                            className="absolute top-1 right-1 bg-gray-200 rounded-full p-1 flex justify-center items-center"
-                          >
-                            <i className='pi pi-times text-[8px]' />
-                          </button>
-                        </div>
+                      <div className="relative">
+                        <img
+                          src={URL.createObjectURL(field.value)}
+                          alt="Uploaded"
+                          className="w-20 h-20 object-cover rounded-lg"
+                          onError={(e) => (e.currentTarget.src = '')} 
+                        />
+                        <button
+                          onClick={() => {
+                            field.onChange(null);
+                            trigger(`media.threeDTour`);
+                          }}
+                          className="absolute top-1 right-1 bg-gray-200 rounded-full p-1 flex justify-center items-center"
+                        >
+                          <i className='pi pi-times text-[8px]' />
+                        </button>
+                      </div>
                     </div>
                   )}
                 </div>
@@ -240,7 +270,7 @@ const UploadMedia = forwardRef(({ control, errors, setValue }, ref) => {
                   {...field}
                   placeholder="e.g. https://my-3d-tour.com/kia-apartments-3d-tour"
                   onChange={(e) => {
-                    field.onChange(e);
+                    field.onChange(e.target.value);
                     trigger(`media.threeDTourLink`);
                   }}
                   className="w-full border border-gray-400 rounded-lg p-3 placeholder:text-sm focus-within:border-[#6CAFE6] hover:border-[#6CAFE6]"
@@ -252,10 +282,9 @@ const UploadMedia = forwardRef(({ control, errors, setValue }, ref) => {
             )}
           </div>
         </section>
-
       </section>
     </div>
-  )
+  );
 });
 
-export default UploadMedia
+export default UploadMedia;

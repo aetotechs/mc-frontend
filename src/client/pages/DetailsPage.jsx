@@ -29,6 +29,7 @@ import Spinner from "../../globals/ui/Spinner";
 import { amenitiesList } from "../utils/constansts/AmenitiesList";
 import RatingStars from "../components/ui/RatingStars";
 import { dialog_operations } from "../utils/constansts/DialogOperations";
+import AvailabilityBadge from "../components/ui/AvailabilityBadge";
 
 const DetailsPage = () => {
   const { openDialog } = useAuthDialog();
@@ -42,19 +43,31 @@ const DetailsPage = () => {
   const itemsPerPage = 3;
   const [selectedFilter, setSelectedFilter] = useState("All");
 
+  // Define the filters dynamically based on the number of bedrooms
   const filters = [
     "All",
-    ...new Set(
-      property?.units?.map((unit) => `${unit.bedRooms} Bed(${unit.bedRooms})`)
-    ),
+    ...Array.from(
+      new Set(property?.units?.map((unit) => unit.bedRooms)) // Get unique bedroom counts
+    )
+      .sort((a, b) => a - b) // Sort bedroom counts in ascending order
+      .map((bedCount) => {
+        const count = property?.units?.filter(
+          (unit) => unit.bedRooms === bedCount
+        ).length; // Count units with this bedroom number
+        return `${bedCount} Bed${bedCount > 1 ? "s" : ""}(${count})`; // Format like "1 Bed(2)"
+      }),
   ];
 
+  // Filter units based on the selected filter
   const filteredUnits =
     selectedFilter === "All"
       ? property?.units
-      : property?.units?.filter(
-          (unit) => `${unit.bedRooms} Bed(${unit.bedRooms})` === selectedFilter
-  );
+        : property?.units?.filter(
+            (unit) =>
+              `${unit.bedRooms} Bed${unit.bedRooms > 1 ? "s" : ""}(${
+                property?.units?.filter((u) => u.bedRooms === unit.bedRooms).length
+              })` === selectedFilter
+          );
 
   const sectionsRef = {
     "Overview": useRef(null),
@@ -105,6 +118,10 @@ const DetailsPage = () => {
     openDialog(dialog_operations.unit_details, '90vw', unit);
   }
 
+  const handleShowAllAmenities = () => {
+    openDialog(dialog_operations._details_amenities, '90vw', property?.amenities);
+  }
+  
   return (
     <div className="relative h-screen overflow-auto">
       
@@ -163,7 +180,7 @@ const DetailsPage = () => {
         <section className="col-span-4">
           <div className="rounded-md w-full" ref={sectionsRef["Overview"]}>
             <div className="relative flex items-center justify-center w-full h-[65vh] overflow-hidden rounded-2xl">
-              { property?.furnished === "FURNISHED" && <div className="absolute bg-[#FFC654] rounded-lg py-1 left-2 top-2 px-2 m-4 text-sm">
+              { property?.furnishing === "FURNISHED" && <div className="absolute bg-[#FFC654] rounded-lg py-1 left-2 top-2 px-2 m-4 text-sm">
                 Furnished
               </div>}
               {!loading ?
@@ -206,120 +223,191 @@ const DetailsPage = () => {
             </div>
           </div>
           <div>
-            <div className="flex items-center gap-1 mt-4">
+            <div className="flex items-center gap-2 mt-8">
               <i className="rounded-full bg-[#006AB5] h-2 w-2"/>
-              <p className="text-sm">{ property?.propertyType?.toString() }</p>
+              <p className="text-[.8rem]">{ property?.propertyType?.slice(0,1)?.toUpperCase().toString() + property?.propertyType?.slice(1)?.toLowerCase() }</p>
             </div>
 
             <div className="flex justify-between items-center">
-              <h1 className="text-2xl">{ property?.name}</h1>
+              <h1 className="text-[1.3rem]">{ property?.name}</h1>
               <article>
-                <h1 className="font-bold text-2xl">UGX { property?.priceRange } <span className="text-sm font-normal">month</span></h1>
+                <h1 className="font-bold text-[1.4rem]">UGX { property?.priceRange } <span className="text-sm font-normal">month</span></h1>
               </article>
             </div>
-            <p className="text-gray-500">
+            <p className="text-gray-500 text-[.8rem]">
               { property?.address?.description || "No address provided, contact support for details" }
             </p>
             
-            <div className="flex items-center gap-6 my-2">
+            <div className="flex items-center gap-6 my-2 text-[.9rem]">
               <div className="flex items-center gap-1">
                 <BedIcon/>
-                <span className="">{property?.bedRange || "0"} Beds</span>
+                <span className="text-[.9rem]">{property?.bedRange || "0"} Beds</span>
               </div>
               
               <div className="flex items-center gap-1">
                 <Bathtub01Icon/>
-                <span className="">{property?.bathRange || "0"} Baths</span>
+                <span className="text-[.9rem]">{property?.bathRange || "0"} Baths</span>
               </div>
 
               <div className="flex items-center gap-1">
                 <TapeMeasureIcon/>
-                <span className="">{property?.propertyArea || "--"} sqft</span>
+                <span className="text-[.9rem]">{property?.propertyArea || property?.unitlessDetails?.size || "--"} sqft</span>
               </div>
 
               <div className="flex items-center gap-1">
                 <ParkingAreaCircleIcon/>
-                <span className="">{property?.parkingCapacity || "--"} Parking Spaces</span>
+                <span className="text-[.9rem]">{property?.parkingCapacity || "--"} Parking Spaces</span>
               </div>
+
             </div>
 
             <div className="my-6">
-              <h1 className="font-normal text-[1.2rem] mb-2">About this property</h1>
+              <h1 className="font-normal text-[1.1rem] mb-2">About this property</h1>
               <div>
-                <p className="text-gray-600 text-lg">{ isExpanded ? 
-                  property?.description : property?.description?.slice(0, 150) + "..." }
-                </p>
-                <button
-                  disabled={property?.description?.length <= 150}
+                { property?.description ? <p className="text-gray-800 text-[.9rem]">{ property?.description?.length <= 300 ? 
+                  property?.description : property?.description?.slice(0, 300) + "..." }
+                </p> : 
+                <p className="text-gray-400 text-sm">No description available</p> }
+                { property?.description?.length >= 300 && <button
+                  disabled={ property?.description?.length <= 300}
                   type="button"
                   className="flex items-center gap-1 text-primary font-medium mt-2"
                   onClick={() => setIsExpanded(!isExpanded)}
                 >
-                  { property?.description?.length <= 150 ? 
-                      "All set" : isExpanded ? 
-                          "Read Less" : "Read full description"
-                  }
-                  { property?.description?.length <= 150 ? 
-                      null : isExpanded ? 
-                        <ArrowUp01Icon size={18} /> : <ArrowDown01Icon size={18} />
-                  }
-                </button>
+                  Read full description
+                  <ArrowDown01Icon size={18} />
+                </button>}
               </div>
             </div>
           </div>
 
+          { property?.unitsAvailable && 
           <section className="my-8">
-            <h1 className="font-normal text-[1.2rem] mb-4">
-              What’s Available ({filteredUnits?.length} units)
-            </h1>
-            
-            {/* Tabs */}
-            <section className="flex my-4 w-fill">
-              <section className="border rounded-lg flex gap-2 ">
-                {filters.map((filter, i) => (
-                  <div className="flex gap-2">
-                    <Button
-                      label={filter}
-                      key={filter}
-                      className={`px-4 whitespace-nowrap py-2 font-normal ${selectedFilter === filter ? "border-2 border-primary" : ""}`}
-                      onClick={() => setSelectedFilter(filter)}
-                    />
-                    <span className={`${filters.length - 1 === i ? 'hidden' : 'flex'} items-center`}>|</span>
-                  </div>
-                ))}
-              </section>
-            </section>
-
-            {/* Units Display */}
-            <section className="grid gap-4">
-              {filteredUnits?.map((unit, i) => (
-                <article key={unit.unitId} className="flex items-center gap-2 w-full border rounded-xl">
-                  <div className="w-[20%] m-2 h-[90%] bg-gray-200 rounded-lg">
-                    <img 
-                      src={ unit?.media?.photos[0] || "/images/placeholder.png"} 
-                      alt={unit?.name} 
-                      onError={(e) => (e.currentTarget.src = "/images/placeholder.png")}
-                      className="w-full h-full object-cover rounded-lg"/>
-                  </div>
-                  <article className="p-5 rounded-lg flex justify-between items-center w-full">
-                    <div className="flex gap-3 text-[1.2rem]">
-                      <p onClick={ () => toggleUnitDetails(unit, !toggledUnitDetails) } className="cursor-pointer hover:underline font-semibold text-primary">{"Unit " + i}</p>
-                      <p className="text-gray-500">{unit.bedRooms} Bed • {unit.bathRooms} Baths • {unit.size} sqft</p>
-                      <p className="font-bold">UGX {unit.price.toLocaleString()} month</p>
-                    </div>
-                    <p className="flex gap-2 items-center px-4 py-2 border-2 border-primary bg-blue-100 text-primary font-semibold rounded-xl"><span className="bg-primary w-2 h-2 rounded-full"/>Available</p>
-                  </article>
-                </article>
+          <h1 className="font-normal text-[1.1rem] mb-4">
+            What’s Available ({filteredUnits?.length} units)
+          </h1>
+        
+          {/* Tabs */}
+          <section className="flex my-4 w-full">
+            <section className="border rounded-lg flex gap-2">
+              {filters.map((filter, i) => (
+                <div key={filter} className="flex gap-2">
+                  <Button
+                    label={filter}
+                    className={`px-4 whitespace-nowrap py-2 font-normal ${
+                      selectedFilter === filter ? "border-2 border-primary" : ""
+                    }`}
+                    onClick={() => setSelectedFilter(filter)}
+                  />
+                  <span
+                    className={`${
+                      filters.length - 1 === i ? "hidden" : "flex"
+                    } items-center`}
+                  >
+                    |
+                  </span>
+                </div>
               ))}
             </section>
           </section>
+        
+          {/* Units Display with Grouping */}
+          <section className="grid gap-4">
+            {selectedFilter === "All" ? (
+              // Group units by bedroom count when "All" is selected
+              Array.from(new Set(property?.units?.map((unit) => unit.bedRooms)))
+                .sort((a, b) => a - b) // Sort by bedroom count
+                .map((bedCount) => {
+                  const unitsWithBedCount = property?.units?.filter(
+                    (unit) => unit.bedRooms === bedCount
+                  );
+                  return (
+                    <div key={bedCount}>
+                      <h2 className="font-medium text-[1rem] mb-2">
+                        {bedCount} Bed{bedCount > 1 ? "s" : ""} ({unitsWithBedCount.length})
+                      </h2>
+                      {unitsWithBedCount.map((unit, i) => (
+                        <article
+                          key={i}
+                          className="flex items-center h-20 gap-2 w-full border rounded-xl mb-2"
+                        >
+                          <div className="w-[18%] m-1 h-[90%] bg-gray-200 rounded-lg">
+                            <img
+                              src={unit?.media?.photos[0] || "/images/placeholder.png"}
+                              alt={unit?.name}
+                              onError={(e) =>
+                                (e.currentTarget.src = "/images/placeholder.png")
+                              }
+                              className="w-full h-full object-cover rounded-lg"
+                            />
+                          </div>
+                          <article className="p-5 rounded-lg flex justify-between items-center w-full">
+                            <div className="flex items-center gap-3 text-[1rem] flex-1">
+                              <p
+                                onClick={() =>
+                                  toggleUnitDetails(unit, !toggledUnitDetails)
+                                }
+                                className="cursor-pointer truncate hover:underline font-semibold text-primary max-w-[30%]"
+                              >
+                                {unit?.name}
+                              </p>
+                              <p className="text-gray-500 text-[.9rem]">
+                                {unit.bedRooms} Bed • {unit.bathRooms} Baths • {unit.size}{" "}
+                                sqft
+                              </p>
+                              <p className="font-bold">
+                                UGX {unit.price.toLocaleString()} month
+                              </p>
+                            </div>
+                            <AvailabilityBadge status={unit?.available} />
+                          </article>
+                        </article>
+                      ))}
+                    </div>
+                  );
+                })
+            ) : (
+              // Display filtered units without grouping
+              filteredUnits?.map((unit, i) => (
+                <article
+                  key={i}
+                  className="flex items-center h-20 gap-2 w-full border rounded-xl"
+                >
+                  <div className="w-[18%] m-2 h-[90%] bg-gray-200 rounded-lg">
+                    <img
+                      src={unit?.media?.photos[0] || "/images/placeholder.png"}
+                      alt={unit?.name}
+                      onError={(e) => (e.currentTarget.src = "/images/placeholder.png")}
+                      className="w-full h-full object-cover rounded-lg"
+                    />
+                  </div>
+                  <article className="p-5 rounded-lg flex justify-between items-center w-full">
+                    <div className="flex items-center gap-3 text-[1rem] flex-1">
+                      <p
+                        onClick={() => toggleUnitDetails(unit, !toggledUnitDetails)}
+                        className="cursor-pointer truncate hover:underline font-semibold text-primary max-w-[30%]"
+                      >
+                        {unit?.name}
+                      </p>
+                      <p className="text-gray-500 text-[.9rem]">
+                        {unit.bedRooms} Bed • {unit.bathRooms} Baths • {unit.size} sqft
+                      </p>
+                      <p className="font-bold">UGX {unit.price.toLocaleString()} month</p>
+                    </div>
+                    <AvailabilityBadge status={unit?.available} />
+                  </article>
+                </article>
+              ))
+            )}
+          </section>
+        </section>
+          }
 
           <section className="my-8" ref={sectionsRef["Amenities"]}>
             <h1 className="font-normal text-[1.2rem] mb-2">Amenities</h1>
 
             <div className="grid grid-cols-3 gap-4 text-[0.8rem]">
-              {property?.amenities && (
-                console.log(property.amenities),
+              { property?.amenities && (
                 Object.keys(property.amenities)
                   .filter((key) => property.amenities[key])
                   .slice(1, toggleAllAmenities ? undefined : 6)
@@ -332,14 +420,15 @@ const DetailsPage = () => {
               )}
             </div>
 
-            <button
-              disabled={Object.values(property?.amenities || {}).filter(Boolean).length <= 6}
-              type="button"
-              className="bg-white text-primary font-semibold mt-2 border rounded-lg py-2 px-4"
-              onClick={() => setToggleAllAmenities(!toggleAllAmenities)}
-            >
-              { Object.values(property?.amenities || {}).filter(Boolean).length <= 6 ? "All shown" : toggleAllAmenities ? "Show less amenities" : "See all amenities"}
-            </button>
+            { Object.values(property?.amenities || {}).filter(Boolean).length > 10 && 
+              <button
+                type="button"
+                className="bg-white text-primary font-semibold mt-2 border rounded-lg py-2 px-4"
+                onClick={handleShowAllAmenities}
+              >
+                See more amenities
+              </button>
+            }
           </section>
 
           <section className="w-[50%] hidden">

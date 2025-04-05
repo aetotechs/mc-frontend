@@ -47,9 +47,11 @@ const AddUnits = forwardRef(({ control, errors, setValue }, ref) => {
   ];
 
   const availabilityOptions = [
-    { label: 'Select status', value: '' },
     { label: 'Available', value: 'AVAILABLE' },
-    { label: 'Unavailable', value: 'UNAVAILABLE' },
+    { label: 'Occupied', value: 'OCCUPIED' },
+    { label: 'Booked', value: 'BOOKED' },
+    { label: 'Under Maintenance', value: 'UNDER_MAINTENANCE' },
+    { label: 'Suspended', value: 'SUSPENDED' },
   ];
 
   // Toggle collapse/expand for a unit
