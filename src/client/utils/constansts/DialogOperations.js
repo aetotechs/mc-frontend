@@ -11,5 +11,10 @@ export const dialog_operations = {
 
     // Details
     unit_details: "_unitDetailsjdiwjdiwjdjwjdjwjdjw_",
-  
+    _details_3d: "_unitDetails3djdjdiwjdjwjdjwjdjw_",
+    _details_video: "_unitDetailsVideojdjdiwjdjwjdjwjdjw_",
+    _details_photos: "_unitDetailsPhotosjdjdiwjdjwjdjwjdjw_",
+    _details_description: "_unitDetailsDescriptionjdjdiwjdjwjdjwjdjw_",
+    _details_map: "_unitDetailsMapjdjdiwjdjwjdjwjdjw_",
+    _details_amenities: "_unitDetailsAmenitiesjdjdiwjdjwjdjwjdjw_",
   };  

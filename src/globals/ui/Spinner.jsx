@@ -1,10 +1,10 @@
 import React from "react";
 
-const Spinner = () => {
+const Spinner = ({ size = 10, color = 'gray-500' }) => {
   return (
     <div className="flex items-center justify-center">
       <svg
-        className="animate-spin w-10 h-10 text-gray-500"
+        className={`animate-spin w-${size} h-${size} text-${color}`}
         viewBox="0 0 50 50"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"

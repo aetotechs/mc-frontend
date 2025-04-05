@@ -135,15 +135,19 @@ export function Login() {
 
         </div>
         <div className="col-span-2 mt-4">
-          { success && <CustomToast 
+          { success && 
+          <CustomToast 
             message={success} 
             type="success"
             autoHide
+            fillWidth
           />}
-          { error && <CustomToast 
+          { error && 
+          <CustomToast 
             message={error} 
             type="error"
             autoHide
+            fillWidth
           />}
         </div>
       </>

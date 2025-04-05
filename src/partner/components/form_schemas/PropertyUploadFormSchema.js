@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 const PropertyTypeEnum = z.enum(['RENTAL', 'APARTMENT', 'HOSTEL', 'HOTEL']);
-const AvailableEnum = z.enum(['AVAILABLE', 'UNAVAILABLE']);
+const AvailableEnum = z.enum(['AVAILABLE', 'OCCUPIED', 'BOOKED', 'UNDER_MAINTENANCE', 'SUSPENDED']);
 const PaymentCycleEnum = z.enum(['SECOND', 'MINUTE', 'HOUR', 'DAY', 'WEEK', 'MONTH', 'YEAR', 'DECADE', 'CENTURY']);
 
 const PaymentCycleSchema = z.object({

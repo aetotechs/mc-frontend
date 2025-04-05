@@ -21,9 +21,9 @@ const Header = ({ bottomBorder }) => {
   return (
     <section>
       {/* Desktop header */}
-      <div className={`hidden md:flex justify-between px-[8vw] py-2.5 bg-white ${ bottomBorder && "border-b "}`}>
-        <NavLink to={'/'} className=" h-9 w-24 object-contain">
-          <img src="/logos/mycrib.png" />
+      <div className={`hidden md:flex justify-between items-center px-[8vw] py-2.5 bg-white ${ bottomBorder && "border-b "}`}>
+        <NavLink to={'/'} className=" h-12 object-contain">
+          <img src="/logos/mycrib.png" className="h-full" />
         </NavLink>
 
         <div>
@@ -39,15 +39,15 @@ const Header = ({ bottomBorder }) => {
         </div>
       </div>
       {/* Mobile header */}
-      <div className="md:hidden flex justify-between items-center md:hidden px-5 py-2.5 bg-white">
-        <button className="h-9 w-24 object-contain" onClick={handleMenuClick}>
-          <img src="/svgs/Menu.svg" />
+      <div className="md:hidden flex justify-between items-center md:hidden px-5 py-4 bg-white">
+        <button className="h-12 object-cover" onClick={handleMenuClick}>
+          <img src="/svgs/Menu.svg" className="" />
         </button>
-        <NavLink to={'/'} className="h-9 w-24 object-contain">
-          <img src="/logos/mycrib.png" />
+        <NavLink to={'/'} className="h-9">
+          <img src="/logos/mycrib.png" className="h-full" />
         </NavLink>
-        <div className="flex items-center border rounded-full p-2" onClick={handleUserIconClick}>
-          <UserCircleIcon className="h-5 w-5" />
+        <div className="flex items-center border-2 border-gray-400 rounded-full px-2 py-2.5" onClick={handleUserIconClick}>
+          <UserCircleIcon className="h-5" />
         </div>
       </div>
     </section>

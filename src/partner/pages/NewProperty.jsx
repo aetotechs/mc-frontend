@@ -1,10 +1,10 @@
-import React, { useState, useRef } from 'react';
-import { useForm, FormProvider, useFormContext } from 'react-hook-form';
+import React, { useState, useRef, useEffect } from 'react';
+import { useForm, FormProvider } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import PartnerHeader from '../components/PartnerHeader';
 import Footer from '../../client/components/global/Footer';
 import { ArrowLeft02Icon } from 'hugeicons-react';
-import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import BasicInfomation from '../components/property_upload_forms/BasicInfomation';
 import AddUnits from '../components/property_upload_forms/AddUnits';
 import PropertyFeatures from '../components/property_upload_forms/PropertyFeatures';
@@ -15,23 +15,22 @@ import propertyUploadDefaultValues from '../components/default_values/PropertyUp
 import Spinner from '../../globals/ui/Spinner';
 import api_urls from '../../client/utils/resources/api_urls';
 import { getUserToken } from '../../client/utils/cookies/AuthCookiesManager';
-import UnitDetails from '../../client/components/details/UnitDetails';
 import { decryptParams, encryptParams } from '../../client/utils/helpers/EncryptionHelper';
+import CustomToast from '../../client/components/ui/CustomToast';
 
 const NewProperty = () => {
-  const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
-  const [completed, setCompleted] = useState(false);
   const basicInfoRef = useRef(null);
   const addUnitsRef = useRef(null);
   const propertyFeaturesRef = useRef(null);
   const uploadMediaRef = useRef(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submissionStatus, setSubmissionStatus] = useState({ success: false, message: '' });
+  const [toastVisible, setToastVisible] = useState(false);
   const [step, setStep] = useState(() => {
     const savedStep = searchParams.get("_uploadFormStep");
     return savedStep ? parseInt(savedStep, 10) : 1;
-  });  
+  });
 
   const methods = useForm({
     resolver: zodResolver(PropertySchema),
@@ -40,9 +39,19 @@ const NewProperty = () => {
 
   const { control, handleSubmit, formState: { errors }, getValues, setValue } = methods;
 
+  useEffect(() => {
+    if (submissionStatus.message) {
+      setToastVisible(true);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      const timer = setTimeout(() => {
+        setSubmissionStatus({ success: false, message: '' });
+      }, 20000);
+      return () => clearTimeout(timer);
+    }
+  }, [submissionStatus]);
+
   const handleNext = async () => {
     let isValid = false;
-    // console.log(getValues());
 
     if (step === 1 && basicInfoRef.current) {
       isValid = await basicInfoRef.current.validate();
@@ -52,24 +61,17 @@ const NewProperty = () => {
       isValid = await propertyFeaturesRef.current.validate();
     } else if (step === 4 && uploadMediaRef.current) {
       isValid = await uploadMediaRef.current.validate();
-    } 
-    else if (step === 5) {
-      // On Step 5, validate the entire form
+    } else if (step === 5) {
       handleSubmit((data) => {
-          setCompleted(true);
-          onSubmit(data);
-        },
-        // (err) => {
-        //   console.log('Final submission validation errors:', err);
-        // }
-      )();
+        _handleSubmit(data); // Call _handleSubmit directly
+      })();
       return;
     }
 
     if (isValid) {
       const nextStep = step + 1;
       setStep(nextStep);
-      
+
       searchParams.set("_newProperty", encryptParams(getValues()));
       searchParams.set("_uploadFormStep", nextStep.toString());
       setSearchParams(searchParams);
@@ -79,66 +81,76 @@ const NewProperty = () => {
   };
 
   const handlePrevious = () => {
-    if (step > 1) setStep(step - 1);
-    searchParams.set("_uploadFormStep", step.toString());
-    setSearchParams(searchParams);
+    if (step > 1) {
+      setStep(step - 1);
+      searchParams.set("_uploadFormStep", (step - 1).toString());
+      setSearchParams(searchParams);
+    }
   };
 
   const _handleSubmit = async () => {
     setIsSubmitting(true);
     const propertyDetails = getValues();
-    if(propertyDetails.unitsAvailable) {
+
+    if (propertyDetails.unitsAvailable) {
       setValue('unitlessDetails', null);
     } else {
       setValue('units', []);
     }
-    console.log('Property Details:', propertyDetails);
 
     const formData = new FormData();
     const { media, ...filteredPropertyDetails } = propertyDetails;
     const { photos, videos, threeDTour, ...filteredMedia } = media;
-    
-    filteredPropertyDetails.media = filteredMedia;
 
+    filteredPropertyDetails.media = filteredMedia;
     formData.append('property', JSON.stringify(filteredPropertyDetails));
 
     photos.forEach((photo) => {
       formData.append('photos', photo);
     });
-  
+
     videos.forEach((video) => {
       formData.append('videos', video);
     });
-  
+
     if (threeDTour) {
       formData.append('threeDTour', threeDTour);
     }
 
-    console.log('Form Data:', formData);
-  try {
-    const response = await fetch(api_urls.listings.create_listing, {
-      method: 'POST',
-      body: formData,
-      headers: {
-        ContentType: 'multipart/form-data',
-        Authorization: `Bearer ${getUserToken()}`,
-      },
-    });
+    try {
+      const response = await fetch(api_urls.listings.create_listing, {
+        method: 'POST',
+        body: formData,
+        headers: {
+          Authorization: `Bearer ${getUserToken()}`,
+        },
+      });
 
-    const result = await response.json();
-    console.log('Upload Response:', result);
-
-    if (response.ok) {
-      setSubmissionStatus({ success: true, message: 'Property submitted for review. You will be notified upon approval' });
-    } else {
-      throw new Error(result.message || 'Upload failed');
+      
+      if (response.ok) {
+        const result = await response.json();
+        console.log('Upload Response:', result);
+        setSubmissionStatus({
+          success: true,
+          message: result.message || 'Property submitted for review. You will be notified upon approval',
+        });
+      } else {
+        const errorText = await response.text();
+        setSubmissionStatus({
+          success: false,
+          message: errorText || 'Error uploading property. Please try again.',
+        });
+        console.error('Error uploading property:', errorText);
+      }
+    } catch (error) {
+      setSubmissionStatus({
+        success: false,
+        message: error.message || 'Error uploading property. Please try again.',
+      });
+      console.error('Error uploading property:', error);
+    } finally {
+      setIsSubmitting(false);
     }
-  } catch (error) {
-    console.error('Error uploading property:', error);
-    alert('Error uploading property. Please try again.');
-  } finally {
-    setIsSubmitting(false);
-  }
   };
 
   return (
@@ -148,11 +160,21 @@ const NewProperty = () => {
           <PartnerHeader bottomBorder />
         </section>
 
-        <section className="px-[8vw] py-[2vw] flex items-center gap-6">
-          <Link to={-1}>
-            <ArrowLeft02Icon />
-          </Link>
-          <article className="font-bold text-xl">Add property</article>
+        <section className='px-[8vw] py-[2vw] flex justify-between items-center'>
+          <section className="flex items-center gap-6">
+            <Link to={-1}>
+              <ArrowLeft02Icon />
+            </Link>
+            <article className="font-bold text-xl">Add property</article>
+          </section>
+          <CustomToast
+            message={submissionStatus.message}
+            type={submissionStatus.success ? 'success' : 'error'}
+            visible={toastVisible}
+            onHide={() => setToastVisible(false)}
+            autoHide={true}
+            duration={20000}
+          />
         </section>
 
         <section className="mx-[8vw] flex gap-8">
@@ -208,20 +230,25 @@ const NewProperty = () => {
             {step === 4 && <UploadMedia ref={uploadMediaRef} control={control} errors={errors} setValue={setValue} />}
             {step === 5 && <Preview formData={getValues()} />}
             <section className="flex justify-between items-center mt-8">
-              <button onClick={handlePrevious} className="text-black font-semibold p-2 rounded-lg">
+              <button
+                onClick={handlePrevious}
+                className="text-black font-semibold p-2 min-h-12 rounded-lg"
+                disabled={step === 1}
+              >
                 Back
               </button>
               <button
                 onClick={handleNext}
-                className={`${step === 5 ? 'hidden' : ''} bg-primary font-semibold text-white px-8 py-2 rounded-lg`}
+                className={`${step === 5 ? 'hidden' : ''} bg-primary font-semibold text-white px-8 min-h-12 rounded-lg`}
               >
                 Next
               </button>
               <button
                 onClick={_handleSubmit}
-                className={`${step !== 5 ? 'hidden' : ''} bg-primary font-semibold text-white px-8 py-2 rounded-lg`}
+                className={`${step !== 5 ? 'hidden' : ''} bg-primary font-semibold text-white min-w-[30%] min-h-12 px-8 py-2 rounded-lg`}
+                disabled={isSubmitting}
               >
-                { isSubmitting ? <Spinner/> : "Submit for approval"}
+                {isSubmitting ? <Spinner size={7} color="white" /> : "Submit for approval"}
               </button>
             </section>
           </section>
