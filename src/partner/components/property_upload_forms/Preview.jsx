@@ -111,9 +111,9 @@ const Preview = ({ control, errors, setValue }) => {
         <h1 className="truncate font-normal text-[1.1rem] mb-2 mt-2">Units</h1>
         <div className='space-y-4'>
           { property?.units?.length > 0 && property?.unitsAvailable && property?.units?.map((unit, index) => (
-            <div key={index} className="relative border border-gray-300 rounded-lg ">
-              <div className="flex justify-between items-center py-4 px-8" onClick={() => toggleUnitCollapse(index)}>
-                <h2 className="truncate min-w-[10%] text-[1rem] font-medium text-primary">{unit?.name} </h2>
+            <div key={index} className="relative border border-gray-300 rounded-lg cursor-pointer">
+              <div className="flex justify-between items-center py-4 px-6" onClick={() => toggleUnitCollapse(index)}>
+                <h2 className="truncate min-w-[10%] max-w-[20%] text-[1rem] font-medium text-primary">{unit?.name} </h2>
                 <p className="text-gray-500 text-[.9rem]">{unit.bedRooms} Bed • {unit.bathRooms} Baths • {unit.size} sqft</p>
                 <p className="font-bold text-lg">UGX {unit?.price?.toLocaleString()} <span className='text-sm font-[400]'>month</span></p>
                 <AvailabilityBadge status={unit?.available} />

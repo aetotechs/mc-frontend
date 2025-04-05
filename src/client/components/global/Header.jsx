@@ -22,7 +22,7 @@ const Header = ({ bottomBorder }) => {
     <section>
       {/* Desktop header */}
       <div className={`hidden md:flex justify-between items-center px-[8vw] py-2.5 bg-white ${ bottomBorder && "border-b "}`}>
-        <NavLink to={'/'} className=" h-12 object-contain">
+        <NavLink to={'/'} className="h-12 object-contain">
           <img src="/logos/mycrib.png" className="h-full" />
         </NavLink>
 

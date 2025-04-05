@@ -166,7 +166,7 @@ const PropertyFeatures = forwardRef(({ control, errors, setValue }, ref) => {
                     className="pi pi-times absolute top-[40%] -right-12 bg-gray-300 rounded-full cursor-pointer p-1 text-[8px]"
                   />
                 <div className="flex justify-between items-center p-4" onClick={() => toggleUnitCollapse(index)}>
-                  <h2 className="truncate text-sm font-medium">{ watch('customFeatures')[index]?.name ?? `Feature ${index + 1}`}</h2>
+                  <h2 className="truncate text-sm font-medium">{ watch('customFeatures')[index]?.name !== '' ? watch('customFeatures')[index]?.name : `[ New Feature ][${index + 1}]`}</h2>
                   <div className="flex gap-2">
                     <Button
                       icon={collapsedCustomFeatures[index] ? <ArrowDown01Icon/> : <ArrowUp01Icon/>}

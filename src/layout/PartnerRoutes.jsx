@@ -10,7 +10,7 @@ const PartnerRoutes = () => {
     const user = getAuthUser();
   
     // useEffect(() => {
-    //   if (!isAuthenticated() || user?.role !== 'PARTNER') {
+    //   if (!isAuthenticated() || user?.role !== 'PARTNER' || user?.role !== 'ADMIN'  ) {
     //     logout();
     //     navigate('/un-authorised');
     //   }
@@ -21,6 +21,7 @@ const PartnerRoutes = () => {
         <Route path="/?" element={<Overview />} />
         <Route path="/properties?" element={<Properties />} />
         <Route path="/new?" element={<NewProperty />} />
+        <Route path="/edit/:propertyId?" element={<NewProperty />} />
         {/* <Route path="/un-authorised" element={<UnauthorisedPage />} /> */}
       </Routes>
     );
