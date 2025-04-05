@@ -116,9 +116,11 @@ const ListingCard = ({ item }) => {
         </p>
 
         {/* Units Available */}
-        <p className="text-xs text-gray-500 mt-1">
-          {item?.units?.length || "--"} unit(s) available
-        </p>
+        { item?.unitsAvailable &&
+          <p className="text-xs text-gray-500 mt-1">
+            {item?.units?.length || "--"} unit(s) available
+          </p>
+        }
       </section>
     </div>
   );

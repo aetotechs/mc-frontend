@@ -21,7 +21,7 @@ const AvailabilityBadge = ({ status }) => {
   return (
     <p className={`flex gap-2 items-center px-4 py-1 border ${styles.border} ${styles.bg} ${styles.text} font-[500] rounded-lg`}>
       <span className={`w-2 h-2 rounded-full ${styles.dot}`} />
-      {formatStatus(status)}
+      {formatStatus(status ?? "SUSPENDED")}
     </p>
   );
 };

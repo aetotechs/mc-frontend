@@ -62,7 +62,6 @@ const AetoGrid: React.FC<AetoGridProps> = ({ data, columns, loaderIcon, isLoadin
                   onMouseLeave={() => setHovered(null)}
                 >
                   <td className="px-4 py-2 text-gray-700">
-                    {hovered === row.id && <button className="absolute">Edit</button>}
                     <input
                       type="checkbox"
                       checked={selectedItems.includes(row.id)}

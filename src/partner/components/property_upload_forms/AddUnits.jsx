@@ -298,11 +298,11 @@ const AddUnits = forwardRef(({ control, errors, setValue }, ref) => {
             {fields.map((field, index) => (
               <div key={field.id} className="relative border border-gray-300 rounded-lg">
                   <i
-                      onClick={() => removeUnit(index)}
-                      className="pi pi-times absolute top-[40%] -right-12 bg-gray-300 rounded-full cursor-pointer p-1 text-[8px]"
+                    onClick={() => removeUnit(index)}
+                    className="pi pi-times absolute top-[40%] -right-12 bg-gray-300 rounded-full cursor-pointer p-1 text-[8px]"
                   />
                 <div className="flex justify-between items-center p-4" onClick={() => toggleUnitCollapse(index)}>
-                <h2 className="truncate text-sm font-medium">{ watch('units')[index]?.name ?? `Unit ${index + 1}`}</h2>
+                <h2 className="truncate text-sm font-medium">{ watch('units')[index]?.name !== '' ? watch('units')[index]?.name : `[ New Unit ][${index + 1}]`}</h2>
                   <div className="flex gap-2">
                     <Button
                       icon={collapsedUnits[index] ? 'pi pi-chevron-down' : 'pi pi-chevron-up'}

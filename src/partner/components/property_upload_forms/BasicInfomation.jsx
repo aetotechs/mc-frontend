@@ -4,9 +4,11 @@ import { InputText } from 'primereact/inputtext';
 import { Dropdown } from 'primereact/dropdown';
 import { InputTextarea } from 'primereact/inputtextarea';
 import { ArrowDown01Icon } from 'hugeicons-react';
+import { usePropertyNameCheck } from '../../hooks/usePropertyNameCheck';
 
 const BasicInfomation = forwardRef(({ control, errors }, ref) => {
-  const { trigger } = useFormContext(); // Access form context to trigger validation
+  const { trigger } = useFormContext();
+  const { nameStatus, handleNameCheck } = usePropertyNameCheck();
 
   const propertyTypes = [
     { label: 'Rental', value: 'RENTAL' },
@@ -50,12 +52,18 @@ const BasicInfomation = forwardRef(({ control, errors }, ref) => {
                 onChange={(e) => {
                   field.onChange(e); 
                   trigger('name');
+                  handleNameCheck(e.target.value);
                 }}
                 className="w-full border border-gray-400 rounded-lg p-3 placeholder:text-sm focus-within:border-[#6CAFE6] hover:border-[#6CAFE6]"
               />
             )}
           />
           {errors.name && <p className="text-red-500 text-sm">{errors.name.message}</p>}
+          {nameStatus && !errors.name && (
+            <p className={`text-sm ${nameStatus.includes('taken') ? 'text-red-500' : 'text-green-500'}`}>
+              {nameStatus}
+            </p>
+          )}
         </div>
         <div className="flex gap-4">
           <div className="flex-1">
