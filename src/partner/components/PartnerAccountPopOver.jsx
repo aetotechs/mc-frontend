@@ -92,30 +92,6 @@ export function PartnerAccountPopover() {
               </ul>
             ) : (
               <ul>
-                <li
-                  className="px-4 py-1.5 hover:bg-gray-200 cursor-pointer"
-                  onClick={() => {
-                    openDialog(dialog_operations.messages);
-                    toggleTooltip();
-                  }}
-                >
-                  Messages
-                </li>
-
-                <li
-                  className="px-4 py-1.5 hover:bg-gray-200 cursor-pointer"
-                  onClick={() => {
-                    openDialog(dialog_operations.login);
-                    toggleTooltip();
-                  }}
-                >
-                  My rental
-                </li>
-
-                <li className="px-4 py-1.5 hover:bg-gray-200">
-                  <NavLink to={"/"}>My Tours</NavLink>
-                </li>
-
                 <li className="px-4 py-1.5 hover:bg-gray-200">
                   <NavLink to={"/"}>Notifications</NavLink>
                 </li>

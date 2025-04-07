@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { useNavigate } from 'react-router-dom';
@@ -9,17 +9,20 @@ import { Dialog } from 'primereact/dialog';
 import api_urls from '../../../client/utils/resources/api_urls';
 import Spinner from '../../../globals/ui/Spinner';
 import { getUserToken } from '../../../client/utils/cookies/AuthCookiesManager';
+import { set } from 'react-hook-form';
 
 const token = getUserToken();
 
 const PropertiesTable = ({ data }) => {
     const navigate = useNavigate();
+    const rowMenuRef = useRef(null);
     const [menuIconClicked, setMenuIconClicked] = useState('');
     const [showDeleteDialog, setShowDeleteDialog] = useState(false);
     const [propertyToDelete, setPropertyToDelete] = useState(null);
     const [deletingStatus, setDeletingStatus] = useState({ isDeleting: false, error: null, success: null });
+    const [menuPosition, setMenuPosition] = useState({}); // State to store menu position for each row
     const { isDeleting, error, success } = deletingStatus;
-    
+
     const setIsDeleting = (status) => {
         setDeletingStatus((prevState) => ({
             ...prevState,
@@ -40,6 +43,31 @@ const PropertiesTable = ({ data }) => {
             success: success,
         }));
     };
+
+    // Handle outside click to close the menu
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (rowMenuRef.current && !rowMenuRef.current.contains(event.target)) {
+                setMenuIconClicked('');
+            }
+        };
+
+        const handleEscapeKey = (event) => {
+            if (event.key === 'Escape') {
+                setMenuIconClicked('');
+            }
+        };
+
+        if (menuIconClicked) {
+            document.addEventListener('mousedown', handleClickOutside);
+            document.addEventListener('keydown', handleEscapeKey);
+        }
+
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+            document.removeEventListener('keydown', handleEscapeKey);
+        };
+    }, [menuIconClicked]);
 
     const propertyBodyTemplate = (rowData) => {
         return (
@@ -111,14 +139,12 @@ const PropertiesTable = ({ data }) => {
                     setSuccess(res);
                     console.log("Property deleted successfully:", res);
                     setShowDeleteDialog(false);
-                    setPropertyToDelete(null); 
+                    setPropertyToDelete(null);
                 }
-            }
-            catch (error) {
+            } catch (error) {
                 setError(error.message);
                 console.error("Error deleting property:", error);
-            }
-            finally {
+            } finally {
                 setIsDeleting(false);
             }
         }
@@ -126,26 +152,55 @@ const PropertiesTable = ({ data }) => {
 
     const cancelDelete = () => {
         setShowDeleteDialog(false);
-        setPropertyToDelete(null); 
+        setPropertyToDelete(null);
     };
 
     const handleViewProperty = (rowData) => {
-        
+        // Add navigation logic if needed
     };
 
     const actionBodyTemplate = (rowData) => {
+        const iconRef = useRef(null); // Ref for the icon to get its position
+
+        const calculateMenuPosition = () => {
+            if (!iconRef.current) return;
+
+            const iconRect = iconRef.current.getBoundingClientRect();
+            const menuHeight = 120; // Approximate height of the menu (adjust based on actual height)
+            const viewportHeight = window.innerHeight;
+
+            // Check if there is enough space below the icon
+            const spaceBelow = viewportHeight - iconRect.bottom;
+            const positionAbove = spaceBelow < menuHeight;
+
+            setMenuPosition((prev) => ({
+                ...prev,
+                [rowData.id]: positionAbove ? 'above' : 'below',
+            }));
+        };
+
         return (
             <div className="relative">
                 <MoreHorizontalCircle01Icon
+                    ref={iconRef}
                     className="font-bold cursor-pointer"
-                    onClick={() =>
-                        menuIconClicked === rowData.id
-                            ? setMenuIconClicked('')
-                            : setMenuIconClicked(rowData.id)
-                    }
+                    onMouseEnter={() => setMenuIconClicked(rowData.id)}
+                    onClick={() => {
+                        if (menuIconClicked === rowData.id) {
+                            setMenuIconClicked('');
+                        } else {
+                            setMenuIconClicked(rowData.id);
+                            calculateMenuPosition();
+                        }
+                    }}
                 />
                 {menuIconClicked === rowData.id && (
-                    <div className="absolute top-6 right-0 bg-white shadow-lg rounded border py-1 flex flex-col gap-2 z-50">
+                    <div
+                        ref={rowMenuRef}
+                        className={`absolute right-0 bg-white shadow-lg rounded border py-1 flex flex-col gap-2 z-50 ${
+                            menuPosition[rowData.id] === 'above' ? 'bottom-8' : 'top-6'
+                        }`}
+                    >
                         <span
                             className="whitespace-nowrap cursor-pointer hover:bg-gray-200 px-4 py-2"
                             onClick={() => handleViewProperty(rowData)}
@@ -196,7 +251,7 @@ const PropertiesTable = ({ data }) => {
                 rowsPerPageOptions={[5, 10, 25, 50]}
                 tableClassName="flex-1"
                 headerClassName="bg-gray-300 rounded-lg"
-                rowClassName="border-b m-0"
+                rowClassName="border-b m-0"            
                 paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
                 currentPageReportTemplate="Page {currentPage} of {totalPages}"
             >
@@ -208,45 +263,46 @@ const PropertiesTable = ({ data }) => {
                 <Column body={actionBodyTemplate} />
             </DataTable>
 
-            <section className='rounded-lg'>
+            <section className="rounded-lg">
                 <Dialog
                     header="Remove Property"
                     visible={showDeleteDialog}
-                    className='w-[90vw] md:w-[50vw] lg:w-[30vw] rounded-xl'
+                    className="w-[90vw] md:w-[50vw] lg:w-[30vw] rounded-xl"
                     footer={dialogFooter}
                     onHide={cancelDelete}
                     content={() => (
                         <div className="px-8 py-4 gap-1 bg-white rounded-xl w-full">
-                            <h1 className='text-lg text-black'>Remove property</h1>
+                            <h1 className="text-lg text-black">Remove property</h1>
                             <div
                                 className="absolute right-6 top-3 cursor-pointer pi pi-times text-sm"
                                 title="Close"
                                 onClick={cancelDelete}
                             />
-                            
-                            <p className='text-gray-700 py-6'>
+
+                            <p className="text-gray-700 py-6">
                                 This action is permanent and will archive "{propertyToDelete?.name}" with all data.
-                                <p className='text-xs text-gray-500 mt-4'>Note: Item can be restored later on request within 30 days.</p>
+                                <p className="text-xs text-gray-500 mt-4">
+                                    Note: Item can be restored later on request within 30 days.
+                                </p>
                             </p>
 
                             <div className="flex justify-between gap-2">
-                            <button
-                                onClick={cancelDelete}
-                                className="py-2 text-gray-600 hover:text-gray-800 text-sm font-semibold"
-                            >
-                                Cancel
-                            </button>
-                            <button
-                                onClick={confirmDelete}
-                                className="px-4 py-2 min-w-32 bg-red-500 text-white rounded-lg text-sm font-semibold hover:bg-red-600"
-                            >
-                                { isDeleting ? <Spinner color='white' size={5}/> : "Remove Property"}
-                            </button>
-                        </div>
+                                <button
+                                    onClick={cancelDelete}
+                                    className="py-2 text-gray-600 hover:text-gray-800 text-sm font-semibold"
+                                >
+                                    Cancel
+                                </button>
+                                <button
+                                    onClick={confirmDelete}
+                                    className="px-4 py-2 min-w-32 bg-red-500 text-white rounded-lg text-sm font-semibold hover:bg-red-600"
+                                >
+                                    {isDeleting ? <Spinner color="white" size={5} /> : "Remove Property"}
+                                </button>
+                            </div>
                         </div>
                     )}
-                >
-                </Dialog>
+                />
             </section>
         </div>
     );

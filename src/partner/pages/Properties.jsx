@@ -48,7 +48,7 @@ const Properties = () => {
             </section>
 
             <section className="px-[8vw] py-[2vw] flex justify-between">
-                <article className="font-bold text-xl">Properties</article>
+                <h1 className="font-bold text-xl">Properties</h1>
                 <section className="flex gap-4">
                     <article className="flex items-center border rounded-lg">
                         <Search01Icon
@@ -74,9 +74,7 @@ const Properties = () => {
                 </section>
             </section>
 
-            <section
-              className={`${(data.length > 0 || loading) && 'hidden'} px-[8vw] py-[2vw] h-56 flex items-center justify-center`}
-            >
+            <section className={`${(data.length > 0 || loading) && 'hidden'} px-[8vw] py-[2vw] h-56 flex items-center justify-center`}>
                 <article className="">
                     <section className="flex items-center justify-center pb-3">
                         <Home11Icon
