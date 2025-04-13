@@ -17,6 +17,7 @@
     background-color: rgb(255, 255, 255);
     scroll-behavior: smooth;
     overflow-x: hidden;
+    color: black;
   }
   :root {
     --background: 0 0% 100%;

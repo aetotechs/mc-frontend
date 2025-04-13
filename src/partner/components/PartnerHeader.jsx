@@ -11,9 +11,9 @@ const PartnerHeader = ({ bottomBorder }) => {
     ];
 
     return (
-        <div className={`flex justify-between items-center px-[8vw] py-2.5 bg-white ${bottomBorder && "border-b"}`}>
-            <NavLink to={'/'} className="h-9 w-24">
-                <img src="/logos/mycrib.png" className="w-full" />
+        <div className={`hidden md:flex justify-between items-center px-[8vw] py-2.5 bg-white ${bottomBorder && "border-b"}`}>
+            <NavLink to={'/'} className="h-12 object-contain">
+                <img src="/logos/mycrib.png" className="h-full" />
             </NavLink>
 
             <div className="flex gap-6 text-sm">

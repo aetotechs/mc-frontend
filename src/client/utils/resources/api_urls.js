@@ -5,9 +5,12 @@ const inventoryBaseUrl = import.meta.env.VITE_INVENTORY_API_URL;
 const api_urls = {
   listings: {
     get_all_listings: (page, size) => `${inventoryBaseUrl}properties?page=${page}&size=${size}`,
+    get_all_landload_listings: (userId) => `${inventoryBaseUrl}properties/owner?ownerId=${userId}`,
     get_single_listing: (itemId) => `${inventoryBaseUrl}properties/property?propertyId=${itemId}`,
     create_listing: `${inventoryBaseUrl}properties`,
     update_listing: (itemId) => `${inventoryBaseUrl}properties?propertyId=${itemId}`,
+    check_property_name: (name) => `${inventoryBaseUrl}properties/unique-name?name=${name}`,
+    delete_listing: (itemId) => `${inventoryBaseUrl}properties?propertyId=${itemId}`,
   },
   bookings: ``,
   

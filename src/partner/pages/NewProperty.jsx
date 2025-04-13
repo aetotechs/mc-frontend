@@ -37,7 +37,7 @@ const NewProperty = () => {
     defaultValues: decryptParams(searchParams.get('_newProperty')) || propertyUploadDefaultValues,
   });
 
-  const { control, handleSubmit, formState: { errors }, getValues, setValue } = methods;
+  const { control, reset, handleSubmit, formState: { errors }, getValues, setValue } = methods;
 
   useEffect(() => {
     if (submissionStatus.message) {
@@ -98,6 +98,8 @@ const NewProperty = () => {
       setValue('units', []);
     }
 
+    console.log('Submitting property details:', propertyDetails);
+
     const formData = new FormData();
     const { media, ...filteredPropertyDetails } = propertyDetails;
     const { photos, videos, threeDTour, ...filteredMedia } = media;
@@ -134,6 +136,11 @@ const NewProperty = () => {
           success: true,
           message: result.message || 'Property submitted for review. You will be notified upon approval',
         });
+        reset();
+        setStep(1);
+        searchParams.delete("_uploadFormStep");
+        searchParams.delete("_newProperty");
+        setSearchParams(searchParams);
       } else {
         const errorText = await response.text();
         setSubmissionStatus({
