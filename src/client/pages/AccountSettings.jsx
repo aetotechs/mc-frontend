@@ -2,7 +2,6 @@ import React from "react";
 import Header from "../components/global/Header";
 import { useAuthDialog } from "../utils/hooks/useAuthDialog";
 import { dialog_operations } from "../utils/constansts/DialogOperations";
-import Footer from "../components/global/Footer";
 import { Button } from "primereact/button";
 import {
   Call02Icon,
@@ -14,6 +13,7 @@ import {
   UserCircle02Icon,
 } from "hugeicons-react";
 import { getAuthUser } from "../utils/cookies/AuthCookiesManager";
+import Footer from "../../globals/Footer";
 
 const user = getAuthUser();
 

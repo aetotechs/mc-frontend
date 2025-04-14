@@ -39,7 +39,7 @@ const Header = ({ bottomBorder }) => {
         </div>
       </div>
       {/* Mobile header */}
-      <div className="md:hidden flex justify-between items-center md:hidden px-5 py-4 bg-white">
+      <div className="md:hidden flex justify-between items-center md:hidden px-5 py-2 bg-white">
         <button className="h-12 object-cover" onClick={handleMenuClick}>
           <img src="/svgs/Menu.svg" className="" />
         </button>
