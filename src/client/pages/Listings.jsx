@@ -15,7 +15,7 @@ const Listings = () => {
         <Header />
       </section>
       
-      <section className='bg-white sticky top-0 z-10'>
+      <section className='hidden md:block bg-white sticky top-0 z-10'>
         <section className='border-b pb-3'>
           <ListingsFilterPanel />
         </section>

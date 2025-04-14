@@ -165,7 +165,7 @@ const Home = () => {
               onChange={(e) =>
                 setFilters((prev) => ({ ...prev, searchTerm: e.target.value }))
               }
-              className="ml-4 mr-2 px-2"
+              className="ml-4 mr-2 px-2 outline-none"
               placeholder="Find your next crib"
             />
           </div>
