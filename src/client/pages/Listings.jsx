@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import Header from '../components/global/Header'
 import ListingCard from '../components/global/ListingCard'
-import Footer from '../components/global/Footer'
 import ListingsFilterPanel from '../components/listings/ListingsFilterPanel'
 import useProperties from '../utils/hooks/useProperties'
 import Spinner from '../../globals/ui/Spinner'
+import Footer from '../../globals/Footer'
 
 const Listings = () => {
   const [pages, setPages] = useState({ page: 0, size: 20 });

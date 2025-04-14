@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import Header from "../components/global/Header";
-import Footer from "../components/global/Footer";
 import ListingCard from "../components/global/ListingCard";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import useProperties from "../utils/hooks/useProperties";
 import Spinner from "../../globals/ui/Spinner";
 import { Dropdown } from "primereact/dropdown";
 import { AutoComplete } from 'primereact/autocomplete';
+import Footer from "../../globals/Footer";
 
 const Home = () => {
   const navigate = useNavigate();

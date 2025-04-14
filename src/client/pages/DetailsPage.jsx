@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from "react";
 import Header from "../components/global/Header";
 import { Button } from "primereact/button";
 import { useAuthDialog } from "../utils/hooks/useAuthDialog";
-import Footer from "../components/global/Footer";
 import {
   ArrowDown01Icon,
   ArrowLeft01Icon,
@@ -30,6 +29,7 @@ import { amenitiesList } from "../utils/constansts/AmenitiesList";
 import RatingStars from "../components/ui/RatingStars";
 import { dialog_operations } from "../utils/constansts/DialogOperations";
 import AvailabilityBadge from "../components/ui/AvailabilityBadge";
+import Footer from "../../globals/Footer";
 
 const DetailsPage = () => {
   const { openDialog } = useAuthDialog();
