@@ -1,14 +1,13 @@
-@import url('https://fonts.googleapis.com/css2?family=Sen:wght@400..800&display=swap');
-@import "primereact/resources/themes/lara-light-blue/theme.css";
+/* @import "primereact/resources/themes/lara-light-blue/theme.css";
 @import "primereact/resources/primereact.min.css";
-@import "primeicons/primeicons.css";
+@import "primeicons/primeicons.css"; */
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-@theme {
-  --font-inter: 'Sen';
+body {
+  font-family: 'Sen', sans-serif;
 }
 
 @layer base {

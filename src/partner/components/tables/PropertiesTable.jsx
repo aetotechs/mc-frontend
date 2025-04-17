@@ -85,14 +85,14 @@ const PropertiesTable = ({ data }) => {
 
     const locationBodyTemplate = (rowData) => {
         return (
-            <p className='font-[300]'>{rowData.address.street}, {rowData.address.city}</p>
+            <p className='font-[300]'>{rowData?.address?.street ?? ""}, {rowData?.address?.city ?? ""}</p>
         );
     };
 
     const rentalTermsBodyTemplate = (rowData) => {
         return (
             <p className='text-black'>
-                UGX {parseFloat(rowData.priceRange).toLocaleString()}{' '}
+                UGX {parseFloat(rowData?.priceRange).toLocaleString()}{' '}
                 <span className='text-xs text-gray-500'>
                     {rowData?.unitsAvailable
                         ? rowData?.units[0]?.paymentCycle?.name?.toLowerCase()
