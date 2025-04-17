@@ -2,12 +2,12 @@ import React, { useEffect, useState } from 'react';
 import PartnerHeader from '../components/PartnerHeader';
 import { Button } from 'primereact/button';
 import { Home11Icon, PlusSignIcon, Search01Icon } from 'hugeicons-react';
-import Footer from '../../client/components/global/Footer';
 import { useNavigate } from 'react-router-dom';
 import api_urls from '../../client/utils/resources/api_urls';
 import { getAuthUser } from '../../client/utils/cookies/AuthCookiesManager';
 import PropertiesTable from '../components/tables/PropertiesTable';
 import Spinner from '../../globals/ui/Spinner';
+import Footer from '../../globals/Footer';
 
 const user = getAuthUser();
 

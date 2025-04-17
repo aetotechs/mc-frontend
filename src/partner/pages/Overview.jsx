@@ -3,8 +3,8 @@ import PartnerHeader from '../components/PartnerHeader';
 import { getAuthUser } from '../../client/utils/cookies/AuthCookiesManager';
 import { Button } from 'primereact/button';
 import { Analytics02Icon, Calendar03Icon, Home11Icon, Money03Icon } from 'hugeicons-react';
-import Footer from '../../client/components/global/Footer';
 import AetoGrid from '../../globals/ui/AetoGrid';
+import Footer from '../../globals/Footer';
 
 const user = getAuthUser() || {};
 

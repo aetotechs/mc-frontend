@@ -2,7 +2,6 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import PartnerHeader from '../components/PartnerHeader';
-import Footer from '../../client/components/global/Footer';
 import { ArrowLeft02Icon } from 'hugeicons-react';
 import { Link, useSearchParams } from 'react-router-dom';
 import BasicInfomation from '../components/property_upload_forms/BasicInfomation';
@@ -17,6 +16,7 @@ import api_urls from '../../client/utils/resources/api_urls';
 import { getUserToken } from '../../client/utils/cookies/AuthCookiesManager';
 import { decryptParams, encryptParams } from '../../client/utils/helpers/EncryptionHelper';
 import CustomToast from '../../client/components/ui/CustomToast';
+import Footer from '../../globals/Footer';
 
 const NewProperty = () => {
   const [searchParams, setSearchParams] = useSearchParams();
