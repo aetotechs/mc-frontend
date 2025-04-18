@@ -1,14 +1,14 @@
 import 'primeicons/primeicons.css';
 import "primereact/resources/themes/lara-light-cyan/theme.css";
 import { Suspense, useEffect } from "react";
-import PageLoadingSpinner from "./client/components/global/PageLoadingSpinner";
+import PageLoadingSpinner from "./utilities/loaders/PageLoadingSpinner";
 import { Route, Routes } from "react-router-dom";
-import { AuthProvider } from "./client/utils/context/AuthContext";
-import AuthModel from "./client/components/authentication/AuthModel";
-import { isAuthenticated, logout } from "./client/utils/cookies/AuthCookiesManager";
 import AdminRoutes from "./layout/AdminRoutes";
 import ClientRoutes from "./layout/ClientRoutes";
 import PartnerRoutes from "./layout/PartnerRoutes";
+import { isAuthenticated, logout } from './utilities/cookies/AuthCookiesManager';
+import { AuthProvider } from './utilities/context/AuthContext';
+import AuthModel from './components/global/authentication/AuthModel';
 
 function App() {
   const hostname = window.location.hostname;
