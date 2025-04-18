@@ -2,18 +2,21 @@ import { UserCircleIcon } from "hugeicons-react";
 import { AccountPopover } from "./AccountPopOver";
 import { NavLink, useSearchParams } from "react-router-dom";
 import { useState } from "react";
+import MobileQuickLinksMenu from "./MobileQuickLinksMenu";
+import MobileAccountMenu from "./MobileAccountMenu";
 
 const Header = ({ bottomBorder }) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isMobilePopoverOpen, setIsMobilePopoverOpen] = useState(false);
+  const [isMobileAccountMenuOpen, setIsMobileAccountMenuOpen] = useState(false);
+  const [mobileQuickLinksMenuVisible, setMobileQuickLinksMenuVisible] = useState(false);
 
   const handleMenuClick = () => {
     setIsMenuOpen((prev) => !prev);
   }
 
   const handleUserIconClick = () => {
-    setIsMobilePopoverOpen((prev) =>
+    setIsMobileAccountMenuOpen((prev) =>
       !prev
     );
   }
@@ -39,7 +42,7 @@ const Header = ({ bottomBorder }) => {
         </div>
       </div>
       {/* Mobile header */}
-      <div className="md:hidden flex justify-between items-center md:hidden px-5 py-2 bg-white">
+      <div className={`md:hidden flex justify-between items-center md:hidden px-5 py-2 bg-white ${ bottomBorder && "border-b "}`}>
         <button className="h-12 object-cover" onClick={handleMenuClick}>
           <img src="/svgs/Menu.svg" className="" />
         </button>
@@ -50,6 +53,9 @@ const Header = ({ bottomBorder }) => {
           <UserCircleIcon className="h-5" />
         </div>
       </div>
+      {/* Render mobile menus here */}
+      <MobileQuickLinksMenu isVisible={isMenuOpen} setIsVisible={handleMenuClick}/>
+      <MobileAccountMenu isVisible={isMobileAccountMenuOpen} setIsVisible={handleUserIconClick} />
     </section>
   );
 };

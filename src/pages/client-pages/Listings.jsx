@@ -1,18 +1,18 @@
 import React, { useState } from 'react'
-import Header from '../components/global/Header'
 import ListingCard from '../../components/client/listings/ListingCard'
 import ListingsFilterPanel from '../../components/client/listings/ListingsFilterPanel'
 import Spinner from '../../utilities/loaders/Spinner'
 import Footer from '../../components/global/footer/Footer'
 import useProperties from '../../utilities/hooks/client/useProperties'
+import Header from '../../components/client/header/Header'
 
 const Listings = () => {
   const [pages, setPages] = useState({ page: 0, size: 20 });
   const { properties, loading } = useProperties(pages.page, pages.size);
   return (
     <div className="relative h-screen overflow-auto">
-      <section className="">
-        <Header />
+      <section className="sticky top-0 bg-white z-10">
+        <Header bottomBorder/>
       </section>
       
       <section className='hidden md:block bg-white sticky top-0 z-10'>

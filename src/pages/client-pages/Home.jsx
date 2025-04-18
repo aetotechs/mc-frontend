@@ -7,10 +7,11 @@ import { AutoComplete } from 'primereact/autocomplete';
 import Footer from "../../components/global/footer/Footer";
 import useProperties from "../../utilities/hooks/client/useProperties";
 import Header from "../../components/client/header/Header";
+import MobileSearchPanel from "../../components/client/home/MobileSearchPanel";
 
 const Home = () => {
   const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [pages, setPages] = useState({ page: 0, size: 20 });
   const { properties, loading } = useProperties(pages.page, pages.size);
   const [filters, setFilters] = useState({
@@ -21,6 +22,11 @@ const Home = () => {
   });
   const [locationSuggestions, setLocationSuggestions] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
+
+  const handleMobileSearchClick = () => {
+    searchParams.set("mSearchPanelOpen", "1");
+    setSearchParams(searchParams);
+  }
 
   const categories = [
     { name: "RENTALS", label: "Rentals" },
@@ -82,8 +88,8 @@ const Home = () => {
       </section>
 
       {/* Desktop */}
-      <section className="bg-hero bg-opacity-10 bg-cover relative bg-center h-[70vh] flex justify-center items-center flex-col gap-5">
-        <h3 className="text-center font-bold text-[3rem] leading-[60px] text-white">
+      <section className="bg-hero_mobile md:bg-hero_desktop bg-opacity-40 bg-cover relative bg-center h-[70vh] flex justify-center items-center flex-col gap-5">
+        <h3 className="text-center font-bold text-[3rem] bg-black bg-opacity-5 leading-[60px] text-white">
           Discover the Easiest Way to Rent
         </h3>
 
@@ -157,18 +163,13 @@ const Home = () => {
         </div>
 
         {/* Mobile Search bar */}
-        <section className="md:hidden flex items-center bg-white rounded-full p-1">
-          <div>
-            <input
-              type="text"
-              value={filters.searchTerm}
-              onChange={(e) =>
-                setFilters((prev) => ({ ...prev, searchTerm: e.target.value }))
-              }
-              className="ml-4 mr-2 px-2 outline-none"
-              placeholder="Find your next crib"
-            />
-          </div>
+        <section className="md:hidden flex items-center bg-white border rounded-full p-1 w-[90%]">
+          <input
+            type="text"
+            onFocus={handleMobileSearchClick}
+            className="ml-4 mr-2 px-2 flex-1 outline-none"
+            placeholder="Find your next crib"
+          />
           <i
             className="pi pi-search font-bold rounded-full p-4 bg-primary text-white"
             onClick={handleSearch}
@@ -179,7 +180,7 @@ const Home = () => {
       <section className="bg-white flex gap-3 md:gap-4 md:justify-center px-[8vw] my-[4vh] md:my-16 overflow-x-auto no-scrollbar">
         {categories.map((category, index) => (
           <p
-            className="hover:font-bold hover:text-white text-sm hover:bg-black border border-black cursor-pointer border-gray-300 px-6 py-3 rounded-full"
+            className="font-bold hover:text-white text-sm hover:bg-black border-2 border-gray-400 cursor-pointer px-6 py-2 rounded-full"
             key={index}
             onClick={() =>
               setFilters((prev) => ({ ...prev, propertyType: category.name }))
@@ -199,7 +200,7 @@ const Home = () => {
       <section
         className={`${
           loading && "hidden"
-        } grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 px-6 md:px-[8vw]`}
+        } grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 px-5 md:px-[8vw]`}
       >
         {properties.map((item, index) => (
           <ListingCard key={index} item={item} />
@@ -213,6 +214,7 @@ const Home = () => {
       </section>
 
       <Footer />
+      <MobileSearchPanel/>
     </div>
   );
 };
