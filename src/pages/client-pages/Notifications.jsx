@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import Header from "../components/global/Header";
 import { Calendar03Icon, Cancel01Icon, FavouriteIcon, NotificationOff01Icon, UserAccountIcon } from "hugeicons-react";
 import { useAuthDialog } from "../../utilities/hooks/client/useAuthDialog";
+import Header from "../../components/client/header/Header";
 
 const Notifications = () => {
   const { openDialog } = useAuthDialog();
