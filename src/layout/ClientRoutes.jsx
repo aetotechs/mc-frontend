@@ -1,11 +1,11 @@
 import React, { lazy } from 'react';
 import { Route, Routes } from 'react-router-dom';
 
-const Home = lazy(() => import("../client/pages/Home"));
-const Listings = lazy(() => import("../client/pages/Listings"));
-const AccountSettings = lazy(() => import("../client/pages/AccountSettings"));
-const DetailsPage = lazy(() => import("../client/pages/DetailsPage"));
-const Notifications = lazy(() => import("../client/pages/Notifications"));
+const Home = lazy(() => import("../pages/client-pages/Home"));
+const Listings = lazy(() => import("../pages/client-pages/Listings"));
+const AccountSettings = lazy(() => import("../pages/client-pages/AccountSettings"));
+const DetailsPage = lazy(() => import("../pages/client-pages/DetailsPage"));
+const Notifications = lazy(() => import("../pages/client-pages/Notifications"));
 
 const ClientRoutes = () => {
   return (

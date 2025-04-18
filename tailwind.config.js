@@ -16,7 +16,8 @@ export default {
                 sm: 'calc(var(--radius) - 4px)'
             },
             backgroundImage: {
-                hero: "url('/images/hero-image.png')"
+                hero_desktop: "url('/images/hero-image.png')",
+                hero_mobile: "url('/images/hero-image-mobile.png')"
             },
             colors: {
                 primary: {

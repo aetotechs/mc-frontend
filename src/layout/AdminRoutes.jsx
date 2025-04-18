@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Route, Routes, useNavigate } from 'react-router-dom';
-import { getAuthUser, isAuthenticated, logout } from '../client/utils/cookies/AuthCookiesManager';
+import { getAuthUser, isAuthenticated, logout } from '../utilities/cookies/AuthCookiesManager';
 
 const AdminRoutes = () => {
   const navigate = useNavigate();
