@@ -1,5 +1,4 @@
 import React from "react";
-import Header from "../components/global/Header";
 import { useAuthDialog } from "../../utilities/hooks/client/useAuthDialog";
 import { dialog_operations } from "../../utilities/constants/DialogOperations";
 import { Button } from "primereact/button";
@@ -12,8 +11,9 @@ import {
   SquareLock01Icon,
   UserCircle02Icon,
 } from "hugeicons-react";
-import { getAuthUser } from "../utils/cookies/AuthCookiesManager";
 import Footer from "../../components/global/footer/Footer";
+import Header from "../../components/client/header/Header";
+import { getAuthUser } from "../../utilities/cookies/AuthCookiesManager";
 
 const user = getAuthUser();
 

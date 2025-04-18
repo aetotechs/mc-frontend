@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from "react";
-import Header from "../components/global/Header";
 import { Button } from "primereact/button";
 import { useAuthDialog } from "../../utilities/hooks/client/useAuthDialog";
 import {
@@ -30,6 +29,7 @@ import { dialog_operations } from "../../utilities/constants/DialogOperations";
 import AvailabilityBadge from "../../components/global/ui/AvailabilityBadge";
 import Footer from "../../components/global/footer/Footer";
 import useProperties from "../../utilities/hooks/client/useProperties";
+import Header from "../../components/client/header/Header";
 
 const DetailsPage = () => {
   const { openDialog } = useAuthDialog();
