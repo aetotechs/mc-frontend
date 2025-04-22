@@ -141,6 +141,12 @@ const NewProperty = () => {
         searchParams.delete("_uploadFormStep");
         searchParams.delete("_newProperty");
         setSearchParams(searchParams);
+      } else if (response.status === 413) {
+        setSubmissionStatus({
+          success: false,
+          message: 'Please upload smaller files. Your file sizes are too large. Or visit IloveImage to compress them',
+        });
+        console.error('Error uploading property:', errorText);
       } else {
         const errorText = await response.text();
         setSubmissionStatus({

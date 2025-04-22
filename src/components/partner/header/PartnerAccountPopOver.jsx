@@ -60,10 +60,9 @@ export function PartnerAccountPopover() {
       {isTooltipVisible && (
         <div
           ref={popoverRef}
-          className="absolute flex flex-col w-52 text-sm bg-white text-black rounded-md py-1 top-[60px] z-30 transform -translate-x-1/2 shadow-md"
+          className="absolute flex flex-col w-52 text-sm bg-white border text-black rounded-md py-1 top-[60px] z-30 transform -translate-x-1/2 shadow-md"
         >
-          {/* <div className="absolute -top-1 left-[80%] transform -translate-x-1/2 w-0 h-0 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-b-[6px] border-b-white"></div> */}
-          <div className="flex flex-col font-normal py-2 text-sm border rounded-lg">
+          <div className="flex flex-col font-normal py-2 text-sm rounded-lg">
             {!isAuthenticated() ? (
               <ul>
                 <li
@@ -92,20 +91,9 @@ export function PartnerAccountPopover() {
               </ul>
             ) : (
               <ul>
-                <li className="px-4 py-1.5 hover:bg-gray-200">
-                  <NavLink to={"/"}>Notifications</NavLink>
-                </li>
 
                 <li className="px-4 py-1.5 hover:bg-gray-200">
-                  <NavLink to={"/"}>Payment History</NavLink>
-                </li>
-
-                <li className="px-4 py-1.5 hover:bg-gray-200">
-                  <NavLink to={"/"}>Maintenance Requests</NavLink>
-                </li>
-
-                <li className="px-4 py-1.5 hover:bg-gray-200">
-                  <NavLink to={"/account"}>
+                  <NavLink to={"/settings"}>
                     Settings
                   </NavLink>
                 </li>

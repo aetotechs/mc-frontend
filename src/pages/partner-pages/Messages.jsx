@@ -140,17 +140,14 @@ const Messages = () => {
 
     return (
         <div className="h-screen">
-            {/* Header */}
             <section className="sticky top-0 z-50">
                 <PartnerHeader bottomBorder />
             </section>
 
-            {/* Messages Title */}
             <section className="px-[8vw] pt-[2vw] pb-[1vw] flex justify-between">
                 <h1 className="font-bold text-xl">Messages</h1>
             </section>
 
-            {/* No Messages Placeholder */}
             <section
                 className={`${
                     conversations?.length > 0 || loadingMessages ? 'hidden' : 'flex'
@@ -170,14 +167,8 @@ const Messages = () => {
                 </article>
             </section>
 
-            {/* Messages Section */}
-            <section
-                className={`${
-                    conversations.length < 1 || loadingMessages ? 'hidden' : 'block'
-                } px-[8vw] border-t h-[calc(100vh-140px)] overflow-hidden`}
-            >
+            <section className={`${ conversations.length < 1 || loadingMessages ? 'hidden' : 'block' } px-[8vw] border-t h-[calc(100vh-140px)] overflow-hidden`}>
                 <section className="grid grid-cols-3 h-full">
-                    {/* Conversations List */}
                     <section className="col-span-1 pr-8 pb-8 border-r h-full overflow-y-auto">
                         <article className="flex items-center border rounded-lg my-4">
                             <Search01Icon
