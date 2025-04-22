@@ -23,7 +23,7 @@ const ListingCard = ({ item }) => {
       {/* Image Section */}
       <section className="relative w-full h-[30vh] md:h-[26vh] bg-gray-200 rounded-t-xl">
         <img
-          src={item?.media?.photos[currentImageIndex]?.url ?? "/images/placeholder.png"}
+          src={item?.media?.photos[currentImageIndex] ?? "/images/placeholder.png"}
           alt={item?.name}
           className="w-full h-full object-cover rounded-t-xl"
           onError={(e) => (e.currentTarget.src = "/images/placeholder.png")}

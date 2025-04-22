@@ -1,7 +1,9 @@
 import { useState, useEffect, useCallback } from 'react';
 import api_urls from '../../constants/api_urls';
+import { useNavigate } from 'react-router-dom';
 
 const useProperties = (page = 0, size = 10, admin) => {
+    const navigate = useNavigate();
     const [properties, setProperties] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
@@ -47,6 +49,7 @@ const useProperties = (page = 0, size = 10, admin) => {
             const response = await fetch(api_urls.listings.get_single_listing(id));
             if (!response.ok) {
                 setError('Failed to fetch property');
+                navigate('/404NoProperty')
             }
             const data = await response.json();
             console.log(data);

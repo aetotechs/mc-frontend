@@ -21,7 +21,7 @@ import {
   Key01Icon,
 } from "hugeicons-react";
 import Map from "../../components/client/details/Map";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Spinner from "../../utilities/loaders/Spinner";
 import { amenitiesList } from "../../utilities/constants/AmenitiesList";
 import RatingStars from "../../components/global/ui/RatingStars";
@@ -32,6 +32,7 @@ import useProperties from "../../utilities/hooks/client/useProperties";
 import Header from "../../components/client/header/Header";
 
 const DetailsPage = () => {
+  const navigate = useNavigate();
   const { openDialog } = useAuthDialog();
   const [property, setProperty] = useState({});
   const { propertyId } = useParams();
@@ -96,9 +97,7 @@ const DetailsPage = () => {
       setCurrentIndex(currentIndex - 1);
     }
   };
-  
-  const images = ["/images/ap6.jpeg", "/images/ap5.jpeg", "/images/ap3.jpeg", ];
-  
+    
   const nextReview = () => {
     // setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
   };
@@ -333,7 +332,7 @@ const DetailsPage = () => {
                         >
                           <div className="w-[18%] m-1 h-[90%] bg-gray-200 rounded-lg">
                             <img
-                              src={unit?.media?.photos[0] || "/images/placeholder.png"}
+                              src={unit?.media?.photos[0] ?? "/images/placeholder.png"}
                               alt={unit?.name}
                               onError={(e) =>
                                 (e.currentTarget.src = "/images/placeholder.png")

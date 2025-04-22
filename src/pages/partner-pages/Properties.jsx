@@ -52,8 +52,8 @@ const Properties = () => {
                 <section className="flex gap-4">
                     <article className="flex items-center border rounded-lg">
                         <Search01Icon
-                            size={28}
-                            className="p-2"
+                            size={38}
+                            className="p-3 cursor-pointer"
                             onClick={() => console.log("Trigger search event here")}
                         />
                         <input
@@ -61,14 +61,14 @@ const Properties = () => {
                             name=""
                             placeholder="Search"
                             id=""
-                            className="flex-1 px-2 h-full rounded-r-lg focus:border-0"
+                            className="flex-1 pr-2 py-3 h-full rounded-r-lg focus:border-0 outline-none"
                         />
                     </article>
                     <Button
                         onClick={() => navigate('/new')}
-                        className="bg-primary text-white gap-2 font-semibold p-2 text-xs"
+                        className="bg-primary text-white gap-2 font-semibold p-2 text-md"
                     >
-                        <PlusSignIcon size={14} />
+                        <PlusSignIcon size={18} />
                         New
                     </Button>
                 </section>
