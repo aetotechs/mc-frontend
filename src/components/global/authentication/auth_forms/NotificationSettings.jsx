@@ -17,13 +17,13 @@ export function NotificationSettings({ title }) {
 
   return (
     <div>
-      <p className="text-left font-medium text-[#00000099] text-sm py-2">
+      <p className="text-left font-medium text-[#00000099] text-[1rem] py-2">
         {title}
       </p>
 
       {Object.keys(checkedStates).map((label) => (
-        <div key={label} className="flex justify-between space-y-2">
-          <label className="block mb-1 font-medium text-sm">{label}</label>
+        <div key={label} className="flex justify-between items-center space-y-6">
+          <label className="block mb-1 font-medium text-[1rem]">{label}</label>
           <InputSwitch
             checked={checkedStates[label]}
             onChange={(e) => handleChange(label, e.value)}

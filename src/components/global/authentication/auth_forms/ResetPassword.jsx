@@ -87,19 +87,19 @@ export function ResetPassword() {
   return (
     <form onSubmit={handleSubmit(_handleSubmit)} className="w-full py-8">
         <>
-          <h2 className="text-left font-bold text-xl">
+          <h2 className="text-left font-bold text-[1.6rem]">
             Set your new password
           </h2>
-          <p className="text-xs text-[#62636C]">
+          <p className="text-[1rem] text-[#62636C]">
             Create a strong password for your account.
           </p>
 
-          <p className={`${!error && "hidden"} text-center text-xs text-red-500 bg-red-100 p-2 mt-2`}>{error}</p>
-          <p className={`${!success && "hidden"} text-center text-xs text-green-500 font-bold bg-green-100 p-2 mt-2`}>{success}</p>
+          <p className={`${!error && "hidden"} text-center text-[.8rem] text-red-500 bg-red-100 p-2 mt-2`}>{error}</p>
+          <p className={`${!success && "hidden"} text-center text-[.8rem] text-green-500 font-bold bg-green-100 p-2 mt-2`}>{success}</p>
 
           <div className="grid gap-4 mt-4">
             <div>
-              <label className="block mb-1 font-medium text-sm">
+              <label className="block mb-1 font-medium text-[1rem]">
                 New Password
               </label>
               <div className="relative">
@@ -117,11 +117,11 @@ export function ResetPassword() {
                 </span>
               </div>
               {errors.password && (
-                <p className="text-red-500 text-sm">{errors.password.message}</p>
+                <p className="text-red-500 text-[.8rem]">{errors.password.message}</p>
               )}
             </div>
             <div>
-              <label className="block mb-1 font-medium text-sm">
+              <label className="block mb-1 font-medium text-[1rem]">
                 Confirm Password
               </label>
               <div className="relative">
@@ -139,7 +139,7 @@ export function ResetPassword() {
                 </span>
               </div>
               {errors.newpassword && (
-                <p className="text-red-500 text-sm">
+                <p className="text-red-500 text-[.8rem]">
                   {errors.newpassword.message}
                 </p>
               )}
@@ -151,7 +151,7 @@ export function ResetPassword() {
                   label={ loading ? <CardLoadingSpinner color={'black'}/> : "Set Password"}
                 />
               <p
-                className="text-sm text-center text-[#1D84C9] cursor-pointer"
+                className="text-[1rem] text-center text-[#1D84C9] cursor-pointer"
                 onClick={handleBackToLogin}
               >
                 Back to Sign In

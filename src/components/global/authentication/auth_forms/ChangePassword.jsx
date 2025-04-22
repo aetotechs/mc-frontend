@@ -60,11 +60,11 @@ export function ChangePassword() {
   return (
     <form onSubmit={handleSubmit(_handleSubmit)} className="w-full">
       <>
-        <h2 className="text-left font-bold text-xl">Change Password</h2>
+        <h2 className="text-left font-bold text-[1.6rem]">Change Password</h2>
 
         <div className="grid gap-4 mt-4">
           <div>
-            <label className="block mb-1 font-medium text-sm">
+            <label className="block mb-1 font-medium text-[1rem]">
               Current Password
             </label>
             <div className="relative">
@@ -84,11 +84,11 @@ export function ChangePassword() {
           
 
             {errors.password && (
-              <p className="text-red-500 text-sm">{errors.password.message}</p>
+              <p className="text-red-500 text-[.8rem]">{errors.password.message}</p>
             )}
           </div>
           <div>
-            <label className="block mb-1 font-medium text-sm">
+            <label className="block mb-1 font-medium text-[1rem]">
               New Password
             </label>
             <div className="relative">
@@ -106,19 +106,19 @@ export function ChangePassword() {
               </span>
             </div>
 
-            <span className="text-xs my-1 text-[#62636C]">
+            <span className="text-[.8rem] my-1 text-[#62636C]">
               At least 8 characters, with an uppercase letter, a lowercase
               letter, and a number or symbol.
             </span>
             {errors.newpassword && (
-              <p className="text-red-500 text-sm">
+              <p className="text-red-500 text-[.8rem]">
                 {errors.newpassword.message}
               </p>
             )}
           </div>
 
           <div>
-            <label className="block mb-1 font-medium text-sm">
+            <label className="block mb-1 font-medium text-[1rem]">
               New Password
             </label>
             <div className="relative">
@@ -135,13 +135,13 @@ export function ChangePassword() {
                 {newPasswordVisible ? <EyeIcon className="h-4 w-4" /> : <EyeOffIcon className="h-4 w-4" />}
               </span>
             </div>
-            <span className="text-xs my-1 text-[#62636C]">
+            <span className="text-[.8rem] my-1 text-[#62636C]">
               At least 8 characters, with an uppercase letter, a lowercase
               letter, and a number or symbol.
             </span>
 
             {errors.newpassword && (
-              <p className="text-red-500 text-sm">
+              <p className="text-red-500 text-[.8rem]">
                 {errors.newpassword.message}
               </p>
             )}
@@ -149,7 +149,7 @@ export function ChangePassword() {
           <Button
             type="submit"
             disabled={isLoading}
-            className={`w-full bg-[#2F91D7] flex text-white rounded-lg py-2 text-sm font-semibold`}
+            className={`w-full bg-[#2F91D7] flex text-white rounded-lg py-3 text-sm font-semibold`}
             label={
               isLoading ? (
                 <CardLoadingSpinner color={"black"} />

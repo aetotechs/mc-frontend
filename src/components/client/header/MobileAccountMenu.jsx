@@ -1,5 +1,3 @@
-import { Search01Icon } from 'hugeicons-react'
-import { Button } from 'primereact/button'
 import { Sidebar } from 'primereact/sidebar'
 import React from 'react'
 import { NavLink } from 'react-router-dom'
@@ -29,7 +27,7 @@ const MobileAccountMenu = ({ isVisible, setIsVisible }) => {
 
                 <div className='grid gap-y-6 px-3 py-6'>
                 {!isAuthenticated() ? (
-                    <div>
+                    <div className='grid gap-y-4'>
                         <p className="font-semibold"
                             onClick={() => {
                                 openDialog(dialog_operations.signup);
@@ -51,7 +49,7 @@ const MobileAccountMenu = ({ isVisible, setIsVisible }) => {
                         <NavLink to={"/help"} className="font-semibold">Help / Support</NavLink>
                     </div>
                     ) : (
-                    <>
+                    <div className='grid gap-y-4'>
                         <p className="font-semibold"
                             onClick={() => {
                                 openDialog(dialog_operations.messages);
@@ -80,7 +78,7 @@ const MobileAccountMenu = ({ isVisible, setIsVisible }) => {
                         <hr />
                         <NavLink onClick={handleLogout} className="font-semibold">Sign out</NavLink>
                         <hr />
-                    </>
+                    </div>
                     )}
                 </div>
             </section>
