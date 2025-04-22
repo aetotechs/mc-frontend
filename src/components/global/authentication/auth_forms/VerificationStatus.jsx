@@ -55,8 +55,8 @@ function VerificationStatus() {
               <Check className="text-white w-5 h-5" />
             </div>
           </div>
-          <p className="text-center font-bold text-xl">Your account has been successfully verified!</p>
-          <p className="text-center">You can now log in to your account.</p>
+          <p className="text-center font-bold text-[1.6rem]">Your account has been successfully verified!</p>
+          <p className="text-center text[1rem]">You can now log in to your account.</p>
           <div className="flex items-center justify-center my-6">
             <Button
               label="Sign In"
@@ -77,8 +77,8 @@ function VerificationStatus() {
               <TriangleAlert className="text-white w-5 h-5" />
             </div>
           </div>
-          <p className="text-center font-bold text-xl">This link has expired or is already used.</p>
-          <p className="text-center">Request a new verification link if needed.</p>
+          <p className="text-center font-bold text-[1.6rem]">This link has expired or is already used.</p>
+          <p className="text-center text-[1rem] ">Request a new verification link if needed.</p>
           <div className="flex items-center justify-center my-6">
             <Button
               onClick={handleResendToken}
@@ -87,8 +87,8 @@ function VerificationStatus() {
               className="flex items-center gap-2 text-[#2F91D7] bg-white border py-2 px-8 border-[#2F91D7] rounded-full"
             />
           </div>
-          <p className={`${!error && "hidden"} text-center text-red-500 font-bold bg-red-100 p-2`}>{error}</p>
-          <p className={`${!success && "hidden"} text-center text-green-500 font-bold bg-green-100 p-2`}>{success}</p>
+          <p className={`${!error && "hidden"} text-center text-red-500 font-bold bg-red-100 p-2 text-[.8rem]`}>{error}</p>
+          <p className={`${!success && "hidden"} text-center text-green-500 font-bold bg-green-100 p-2 text-[.8rem] `}>{success}</p>
         </>
       );
     }

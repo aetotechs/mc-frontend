@@ -6,11 +6,11 @@ export function ManageNotifications() {
 
   return (
     <div className="rounded-sm">
-      <span className="font-bold text-base">Manage Notifications</span>
+      <span className="font-bold text-[1.6rem]">Manage Notifications</span>
 
       
       <div className="relative">
-        <div className="flex gap-10 text-[15px] py-2">
+        <div className="flex gap-10 text-[1rem] py-2">
           {["Account", "Property", "Offers"].map((tab) => (
             <div key={tab} className="relative">
               <h4
@@ -32,7 +32,7 @@ export function ManageNotifications() {
       </div>
 
      
-      <div>
+      <div className="space-y-4 mt-4">
         {activeTab === "Account" && (
           <NotificationSettings title="Manage notifications for security, payments, and account updates." />
         )}

@@ -23,6 +23,7 @@ export default function AuthModel() {
       <Dialog
         visible={dialogOpen}
         onHide={handleClose}
+        className="font-sen"
         content={() => (
           <div className={`grid grid-cols-1 px-8 py-4 gap-1 bg-white rounded-md w-full ${dialogWidth === '90vw' ? 'md:w-[90vw]' : 'md:w-[32vw]'}`}>
             <div className="absolute right-3 top-3">

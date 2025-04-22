@@ -96,12 +96,12 @@ export function SignUp() {
 
   return (
     <form onSubmit={handleSubmit(_handleSubmit)} className="overflow-y-auto no-scrollbar">
-      <span className="text-left font-[600] text-xl">Welcome to MyCrib </span>
+      <span className="text-left font-[600] text-[1.6rem]">Welcome to MyCrib </span>
       <p className="flex">
-        <p className="font-normal text-xs text-[#62636C] ">
+        <p className="font-normal text-[1rem] text-[#62636C] ">
           Already have an account?
         </p>
-        <p onClick={() => openDialog(dialog_operations.login) } className="font-medium text-xs text-blue-400 ml-2 cursor-pointer">Signin</p>
+        <p onClick={() => openDialog(dialog_operations.login) } className="font-medium text-[1rem] text-blue-400 ml-2 cursor-pointer">Signin</p>
       </p>
 
       <div className="grid grid-cols-2 gap-6 my-4">
@@ -113,7 +113,7 @@ export function SignUp() {
         <div className="grid grid-cols-1 gap-y-3">
           <section className="grid grid-cols-2 gap-6 w-[100%]">
             <div className="col-span-1">
-              <label className="block mb-1 font-medium text-sm">First Name</label>
+              <label className="block mb-1 font-medium text-[1rem]">First Name</label>
               <InputText 
                 type="text"
                 placeholder="e.g. Mark"
@@ -121,12 +121,12 @@ export function SignUp() {
                 className="border-gray-200 shadow-none rounded-lg w-full border-2 px-3 py-2 text-md focus-within:border-[#6CAFE6] hover:border-[#6CAFE6]"
               />
               {errors.firstName && (
-                <p className="text-red-500 text-sm">{errors.firstName.message}</p>
+                <p className="text-red-500 text-[.8rem]">{errors.firstName.message}</p>
               )}
             </div>
 
             <div className="col-span-1">
-              <label className="block mb-1 font-medium text-sm">Last Name</label>
+              <label className="block mb-1 font-medium text-[1rem]">Last Name</label>
               <InputText 
                 type="text"
                 placeholder="e.g. Mutwale"
@@ -134,13 +134,13 @@ export function SignUp() {
                 className="border-gray-200 shadow-none rounded-lg w-full border-2 px-3 py-2 placeholder:text-md focus-within:border-[#6CAFE6] hover:border-[#6CAFE6]"
               />
               {errors.lastName && (
-                <p className="text-red-500 text-sm">{errors.lastName.message}</p>
+                <p className="text-red-500 text-[.8rem]">{errors.lastName.message}</p>
               )}
             </div>
           </section>
 
           <div className="col-span-2">
-            <label className="block mb-1 font-medium text-sm">Email</label>
+            <label className="block mb-1 font-medium text-[1rem]">Email</label>
             <InputText 
               type="email"
               placeholder="doe@example.com"
@@ -148,12 +148,12 @@ export function SignUp() {
               className="border-gray-200 shadow-none rounded-lg w-full border-2 px-3 py-2 placeholder:text-md focus-within:border-[#6CAFE6] hover:border-[#6CAFE6]"
             />
             {errors.email && (
-              <p className="text-red-500 text-sm">{errors.email.message}</p>
+              <p className="text-red-500 text-[.8rem]">{errors.email.message}</p>
             )}
           </div>
 
           <div className="col-span-2">
-            <label className="block mb-1 font-medium text-sm">Password</label>
+            <label className="block mb-1 font-medium text-[1rem]">Password</label>
             <div className="relative">
               <InputText 
                 type={passwordVisible ? "text" : "password"}
@@ -173,7 +173,7 @@ export function SignUp() {
               </span>
             </div>
             {errors.password && (
-              <p className="text-red-500 text-sm">{errors.password.message}</p>
+              <p className="text-red-500 text-[.8rem]">{errors.password.message}</p>
             )}
             <p className="text-xs text-gray-500 mt-2 text-[15px] col-span-2">
             At least 8 characters, with an uppercase letter, a lowercase letter, and a number or symbol.
@@ -209,7 +209,7 @@ export function SignUp() {
         <div className="w-full grid grid-cols-2 gap-3 my-3">
           
           <div className="col-span-1">
-            <label className="block mb-1 font-medium text-sm">Phone number</label>
+            <label className="block mb-1 font-medium text-[1rem]">Phone number</label>
             <InputText
               type="text"
               placeholder="+2567123456789"
@@ -217,12 +217,12 @@ export function SignUp() {
               className="border-gray-200 shadow-none rounded-lg w-full border-2 px-3 py-2 placeholder:text-md focus-within:border-[#6CAFE6] hover:border-[#6CAFE6]"
             />
             {errors.phone && (
-              <p className="text-red-500 text-sm">{errors.phone.message}</p>
+              <p className="text-red-500 text-[1rem]">{errors.phone.message}</p>
             )}
           </div>
           
           <div className="col-span-1">
-            <label className="block mb-1 font-medium text-sm">Username</label>
+            <label className="block mb-1 font-medium text-[1rem]">Username</label>
             <InputText
               type="text"
               placeholder="e.g. Mark"
@@ -230,12 +230,12 @@ export function SignUp() {
               className="border-gray-200 shadow-none rounded-lg w-full border-2 px-3 py-2 placeholder:text-md focus-within:border-[#6CAFE6] hover:border-[#6CAFE6]"
             />
             {errors.username && (
-              <p className="text-red-500 text-sm">{errors.username.message}</p>
+              <p className="text-red-500 text-[1rem]">{errors.username.message}</p>
             )}
           </div>
           
           <div className="col-span-1">
-            <label className="block mb-1 font-medium text-sm">Country</label>
+            <label className="block mb-1 font-medium text-[1rem]">Country</label>
             <InputText
               type="country"
               placeholder="e.g., Uganda"
@@ -243,12 +243,12 @@ export function SignUp() {
               className="border-gray-200 shadow-none rounded-lg w-full border-2 px-3 py-2 placeholder:text-md focus-within:border-[#6CAFE6] hover:border-[#6CAFE6]"
             />
             {errors.shippingAddress?.country && (
-              <p className="text-red-500 text-sm">{errors.shippingAddress.country.message}</p>
+              <p className="text-red-500 text-[1rem]">{errors.shippingAddress.country.message}</p>
             )}
           </div>
           
           <div className="col-span-1">
-            <label className="block mb-1 font-medium text-sm">City</label>
+            <label className="block mb-1 font-medium text-[1rem]">City</label>
             <InputText
               type="text"
               placeholder="e.g., Kampala"
@@ -256,12 +256,12 @@ export function SignUp() {
               className="border-gray-200 shadow-none rounded-lg w-full border-2 px-3 py-2 placeholder:text-md focus-within:border-[#6CAFE6] hover:border-[#6CAFE6]"
             />
             {errors.shippingAddress?.city && (
-              <p className="text-red-500 text-sm">{errors.shippingAddress.city.message}</p>
+              <p className="text-red-500 text-[1rem]">{errors.shippingAddress.city.message}</p>
             )}
           </div>
           
           <div className="col-span-1">
-            <label className="block mb-1 font-medium text-sm">Street</label>
+            <label className="block mb-1 font-medium text-[1rem]">Street</label>
             <InputText
               type="text"
               placeholder="e.g., Plot 24 Kampala Rd"
@@ -269,12 +269,12 @@ export function SignUp() {
               className="border-gray-200 shadow-none rounded-lg w-full border-2 px-3 py-2 placeholder:text-md focus-within:border-[#6CAFE6] hover:border-[#6CAFE6]"
             />
             {errors.shippingAddress?.street && (
-              <p className="text-red-500 text-sm">{errors.shippingAddress.street.message}</p>
+              <p className="text-red-500 text-[1rem]">{errors.shippingAddress.street.message}</p>
             )}
           </div>
     
           <div className="col-span-1">
-            <label className="block mb-1 font-medium text-sm">Postal Code</label>
+            <label className="block mb-1 font-medium text-[1rem]">Postal Code</label>
             <InputText
               type="text"
               placeholder="e.g., 256"
@@ -282,12 +282,12 @@ export function SignUp() {
               className="border-gray-200 shadow-none rounded-lg w-full border-2 px-3 py-2 placeholder:text-md focus-within:border-[#6CAFE6] hover:border-[#6CAFE6]"
             />
             {errors.shippingAddress?.zip && (
-              <p className="text-red-500 text-sm">{errors.shippingAddress.zip.message}</p>
+              <p className="text-red-500 text-[1rem]">{errors.shippingAddress.zip.message}</p>
             )}
           </div>
 
           <div className="col-span-1">
-            <label className="block mb-1 font-medium text-sm">State/ Region</label>
+            <label className="block mb-1 font-medium text-[1rem]">State/ Region</label>
             <InputText
               type="text"
               placeholder="e.g., Central"
@@ -295,12 +295,12 @@ export function SignUp() {
               className="border-gray-200 shadow-none rounded-lg w-full border-2 px-3 py-2 placeholder:text-md focus-within:border-[#6CAFE6] hover:border-[#6CAFE6]"
             />
             {errors.shippingAddress?.state && (
-              <p className="text-red-500 text-sm">{errors.shippingAddress.state.message}</p>
+              <p className="text-red-500 text-[1rem]">{errors.shippingAddress.state.message}</p>
             )}
           </div>
     
           <div className="">
-            <label className="block mb-3 font-medium text-sm">Gender</label>
+            <label className="block mb-3 font-medium text-[1rem]">Gender</label>
             <div className="flex gap-4">
               <label className="text-md flex items-center gap-2">
                 <input
@@ -331,7 +331,7 @@ export function SignUp() {
               </label> */}
             </div>
             {errors.gender && (
-              <p className="text-red-500 text-sm">{errors.gender.message}</p>
+              <p className="text-red-500 text-[1rem]">{errors.gender.message}</p>
             )}
           </div>
 
@@ -340,7 +340,7 @@ export function SignUp() {
               disabled={loading}
               onClick={handlePreviousStep}
               label="Back"
-              className="col-span-1 w-[25%] text-sm text-black text-left py-2"
+              className="col-span-1 w-[25%] text-[1rem] text-black text-left py-2"
             />
             <Button
               type="submit"

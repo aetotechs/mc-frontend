@@ -61,18 +61,18 @@ export function Login() {
   const togglePasswordVisibility = () => setPasswordVisible((prev) => !prev);
 
   return (
-    <form onSubmit={handleSubmit(_handleSubmit)} className="w-full py-8">
+    <form onSubmit={handleSubmit(_handleSubmit)} className="py-8">
       <>
         <div className="grid gap-3">
           <div className="">
-            <p className="text-left font-[600] text-xl">Welcome back to MyCrib</p>
+            <p className="text-left font-[600] text-[1.6rem]">Welcome back to MyCrib</p>
             <p className="flex gap-2 text-base">
-              <span className="text-[#62636C] text-xs">No account? </span>
-              <p onClick={() => openDialog(dialog_operations.signup) } className="font-medium text-xs text-blue-400 hover:text-blue-700 cursor-pointer">Signup</p>
+              <span className="text-[#62636C] text-[1rem]">No account? </span>
+              <p onClick={() => openDialog(dialog_operations.signup) } className="font-medium text-[1rem] text-blue-400 hover:text-blue-700 cursor-pointer">Signup</p>
             </p>
           </div>
           <div className="">
-            <label className="block mb-1 font-medium text-sm">Email</label>
+            <label className="block mb-1 font-medium text-[1rem]">Email</label>
             <InputText
               type="email"
               placeholder="doe@example.com"
@@ -80,11 +80,11 @@ export function Login() {
               className="border-gray-200 shadow-none rounded-lg w-full border-2 px-3 py-2 placeholder:text-md focus-within:border-[#6CAFE6] hover:border-[#6CAFE6]"
             />
             {errors.email && (
-              <p className="text-red-500 text-sm">{errors.email.message}</p>
+              <p className="text-red-500 text-[.8rem]">{errors.email.message}</p>
             )}
           </div>
           <div className="">
-            <label className="block mb-1 font-medium text-sm">Password</label>
+            <label className="block mb-1 font-medium text-[1rem]">Password</label>
             <div className="relative">
               <InputText
                 type={passwordVisible ? "text" : "password"}
@@ -100,7 +100,7 @@ export function Login() {
               </span>
             </div>
             {errors.password && (
-              <p className="text-red-500 text-sm">{errors.password.message}</p>
+              <p className="text-red-500 text-[.8rem]">{errors.password.message}</p>
             )}
           </div>
           <Button
@@ -109,7 +109,7 @@ export function Login() {
               className={`w-full bg-[#2F91D7] flex text-white rounded-lg py-2 mt-3 font-semibold`}
               label={ loading ? <CardLoadingSpinner color={'black'}/> : "Sign In"}
             />
-          <div className="flex justify-center text-sm text-[#1D84C9]">
+          <div className="flex justify-center text-[1rem] text-[#1D84C9]">
             <p
               className="cursor-pointer"
               onClick={handleForgotPassword}

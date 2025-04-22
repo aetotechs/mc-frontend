@@ -52,18 +52,18 @@ export function SendPasswordResetEmail() {
   return (
     <form onSubmit={handleSubmit(_handleSubmit)} className="w-full py-8">
         <>
-          <h2 className="text-left font-bold text-xl">
+          <h2 className="text-left font-bold text-[1.6rem]">
             Reset your password
           </h2>
-          <p className="text-xs text-[#62636C]">
+          <p className="text-[1rem] text-[#62636C]">
             We’ll email you a link to reset your password.
           </p>
 
-          <p className={`${!error && "hidden"} text-center text-xs text-red-500 bg-red-100 p-2 mt-2`}>{error}</p>
-          <p className={`${!success && "hidden"} text-center text-xs text-green-500 font-bold bg-green-100 p-2 mt-2`}>{success}</p>
+          <p className={`${!error && "hidden"} text-center text-[z.8rem] text-red-500 bg-red-100 p-2 mt-2`}>{error}</p>
+          <p className={`${!success && "hidden"} text-center text-[z.8rem] text-green-500 font-bold bg-green-100 p-2 mt-2`}>{success}</p>
 
           <div className="my-6">
-            <label className="block mb-1 font-medium text-sm">Email</label>
+            <label className="block mb-1 font-medium text-[1rem]">Email</label>
             <InputText
               type="email"
               placeholder="doe@example.com"
@@ -71,7 +71,7 @@ export function SendPasswordResetEmail() {
               className="border-gray-200 shadow-none rounded-lg w-full border-2 px-3 py-2 placeholder:text-md focus-within:border-[#6CAFE6] hover:border-[#6CAFE6]"
             />
             {errors.email && (
-              <p className="text-red-500 text-sm">{errors.email.message}</p>
+              <p className="text-red-500 text-[.8rem]">{errors.email.message}</p>
             )}
           </div>
           <Button
