@@ -1,43 +1,93 @@
-import { ArrowLeft01Icon, ArrowRight01Icon, Bathtub01Icon, BedIcon, FavouriteIcon } from "hugeicons-react";
+import { ArrowLeft01Icon, ArrowRight01Icon, Bathtub01Icon, BedIcon, FavouriteIcon, Image02Icon } from "hugeicons-react";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const ListingCard = ({ item }) => {
   const navigate = useNavigate();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [touchStartX, setTouchStartX] = useState(null);
+  const [touchEndX, setTouchEndX] = useState(null);
 
+  const photos = item?.media?.photos || [];
+  const totalImages = photos.length;
+
+  // Navigation functions with infinite loop
   const handleNextImage = () => {
-    if (currentImageIndex < item.media.photos.length - 1) {
-      setCurrentImageIndex(currentImageIndex + 1);
-    }
+    setCurrentImageIndex((prevIndex) =>
+      prevIndex === totalImages - 1 ? 0 : prevIndex + 1
+    );
   };
 
   const handlePrevImage = () => {
-    if (currentImageIndex > 0) {
-      setCurrentImageIndex(currentImageIndex - 1);
+    setCurrentImageIndex((prevIndex) =>
+      prevIndex === 0 ? totalImages - 1 : prevIndex - 1
+    );
+  };
+
+  // Swipe handling
+  const handleTouchStart = (e) => {
+    setTouchStartX(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchMove = (e) => {
+    setTouchEndX(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchEnd = () => {
+    if (touchStartX && touchEndX) {
+      const swipeDistance = touchEndX - touchStartX;
+      if (swipeDistance > 50) {
+        handlePrevImage(); // Swipe right
+      } else if (swipeDistance < -50) {
+        handleNextImage(); // Swipe left
+      }
     }
+    setTouchStartX(null);
+    setTouchEndX(null);
   };
 
   return (
     <div className="w-full border rounded-xl shadow-sm overflow-hidden">
       {/* Image Section */}
-      <section className="relative w-full h-[30vh] md:h-[26vh] bg-gray-200 rounded-t-xl">
-        <img
-          src={item?.media?.photos[currentImageIndex] ?? "/images/placeholder.png"}
-          alt={item?.name}
-          className="w-full h-full object-cover rounded-t-xl"
-          onError={(e) => (e.currentTarget.src = "/images/placeholder.png")}
-        />
+      <section className="relative w-full h-[30vh] md:h-[30vh] overflow-hidden rounded-t-xl">
+        <div
+          className="flex w-full h-full transition-transform duration-300 ease-in-out"
+          style={{ transform: `translateX(-${currentImageIndex * 100}%)` }}
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
+        >
+          {photos.length > 0 ? (
+            photos.map((photo, index) => (
+              <div key={index} className="min-w-full h-full">
+                <img
+                  src={photo}
+                  alt={`${item?.name} - Image ${index + 1}`}
+                  className="w-full h-full object-cover rounded-t-xl"
+                  onError={(e) => (e.currentTarget.src = "/images/placeholder.png")}
+                />
+              </div>
+            ))
+          ) : (
+            <div className="w-full h-full bg-gray-200 flex items-center justify-center">
+              <img
+                src="/images/placeholder.png"
+                alt="No images available"
+                className="w-full h-full object-cover rounded-t-xl"
+              />
+            </div>
+          )}
+        </div>
 
         {/* Badges: Furnished and 3D & Video Tour */}
         <div className="absolute flex items-center gap-2 left-4 top-4 text-xs">
           {item.furnishing === "FURNISHED" && (
-            <p className="rounded-lg bg-[#FFC107] text-black px-2 py-1 font-medium">
+            <p className="rounded-full bg-[#FFC107] bg-opacity-70 text-black px-2 py-1 font-medium">
               Furnished
             </p>
           )}
           {(item?.media?.threeDTourLink || item?.media?.threeDTour) && (
-            <p className="whitespace-nowrap text-white rounded-lg bg-blue-500 px-2 py-1 font-medium">
+            <p className="whitespace-nowrap text-white rounded-full bg-blue-500 px-2 py-1 font-medium">
               3D & Video Tour
             </p>
           )}
@@ -52,29 +102,29 @@ const ListingCard = ({ item }) => {
         </button>
 
         {/* Navigation Arrows */}
-        {currentImageIndex > 0 && (
-          <button
-            onClick={handlePrevImage}
-            className="absolute left-4 top-[50%] translate-y-[-50%] bg-white rounded-full p-1.5 shadow-sm"
-            title="View previous photo"
-          >
-            <ArrowLeft01Icon size={14} className="text-gray-600" />
-          </button>
-        )}
-        {currentImageIndex < item?.media?.photos?.length - 1 && (
-          <button
-            onClick={handleNextImage}
-            className="absolute right-4 top-[50%] translate-y-[-50%] bg-white rounded-full p-1.5 shadow-sm"
-            title="View next photo"
-          >
-            <ArrowRight01Icon size={14} className="text-gray-600" />
-          </button>
+        {totalImages > 1 && (
+          <>
+            <button
+              onClick={handlePrevImage}
+              className="absolute left-4 top-[50%] translate-y-[-50%] bg-white rounded-full p-1.5 shadow-sm"
+              title="View previous photo"
+            >
+              <ArrowLeft01Icon size={14} className="text-gray-600" />
+            </button>
+            <button
+              onClick={handleNextImage}
+              className="absolute right-4 top-[50%] translate-y-[-50%] bg-white rounded-full p-1.5 shadow-sm"
+              title="View next photo"
+            >
+              <ArrowRight01Icon size={14} className="text-gray-600" />
+            </button>
+          </>
         )}
 
         {/* Pagination Dots */}
-        {item?.media?.photos?.length > 1 && (
+        {totalImages > 1 && (
           <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex items-center gap-1.5">
-            {item?.media?.photos?.map((_, index) => (
+            {photos.map((_, index) => (
               <span
                 key={index}
                 className={`rounded-full ${
@@ -93,7 +143,7 @@ const ListingCard = ({ item }) => {
         onClick={() => navigate(`/details/${item?.propertyId}`)}
       >
         {/* Price */}
-        <p className="font-bold text-lg md:text-xl text-gray-800">
+        <p className="font-bold text-lg md:text-xl text-gray-800 truncate">
           UGX {item?.priceRange}{" "}
           <span className="font-normal text-sm text-gray-600">month</span>
         </p>
@@ -116,11 +166,11 @@ const ListingCard = ({ item }) => {
         </p>
 
         {/* Units Available */}
-        { item?.unitsAvailable &&
+        {item?.unitsAvailable && (
           <p className="text-xs text-gray-500 mt-1">
             {item?.units?.length || "--"} unit(s) available
           </p>
-        }
+        )}
       </section>
     </div>
   );
